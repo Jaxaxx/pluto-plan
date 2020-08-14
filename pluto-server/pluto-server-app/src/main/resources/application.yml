@@ -1,0 +1,99 @@
+server:
+  port: 0
+
+spring:
+  application:
+    name: app
+  redis:
+    database: 8
+    host: 127.0.0.1
+    port: 6379
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+    timeout: 100ms
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/test-a?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useOldAliasMetadataBehavior=true&useSSL=false
+    username: root
+    password: MyNewPass4!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      maximum-pool-size: 9
+
+# redis 模式
+security:
+  oauth2:
+    resource:
+      token-info-uri: http://localhost:9999/auth/oauth/check_token  # 当此服务端接收到来自客户端端的请求后，需要拿着请求中的 token 到认证服务端做 token 验证，就是请求的这个接口
+    client:
+      client-id: admin
+      client-secret: 123456
+      access-token-uri: http://localhost:9999/auth/oauth/token   # access-token-uri 是密码模式需要用到的获取 token 的接口
+      user-authorization-uri: http://localhost:9999/auth/oauth/authorize   # user-authorization-uri 是授权码认证方式需要的
+      ignore-urls:
+        - /actuator/**
+        - /v2/api-docs
+        - /swagger-resources/configuration/ui
+        - /swagger-resources
+        - /swagger-resources/configuration/security
+        - /swagger-ui.html
+        - /css/**
+        - /js/**
+        - /images/**
+        - /webjars/**
+        - /authorization/**
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    service-url:
+      default-zone: http://127.0.0.1:8761/eureka
+
+swagger:
+  enabled: true
+  info:
+    title: Swagger-ui of
+    description: the swagger2 document
+    version: 1.0.0
+    license: By Jax-li
+    terms-if-service-url: https://github.com/mine-lee/
+
+
+# feign 配置
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 10000
+        readTimeout: 10000
+  compression:
+    request:
+      enabled: true
+    response:
+      enabled: true
+
+# hystrix If you need to use ThreadLocal bound variables in your RequestInterceptor`s
+# you will need to either set the thread isolation strategy for Hystrix to `SEMAPHORE or disable Hystrix in Feign.
+hystrix:
+  shareSecurityContext: true
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 60000
+
+#请求处理的超时时间
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 10000

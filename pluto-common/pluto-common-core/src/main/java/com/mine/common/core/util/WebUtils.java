@@ -1,0 +1,290 @@
+package com.mine.common.core.util;
+
+import cn.hutool.core.codec.Base64;
+import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
+import cn.hutool.poi.excel.ExcelWriter;
+import com.mine.common.core.exception.CheckedException;
+import lombok.NonNull;
+import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+
+/**
+ * @Description Miscellaneous utilities for web applications.
+ * @Author
+ * @Date
+ */
+@Slf4j
+@UtilityClass
+public class WebUtils extends org.springframework.web.util.WebUtils {
+    private final String BASIC_ = "Basic ";
+    private final String UNKNOWN = "unknown";
+
+    /**
+     * 判断是否ajax请求
+     * spring ajax 返回含有 ResponseBody 或者 RestController注解
+     *
+     * @param handlerMethod HandlerMethod
+     * @return 是否ajax请求
+     */
+    public boolean isBody(HandlerMethod handlerMethod) {
+        ResponseBody responseBody = ClassUtils.getAnnotation(handlerMethod, ResponseBody.class);
+        return responseBody != null;
+    }
+
+    /**
+     * 读取cookie
+     *
+     * @param name cookie name
+     * @return cookie value
+     */
+    public String getCookieVal(String name) {
+        HttpServletRequest request = WebUtils.getRequest();
+        Assert.notNull(request, "request from RequestContextHolder is null");
+        return getCookieVal(request, name);
+    }
+
+    /**
+     * 读取cookie
+     *
+     * @param request HttpServletRequest
+     * @param name    cookie name
+     * @return cookie value
+     */
+    public String getCookieVal(HttpServletRequest request, String name) {
+        Cookie cookie = getCookie(request, name);
+        return cookie != null ? cookie.getValue() : null;
+    }
+
+    /**
+     * 清除 某个指定的cookie
+     *
+     * @param response HttpServletResponse
+     * @param key      cookie key
+     */
+    public void removeCookie(HttpServletResponse response, String key) {
+        setCookie(response, key, null, 0);
+    }
+
+    /**
+     * 设置cookie
+     *
+     * @param response        HttpServletResponse
+     * @param name            cookie name
+     * @param value           cookie value
+     * @param maxAgeInSeconds maxage
+     */
+    public void setCookie(HttpServletResponse response, String name, String value, int maxAgeInSeconds) {
+        Cookie cookie = new Cookie(name, value);
+        cookie.setPath("/");
+        cookie.setMaxAge(maxAgeInSeconds);
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
+    }
+
+    /**
+     * 获取 HttpServletRequest
+     *
+     * @return {HttpServletRequest}
+     */
+    public HttpServletRequest getRequest() {
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (requestAttributes == null) {
+            throw new RuntimeException("Failed to get request!");
+        }
+        HttpServletRequest request = requestAttributes.getRequest();
+        return request;
+    }
+
+    /**
+     * 获取 HttpServletResponse
+     *
+     * @return {HttpServletResponse}
+     */
+    public HttpServletResponse getResponse() {
+        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+    }
+
+    /**
+     * 返回json
+     *
+     * @param response HttpServletResponse
+     * @param result   结果对象
+     */
+    public void renderJson(HttpServletResponse response, Object result) {
+        renderJson(response, result, MediaType.APPLICATION_JSON_UTF8_VALUE);
+    }
+
+    /**
+     * 返回json
+     *
+     * @param response    HttpServletResponse
+     * @param result      结果对象
+     * @param contentType contentType
+     */
+    public void renderJson(HttpServletResponse response, Object result, String contentType) {
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType(contentType);
+        try (PrintWriter out = response.getWriter()) {
+            out.append(JSONUtil.toJsonStr(result));
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * 获取ip
+     *
+     * @return {String}
+     */
+    public String getIP() {
+        return getIP(WebUtils.getRequest());
+    }
+
+    public String getSession() {
+        return WebUtils.getSessionId(WebUtils.getRequest());
+    }
+
+    /**
+     * 获取ip
+     *
+     * @param request HttpServletRequest
+     * @return {String}
+     */
+    public String getIP(HttpServletRequest request) {
+        Assert.notNull(request, "HttpServletRequest is null");
+        String ip = request.getHeader("X-Requested-For");
+        if (StringUtils.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("X-Forwarded-For");
+        }
+        if (StringUtils.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (StringUtils.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (StringUtils.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if (StringUtils.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (StringUtils.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+
+        return StringUtils.isBlank(ip) ? null : ip.split(",")[0];
+    }
+
+    /**
+     * 从request 获取CLIENT_ID
+     *
+     * @return
+     */
+    @SneakyThrows
+    public String[] getClientId(ServerHttpRequest request) {
+        String header = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+
+        if (header == null || !header.startsWith(BASIC_)) {
+            throw new CheckedException("请求头中client信息为空");
+        }
+        byte[] base64Token = header.substring(6).getBytes("UTF-8");
+        byte[] decoded;
+        try {
+            decoded = Base64.decode(base64Token);
+        } catch (IllegalArgumentException e) {
+            throw new CheckedException(
+                    "Failed to decode basic authentication token");
+        }
+
+        String token = new String(decoded, StandardCharsets.UTF_8);
+
+        int delim = token.indexOf(":");
+
+        if (delim == -1) {
+            throw new CheckedException("Invalid basic authentication token");
+        }
+        return new String[]{token.substring(0, delim), token.substring(delim + 1)};
+    }
+
+    /**
+     * @param request     HttpServletRequest
+     *                    tip: 不可使用WebUtils.getRequest()获取
+     * @param allowSuffix 文件后缀名 多个以","逗号分隔
+     * @return
+     */
+    public MultipartFile getRequestFile(@NonNull HttpServletRequest request, @NonNull String allowSuffix) {
+        String errorMsg = StrUtil.EMPTY;
+
+        String[] suffixs = allowSuffix.split(",");
+        Set<String> suffixSet = new HashSet<String>(Arrays.asList(suffixs));
+
+        Map<String, MultipartFile> fileMap = ((MultipartHttpServletRequest) request).getFileMap();
+        MultipartFile file = null;
+        for (Map.Entry<String, MultipartFile> fileEntity : fileMap.entrySet()) {
+            file = fileEntity.getValue();
+            String originalFilename = file.getOriginalFilename();
+            String suffix = originalFilename.substring(originalFilename.lastIndexOf('.') + 1);
+            if (suffixSet.contains(suffix)) {
+                break;
+            }
+            errorMsg = "文件类型不支持";
+        }
+
+        Assert.isTrue(StrUtil.isBlank(errorMsg), errorMsg);
+        Objects.requireNonNull(file, "excel导入 ---------->>>>>>> 未检测到上传文件");
+
+        return file;
+    }
+
+    /**
+     * 导出excel
+     *
+     * @param list   数据
+     * @param writer
+     * @param name   文件名
+     */
+    @SneakyThrows
+    public void exportExcel(@NonNull List list, @NonNull ExcelWriter writer, String name) {
+        writer.setOnlyAlias(true);
+        HttpServletResponse response = WebUtils.getResponse();
+        //response为HttpServletResponse对象
+        response.setContentType("application/vnd.ms-excel;charset=utf-8");
+        //codes.xls是弹出下载对话框的文件名，不能为中文，中文需自行编码
+        response.setHeader("Content-Disposition", "attachment;filename=data.xlsx");
+        ServletOutputStream out = response.getOutputStream();
+        try {
+            writer.write(list);
+            writer.flush(out);
+        } catch (Exception e) {
+            log.error("下载[{}]excel异常 =====>>>>> {}", name, e.getMessage());
+        } finally {
+            // 关闭writer，释放内存
+            writer.close();
+            //关闭输出Servlet流
+            IoUtil.close(out);
+        }
+    }
+}

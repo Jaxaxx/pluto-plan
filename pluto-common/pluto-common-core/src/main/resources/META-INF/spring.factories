@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.mine.common.core.util.SpringContextHolder,\
+  com.mine.common.core.config.MyRedisConfig
