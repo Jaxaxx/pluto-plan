@@ -20,22 +20,18 @@
         <dependency>
             <groupId>com.mine</groupId>
             <artifactId>pluto-common-swagger</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.mine</groupId>
             <artifactId>pluto-common-security</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.mine</groupId>
             <artifactId>pluto-common-mybatis-plus</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.mine</groupId>
             <artifactId>pluto-common-feign</artifactId>
-            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

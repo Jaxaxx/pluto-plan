@@ -48,20 +48,37 @@
         <jackson.modules>2.9.6</jackson.modules>
         <mybatis-plus.version>3.0.6</mybatis-plus.version>
         <mysql.connector.version>8.0.15</mysql.connector.version>
-        <swagger.core.version>1.5.22</swagger.core.version>
-        <hutool.version>5.2.4</hutool.version>
-        <pinyin4j.version>2.5.0</pinyin4j.version>
-        <ttl.version>2.10.1</ttl.version>
-        <kaptcha.version>0.0.9</kaptcha.version>
-        <minio.version>3.0.12</minio.version>
-        <orika.version>1.4.6</orika.version>
-        <commons.lang3.version>3.9</commons.lang3.version>
-        <aliyun.oss.version>3.7.0</aliyun.oss.version>
-        <aliyun.java.sdk.core.version>4.1.1</aliyun.java.sdk.core.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>com.mine</groupId>
+                <artifactId>pluto-common-core</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mine</groupId>
+                <artifactId>pluto-common-security</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mine</groupId>
+                <artifactId>pluto-common-swagger</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mine</groupId>
+                <artifactId>pluto-common-feign</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mine</groupId>
+                <artifactId>pluto-common-mybatis-plus</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-actuator</artifactId>
@@ -136,6 +153,12 @@
                 <artifactId>springfox-bean-validators</artifactId>
                 <version>${swagger.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-common</artifactId>
+                <version>${swagger.version}</version>
+                <scope>compile</scope>
+            </dependency>
             <!-- 实体映射工具 -->
             <dependency>
                 <groupId>ma.glasnost.orika</groupId>
@@ -179,12 +202,6 @@
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
-            </dependency>
-            <!--mybatis plus extension,包含了mybatis plus core-->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-extension</artifactId>
-                <version>${mybatis-plus.version}</version>
             </dependency>
             <!--mybatis-->
             <dependency>

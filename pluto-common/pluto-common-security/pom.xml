@@ -23,7 +23,6 @@
         <dependency>
             <groupId>com.mine</groupId>
             <artifactId>pluto-common-core</artifactId>
-            <version>${version}</version>
         </dependency>
     </dependencies>
 

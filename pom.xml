@@ -61,7 +61,7 @@
             <dependency>
                 <groupId>com.mine</groupId>
                 <artifactId>pluto-common-bom</artifactId>
-                <version>${version}</version>
+                <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
