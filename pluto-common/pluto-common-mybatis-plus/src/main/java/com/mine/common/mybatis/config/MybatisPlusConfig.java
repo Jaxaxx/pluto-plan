@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
  * @Date
  */
 @ConditionalOnClass(MybatisPlusConfig.class)
-@MapperScan("com.mine.*.mapper")
+@MapperScan({"com.mine.upmsx.mapper","com.mine.app.mapper"})
 public class MybatisPlusConfig {
 
     /**

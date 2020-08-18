@@ -10,7 +10,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @create: 2020-08-12
  * @version: v1.0
  */
-@Mapper
 public interface SysUserBaseMapper extends BaseMapper<SysUserBase> {
 
 }
