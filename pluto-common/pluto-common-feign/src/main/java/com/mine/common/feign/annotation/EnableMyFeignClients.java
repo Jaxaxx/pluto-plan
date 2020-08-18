@@ -8,7 +8,6 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@EnableHystrix
 @EnableFeignClients(basePackages = {"com.mine.common.feign.api"})
 public @interface EnableMyFeignClients {
 }

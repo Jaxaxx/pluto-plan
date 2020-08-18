@@ -2,6 +2,12 @@ server:
   port: 0
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
+  security:
+    user:
+      name: eureka
+      password: eureka
   application:
     name: upmsx
   redis:
@@ -13,7 +19,7 @@ spring:
         max-active: 8
         max-idle: 8
         min-idle: 0
-    timeout: 100ms
+
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/test-a?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useOldAliasMetadataBehavior=true&useSSL=false
     username: root
@@ -30,6 +36,7 @@ mybatis-plus:
   #实体扫描，多个package用逗号或者分号分隔
   typeAliasesPackage: com.mine.*.entity
   global-config:
+    banner: off
     #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
     id-type: 3
     #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"

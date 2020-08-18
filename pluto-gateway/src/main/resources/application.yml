@@ -2,6 +2,8 @@ server:
   port: 9999
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: gateway
   redis:
@@ -13,7 +15,6 @@ spring:
         max-active: 8
         max-idle: 8
         min-idle: 0
-    timeout: 100ms
   cloud:
     gateway:
       enabled: true

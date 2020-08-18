@@ -1,6 +1,6 @@
 package com.mine.common.security.annotation;
 
-import com.mine.common.security.config.MyResourceServerAutoConfiguration;
+import com.mine.common.security.MySecurityAutoConfiguration;
 import com.mine.common.security.config.MySecurityBeanDefinitionRegister;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -14,7 +14,7 @@ import java.lang.annotation.*;
 @Inherited
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@Import({MyResourceServerAutoConfiguration.class,MySecurityBeanDefinitionRegister.class})
+@Import({MySecurityAutoConfiguration.class, MySecurityBeanDefinitionRegister.class})
 public @interface EnableMyResourceServer {
 
 }
