@@ -19,10 +19,9 @@ import java.util.*;
  * @Author Y
  * @Date 2019-12-26 20:12
  */
-@UtilityClass
 public class MapperUtils {
 
-    public final MapperUtils INSTANCE = new MapperUtils();
+    public static final MapperUtils INSTANCE = new MapperUtils();
     /**
      * 获取默认字段工厂
      */

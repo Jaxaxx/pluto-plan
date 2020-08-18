@@ -1,7 +1,6 @@
 package com.mine.common.swagger.config;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.OAuthBuilder;
@@ -15,7 +14,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 import java.util.Arrays;
 import java.util.Collections;
 
-@RefreshScope
 public class SwaggerAutoConfiguration {
 
     @Value("${swagger.enabled:true}")

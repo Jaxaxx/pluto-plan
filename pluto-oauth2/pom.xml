@@ -12,6 +12,23 @@
     <artifactId>pluto-oauth2</artifactId>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.mine</groupId>
+            <artifactId>pluto-common-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mine</groupId>
+            <artifactId>pluto-common-swagger</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mine</groupId>
+            <artifactId>pluto-common-feign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mine</groupId>
+            <artifactId>pluto-common-mybatis-plus</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -27,34 +44,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.mine</groupId>
-            <artifactId>pluto-common-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.mine</groupId>
-            <artifactId>pluto-common-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.mine</groupId>
-            <artifactId>pluto-common-swagger</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.mine</groupId>
-            <artifactId>pluto-common-feign</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
     </dependencies>
 

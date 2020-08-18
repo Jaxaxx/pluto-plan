@@ -4,6 +4,16 @@ server:
 spring:
   application:
     name: gateway
+  redis:
+    database: 8
+    host: 127.0.0.1
+    port: 6379
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+    timeout: 100ms
   cloud:
     gateway:
       enabled: true
@@ -18,4 +28,4 @@ eureka:
     instance-id: ${spring.cloud.client.ip-address}:${server.port}
   client:
     service-url:
-      default-zone: http://eureka:eureka@127.0.0.1:8761/eureka
+      default-zone: http://127.0.0.1:8761/eureka

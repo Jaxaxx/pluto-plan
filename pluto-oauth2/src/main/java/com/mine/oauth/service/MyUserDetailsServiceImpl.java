@@ -30,9 +30,7 @@ public class MyUserDetailsServiceImpl implements MyUserDetailsService {
          *  Remote Request upms to get user_info
          */
         R<SysUserBaseVO> result = remoteSysUserBaseService.getUserByUserName(username);
-
         UserDetails userDetails = getUserDetail(result);
-
         return userDetails;
     }
 

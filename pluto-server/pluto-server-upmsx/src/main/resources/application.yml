@@ -41,8 +41,10 @@ mybatis-plus:
     # Sequence序列接口实现类配置
     key-generator: com.baomidou.mybatisplus.incrementer.OracleKeyGenerator
     #逻辑删除配置
-    logic-delete-value: 1
-    logic-not-delete-value: 0
+    db-config:
+      logic-delete-field: is_deleted
+      logic-not-delete-value: 0
+      logic-delete-value: 1
   configuration:
     #配置返回数据库(column下划线命名&&返回java实体是驼峰命名)，自动匹配无需as（没开启这个，SQL需要写as： select user_id as userId）
     map-underscore-to-camel-case: true

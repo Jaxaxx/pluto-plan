@@ -33,7 +33,7 @@ eureka:
     instance-id: ${spring.cloud.client.ip-address}:${server.port}
   client:
     service-url:
-      default-zone: http://eureka:eureka@127.0.0.1:8761/eureka
+      default-zone: http://127.0.0.1:8761/eureka
 
 swagger:
   enabled: false
