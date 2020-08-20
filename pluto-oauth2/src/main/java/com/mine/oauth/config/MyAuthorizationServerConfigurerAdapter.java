@@ -1,10 +1,8 @@
 package com.mine.oauth.config;
 
 import com.mine.common.core.constant.SecurityConstants;
-import com.mine.common.security.exception.MyWebResponseExceptionTranslator;
 import com.mine.common.security.model.MyUser;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -14,12 +12,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 @EnableAuthorizationServer
 public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerConfigurerAdapter {
 
@@ -38,7 +38,7 @@ public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerC
     private final UserDetailsService myUserDetailsService;
     private final AuthenticationManager authenticationManager;
     private final RedisConnectionFactory redisConnectionFactory;
-    private final MyWebResponseExceptionTranslator myWebResponseExceptionTranslator;
+    private final WebResponseExceptionTranslator<OAuth2Exception> myWebResponseExceptionTranslator;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -64,7 +64,7 @@ public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerC
             if (SecurityConstants.CLIENT_CREDENTIALS.equals(authentication.getOAuth2Request().getGrantType())) {
                 return accessToken;
             }
-            final Map<String, Object> additionalInfo = new HashMap<>(16);
+            final Map<String, Object> additionalInfo = new HashMap<String, Object>(16);
             MyUser myUser = (MyUser) authentication.getUserAuthentication().getPrincipal();
             additionalInfo.put(SecurityConstants.DETAILS_USER_ID, myUser.getId());
             additionalInfo.put(SecurityConstants.DETAILS_PHONE, myUser.getPhone());

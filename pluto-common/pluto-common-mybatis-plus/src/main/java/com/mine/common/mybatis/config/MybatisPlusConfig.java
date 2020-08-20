@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
 import com.p6spy.engine.spy.appender.StdoutLogger;
 import org.mybatis.spring.annotation.MapperScan;
+import org.mybatis.spring.annotation.MapperScans;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 
 /**
  * @Description
@@ -13,7 +15,6 @@ import org.springframework.context.annotation.Bean;
  * @Date
  */
 @ConditionalOnClass(MybatisPlusConfig.class)
-@MapperScan({"com.mine.upmsx.mapper","com.mine.app.mapper"})
 public class MybatisPlusConfig {
 
     /**

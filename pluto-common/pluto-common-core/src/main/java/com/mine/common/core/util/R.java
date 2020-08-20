@@ -1,8 +1,6 @@
 package com.mine.common.core.util;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -13,47 +11,76 @@ import java.io.Serializable;
  * @Author
  * @Date
  */
-@Data
-@Builder
+@ToString
+@NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
 public class R<T> implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private static final Integer OK_CODE = 0;
-    private static final String OK_MSG = "ok";
-    private static final Integer FAIL_CODE = 1;
-    private static final String FAIL_MSG = "fail";
 
-    private Integer code = OK_CODE;
-    private String msg = OK_MSG;
+    private static final long serialVersionUID = 1L;
+    /**
+     * 成功标记
+     */
+    private static final Integer SUCCESS = 0;
+    /**
+     * 成功标记
+     */
+    private static final String SUCCESS_MSG = "success";
+    /**
+     * 失败标记
+     */
+    private static final Integer FAIL = 1;
+    /**
+     * 成功标记
+     */
+    private static final String FAIL_MSG = "FAIL";
+
+
+    @Getter
+    @Setter
+    private int code;
+
+    @Getter
+    @Setter
+    private String msg;
+
+    @Getter
+    @Setter
     private T data;
 
-    public R() {
-        super();
+    public static <T> R<T> ok() {
+        return restResult(SUCCESS, SUCCESS_MSG, null);
     }
 
-    public R(T data) {
-        super();
-        this.data = data;
+    public static <T> R<T> ok(T data) {
+        return restResult(SUCCESS, SUCCESS_MSG, data);
     }
 
-    public R ok() {
-        return new R();
+    public static <T> R<T> ok(String msg, T data) {
+        return restResult(SUCCESS, msg, data);
     }
 
-    public R ok(T data) {
-        return new R(data);
+    public static <T> R<T> failed() {
+        return restResult(FAIL, FAIL_MSG, null);
     }
 
-    public R fail(T data) {
-        return new R().fail("fail", data);
+    public static <T> R<T> failed(String msg) {
+        return restResult(FAIL, msg, null);
     }
 
-    public R fail(String msg) {
-        return new R().fail(msg);
+    public static <T> R<T> failed(T data) {
+        return restResult(FAIL, FAIL_MSG, data);
     }
 
-    public R fail(String msg, T data) {
-        return new R(FAIL_CODE, msg, data);
+    public static <T> R<T> failed(String msg, T data) {
+        return restResult(FAIL, msg, data);
+    }
+
+    private static <T> R<T> restResult(int code, String msg, T data) {
+        R<T> apiResult = new R<>();
+        apiResult.setCode(code);
+        apiResult.setMsg(msg);
+        apiResult.setData(data);
+        return apiResult;
     }
 }

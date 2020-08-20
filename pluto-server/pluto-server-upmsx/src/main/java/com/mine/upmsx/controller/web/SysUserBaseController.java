@@ -27,13 +27,13 @@ public class SysUserBaseController {
     @ApiOperation(value = "登录信息表列表查询", notes = "登录信息表API")
     @GetMapping("/list")
     public R<?> getList(SysUserBaseDTO dto) {
-        return new R<>(iSysUserBaseService.list(dto));
+        return R.ok(iSysUserBaseService.list(dto));
     }
 
     @ApiOperation(value = "登录信息表详细查询", notes = "登录信息表API")
     @GetMapping("/{id}")
     public R<?> detail(@PathVariable("id") Long id) {
-        return new R<>(iSysUserBaseService.detail(id));
+        return R.ok(iSysUserBaseService.detail(id));
     }
 
     @ApiOperation(value = "登录信息表添加", notes = "登录信息表API")

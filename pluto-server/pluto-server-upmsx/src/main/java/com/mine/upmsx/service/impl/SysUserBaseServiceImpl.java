@@ -11,6 +11,7 @@ import com.mine.upmsx.entity.SysUserBase;
 import com.mine.upmsx.mapper.SysUserBaseMapper;
 import com.mine.upmsx.service.ISysUserBaseService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,7 @@ import java.util.Objects;
 @Slf4j
 @Service
 @Transactional
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SysUserBaseServiceImpl extends ServiceImpl<SysUserBaseMapper, SysUserBase> implements ISysUserBaseService {
 
     private final SysUserBaseMapper sysUserBaseMapper;

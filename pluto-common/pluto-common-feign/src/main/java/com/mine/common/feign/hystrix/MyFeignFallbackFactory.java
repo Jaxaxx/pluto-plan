@@ -17,6 +17,6 @@ public class MyFeignFallbackFactory implements FallbackFactory<R> {
         throwable.printStackTrace();
 
         String message = throwable.getMessage();
-        return new R<>().fail(message);
+        return R.ok(message);
     }
 }
