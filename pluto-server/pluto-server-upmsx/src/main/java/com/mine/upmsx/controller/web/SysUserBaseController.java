@@ -5,7 +5,7 @@ import com.mine.upmsx.dto.SysUserBaseDTO;
 import com.mine.upmsx.service.ISysUserBaseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = {"【登录信息表】模块API"})
 @RestController
 @RequestMapping("/sysUserBase")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SysUserBaseController {
 
     private final ISysUserBaseService iSysUserBaseService;

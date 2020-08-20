@@ -41,6 +41,8 @@
         <aliyun.java.sdk.core.version>4.1.1</aliyun.java.sdk.core.version>
         <jackson.modules>2.9.6</jackson.modules>
         <mybatis-plus.version>3.3.2</mybatis-plus.version>
+        <mybatis-plus-velocity-engine-core.version>2.2</mybatis-plus-velocity-engine-core.version>
+        <p6spy.version>3.9.1</p6spy.version>
         <mysql.connector.version>8.0.15</mysql.connector.version>
     </properties>
 
@@ -69,6 +71,11 @@
             <dependency>
                 <groupId>com.mine</groupId>
                 <artifactId>pluto-common-mybatis-plus</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.mine</groupId>
+                <artifactId>pluto-common-log</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- spring cloud alibaba dependencies -->
@@ -212,6 +219,27 @@
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
+            <!--mybatis plus extension,包含了mybatis plus core-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-extension</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${mybatis-plus-velocity-engine-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${p6spy.version}</version>
+            </dependency>
             <!--mysql 驱动-->
             <dependency>
                 <groupId>mysql</groupId>
@@ -244,12 +272,6 @@
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
-            </dependency>
-            <!--mybatis plus extension,包含了mybatis plus core-->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-extension</artifactId>
-                <version>${mybatis-plus.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

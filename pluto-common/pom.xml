@@ -18,6 +18,7 @@
         <module>pluto-common-security</module>
         <module>pluto-common-mybatis-plus</module>
         <module>pluto-common-feign</module>
+        <module>pluto-common-log</module>
     </modules>
 
 </project>
