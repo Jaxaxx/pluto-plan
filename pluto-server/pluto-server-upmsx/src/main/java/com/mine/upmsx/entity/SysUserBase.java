@@ -59,7 +59,7 @@ public class SysUserBase extends Model<SysUserBase> {
 
     @ApiModelProperty(value = "是否删除 1 是 0 否 ")
     @TableField("is_deleted")
-    @TableLogic
+    @TableLogic(value = "0",delval = "1")
     private Integer isDeleted;
 
     @ApiModelProperty(value = "创建用户Id")

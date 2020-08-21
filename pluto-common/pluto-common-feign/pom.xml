@@ -17,10 +17,10 @@
             <groupId>com.mine</groupId>
             <artifactId>pluto-common-swagger</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.mine</groupId>
-            <artifactId>pluto-common-security</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.mine</groupId>-->
+<!--            <artifactId>pluto-common-security</artifactId>-->
+<!--        </dependency>-->
         <!--feign 依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

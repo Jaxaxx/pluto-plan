@@ -19,15 +19,16 @@
 package com.mine.common.log.event;
 
 import com.mine.common.feign.entity.upmsx.SysLog;
-import org.springframework.context.ApplicationEvent;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * @author lengleng 系统日志事件
  */
-public class SysLogEvent extends ApplicationEvent {
+@Getter
+@AllArgsConstructor
+public class SysLogEvent {
 
-    public SysLogEvent(SysLog source) {
-        super(source);
-    }
+    private SysLog sysLog;
 
 }

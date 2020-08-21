@@ -1,5 +1,6 @@
 package com.mine.upmsx.dto;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.mine.common.mybatis.model.BaseDTO;;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

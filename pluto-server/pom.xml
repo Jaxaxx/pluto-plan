@@ -25,10 +25,10 @@
             <groupId>com.mine</groupId>
             <artifactId>pluto-common-swagger</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.mine</groupId>-->
-<!--            <artifactId>pluto-common-log</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.mine</groupId>
+            <artifactId>pluto-common-log</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

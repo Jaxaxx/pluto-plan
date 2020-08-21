@@ -31,7 +31,7 @@ public class MyFeignRequestInterceptor implements RequestInterceptor {
     public void apply(RequestTemplate template) {
         HttpServletRequest request = WebUtils.getRequest();
         String accessToken = request.getHeader(Header.AUTHORIZATION.name());
-        if (!accessToken.startsWith(AUTHORIZATION_PREFIX)) {
+        if (!accessToken.toLowerCase().startsWith(AUTHORIZATION_PREFIX)) {
             log.debug("No authorization required interface : {}", template.url());
             return;
         }

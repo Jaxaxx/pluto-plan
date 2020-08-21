@@ -6,11 +6,13 @@ import com.mine.common.log.annotation.OperationLog;
 import com.mine.common.log.event.SysLogEvent;
 import com.mine.common.log.util.LogTypeEnum;
 import com.mine.common.log.util.SysLogUtils;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.context.ApplicationEventPublisher;
 
 /**
  * 操作日志使用spring event异步入库
@@ -19,9 +21,12 @@ import org.aspectj.lang.annotation.Aspect;
  */
 @Aspect
 @Slf4j
+@RequiredArgsConstructor
 public class SysLogAspect {
 
-    @Around("@annotation(com.mine.common.log.annotation.OperationLog)")
+    private final ApplicationEventPublisher publisher;
+
+    @Around("@annotation(operationLog)")
     @SneakyThrows
     public Object around(ProceedingJoinPoint point, OperationLog operationLog) {
         String strClassName = point.getTarget().getClass().getName();
@@ -44,7 +49,7 @@ public class SysLogAspect {
         } finally {
             long endTime = System.currentTimeMillis();
             logVo.setTime(String.valueOf((endTime - startTime)));
-            SpringContextHolder.publishEvent(new SysLogEvent(logVo));
+            publisher.publishEvent(new SysLogEvent(logVo));
         }
 
         return obj;

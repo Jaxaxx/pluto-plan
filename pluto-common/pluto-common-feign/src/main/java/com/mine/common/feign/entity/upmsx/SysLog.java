@@ -59,7 +59,8 @@ public class SysLog extends Model<SysLog> {
     private String exception;
 
     @ApiModelProperty(value = "是否删除：0-否，1-是")
-    @TableLogic
+    @TableLogic(value = "0",delval = "1")
+    @TableField(fill = FieldFill.INSERT)
     private Integer isDeleted;
 
     @TableField(fill = FieldFill.INSERT)

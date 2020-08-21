@@ -5,6 +5,7 @@ import com.mine.common.log.aspect.SysLogAspect;
 import com.mine.common.log.event.SysLogListener;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -23,8 +24,8 @@ public class MyLogAutoConfiguration {
     }
 
     @Bean
-    public SysLogAspect sysLogAspect() {
-        return new SysLogAspect();
+    public SysLogAspect sysLogAspect(ApplicationEventPublisher publisher) {
+        return new SysLogAspect(publisher);
     }
 
 }

@@ -3,12 +3,11 @@ package com.mine.common.feign.api.upmsx;
 import com.mine.common.core.util.R;
 import com.mine.common.feign.config.MyFeignRequestInterceptor;
 import com.mine.common.feign.entity.SysUserBaseVO;
-import com.mine.common.feign.hystrix.MyFeignFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(value = "upmsx",configuration = MyFeignRequestInterceptor.class)
+@FeignClient(value = "upmsx", configuration = MyFeignRequestInterceptor.class)
 public interface RemoteSysUserBaseService {
 
     @GetMapping("/feign/sysUserBase/{userName}")

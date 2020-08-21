@@ -9,11 +9,11 @@ public class Constant {
     /**
      * 标识：是
      */
-    public static final Byte BYTE_YES = 1;
+    public static final Integer BYTE_YES = 1;
 
     /**
      * 标识：否
      */
-    public static final Byte BYTE_NO = 0;
+    public static final Integer BYTE_NO = 0;
 
 }
