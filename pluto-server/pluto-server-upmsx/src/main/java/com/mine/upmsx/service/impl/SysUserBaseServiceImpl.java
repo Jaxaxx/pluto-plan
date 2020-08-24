@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mine.common.core.util.MapperUtils;
+import com.mine.common.core.util.WebUtils;
 import com.mine.common.feign.entity.SysUserBaseVO;
+import com.mine.common.security.util.PasswordEncoderUtil;
 import com.mine.upmsx.dto.SysUserBaseDTO;
 import com.mine.upmsx.entity.SysUserBase;
 import com.mine.upmsx.mapper.SysUserBaseMapper;
@@ -13,9 +15,11 @@ import com.mine.upmsx.service.ISysUserBaseService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,7 +31,6 @@ import java.util.Objects;
  */
 @Slf4j
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class SysUserBaseServiceImpl extends ServiceImpl<SysUserBaseMapper, SysUserBase> implements ISysUserBaseService {
 
@@ -35,6 +38,7 @@ public class SysUserBaseServiceImpl extends ServiceImpl<SysUserBaseMapper, SysUs
 
     @Override
     public List<SysUserBaseVO> list(SysUserBaseDTO dto) {
+        HttpServletRequest request = WebUtils.getRequest();
         List<SysUserBase> sysUserBases = sysUserBaseMapper.selectList(new QueryWrapper<>());
         List<SysUserBaseVO> sysUserBaseVOS = MapperUtils.INSTANCE.mapAsList(SysUserBaseVO.class, sysUserBases);
         return sysUserBaseVOS;
@@ -48,6 +52,10 @@ public class SysUserBaseServiceImpl extends ServiceImpl<SysUserBaseMapper, SysUs
 
     @Override
     public void insert(SysUserBaseDTO dto) {
+        HttpServletRequest request = WebUtils.getRequest();
+        String password = dto.getPassword();
+        String encode = PasswordEncoderUtil.encode(password);
+        dto.setPassword(encode);
         SysUserBase sysUserBase = BeanUtil.copyProperties(dto, SysUserBase.class);
         baseMapper.insert(sysUserBase);
     }

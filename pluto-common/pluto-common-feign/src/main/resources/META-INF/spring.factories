@@ -1,4 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.mine.common.feign.config.MyFeignRequestInterceptor
+    com.mine.common.feign.interceptor.MyFeignRequestInterceptor
 
   

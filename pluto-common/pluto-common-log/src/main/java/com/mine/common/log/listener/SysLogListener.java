@@ -1,7 +1,8 @@
-package com.mine.common.log.event;
+package com.mine.common.log.listener;
 
 import com.mine.common.feign.api.upmsx.RemoteSysLogService;
 import com.mine.common.feign.entity.upmsx.SysLog;
+import com.mine.common.log.event.SysLogEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;

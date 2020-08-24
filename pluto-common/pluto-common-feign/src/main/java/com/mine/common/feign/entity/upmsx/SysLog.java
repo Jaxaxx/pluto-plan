@@ -87,7 +87,7 @@ public class SysLog extends Model<SysLog> {
     @TableField(fill = FieldFill.UPDATE)
     private Date updateTime;
 
-    @Transient
+    @TableField(exist = false)
     @JsonIgnore
     private RequestAttributes requestAttributes;
 

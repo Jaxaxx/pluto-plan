@@ -1,6 +1,7 @@
 package com.mine.upmsx.controller.web;
 
 import com.mine.common.core.util.R;
+import com.mine.common.core.util.WebUtils;
 import com.mine.upmsx.dto.SysLogDTO;
 import com.mine.upmsx.service.ISysLogService;
 import io.swagger.annotations.Api;
@@ -8,6 +9,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -39,6 +42,7 @@ public class SysLogController {
     @ApiOperation(value = "日志表添加")
     @PostMapping
     public R insert(@RequestBody SysLogDTO dto) {
+        HttpServletRequest request = WebUtils.getRequest();
         iSysLogService.insert(dto);
         return R.ok();
     }
