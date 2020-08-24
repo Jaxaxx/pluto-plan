@@ -58,8 +58,8 @@ public class SysUserBase extends Model<SysUserBase> {
     private Date lastLoginTime;
 
     @ApiModelProperty(value = "是否删除 1 是 0 否 ")
-    @TableField("is_deleted")
     @TableLogic(value = "0",delval = "1")
+    @TableField(value = "is_deleted",fill = FieldFill.INSERT)
     private Integer isDeleted;
 
     @ApiModelProperty(value = "创建用户Id")
