@@ -1,7 +1,6 @@
 package com.mine.common.log.aspect;
 
-import com.mine.common.feign.entity.upmsx.SysLog;
-import com.mine.common.log.annotation.OperationLog;
+import com.mine.common.log.annotation.SysLog;
 import com.mine.common.log.event.SysLogEvent;
 import com.mine.common.log.util.LogTypeEnum;
 import com.mine.common.log.util.SysLogUtils;
@@ -25,15 +24,15 @@ public class SysLogAspect {
 
     private final ApplicationEventPublisher publisher;
 
-    @Around("@annotation(operationLog)")
+    @Around("@annotation(sysLog)")
     @SneakyThrows
-    public Object around(ProceedingJoinPoint point, OperationLog operationLog) {
+    public Object around(ProceedingJoinPoint point, SysLog sysLog) {
         String strClassName = point.getTarget().getClass().getName();
         String strMethodName = point.getSignature().getName();
         log.debug("[类名]:{},[方法]:{}", strClassName, strMethodName);
 
-        SysLog logVo = SysLogUtils.getSysLog();
-        logVo.setTitle(operationLog.value());
+        com.mine.common.feign.entity.upmsx.SysLog logVo = SysLogUtils.getSysLog();
+        logVo.setTitle(sysLog.value());
 
         // 发送异步日志事件
         Long startTime = System.currentTimeMillis();
@@ -47,7 +46,7 @@ public class SysLogAspect {
             throw e;
         } finally {
             long endTime = System.currentTimeMillis();
-            logVo.setTime(String.valueOf((endTime - startTime)));
+            logVo.setTime(endTime - startTime);
             publisher.publishEvent(new SysLogEvent(logVo));
         }
 

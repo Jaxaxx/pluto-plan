@@ -1,7 +1,7 @@
 package com.mine.upmsx.controller.web;
 
 import com.mine.common.core.util.R;
-import com.mine.common.log.annotation.OperationLog;
+import com.mine.common.log.annotation.SysLog;
 import com.mine.upmsx.dto.SysUserBaseDTO;
 import com.mine.upmsx.service.ISysUserBaseService;
 import io.swagger.annotations.Api;
@@ -37,7 +37,7 @@ public class SysUserBaseController {
         return R.ok(iSysUserBaseService.detail(id));
     }
 
-    @OperationLog("新增用户")
+    @SysLog("新增用户")
     @ApiOperation(value = "登录信息表添加", notes = "登录信息表API")
     @PostMapping
     public R insert(@RequestBody SysUserBaseDTO dto) {

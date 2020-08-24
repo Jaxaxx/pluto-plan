@@ -32,7 +32,7 @@ public class SysLog extends Model<SysLog> {
     private Long id;
 
     @ApiModelProperty(value = "日志类型")
-    private String type;
+    private Integer type;
 
     @ApiModelProperty(value = "日志标题")
     private String title;
@@ -55,7 +55,7 @@ public class SysLog extends Model<SysLog> {
     private String params;
 
     @ApiModelProperty(value = "执行时间")
-    private String time;
+    private Long time;
 
     @ApiModelProperty(value = "异常信息")
     private String exception;
