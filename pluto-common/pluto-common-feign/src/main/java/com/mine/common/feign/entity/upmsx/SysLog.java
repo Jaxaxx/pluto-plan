@@ -5,13 +5,15 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.data.annotation.Transient;
+import org.springframework.web.context.request.RequestAttributes;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -59,7 +61,7 @@ public class SysLog extends Model<SysLog> {
     private String exception;
 
     @ApiModelProperty(value = "是否删除：0-否，1-是")
-    @TableLogic(value = "0",delval = "1")
+    @TableLogic(value = "0", delval = "1")
     @TableField(fill = FieldFill.INSERT)
     private Integer isDeleted;
 
@@ -84,6 +86,10 @@ public class SysLog extends Model<SysLog> {
     @ApiModelProperty(value = "更新时间")
     @TableField(fill = FieldFill.UPDATE)
     private Date updateTime;
+
+    @Transient
+    @JsonIgnore
+    private RequestAttributes requestAttributes;
 
     @Override
     protected Serializable pkVal() {

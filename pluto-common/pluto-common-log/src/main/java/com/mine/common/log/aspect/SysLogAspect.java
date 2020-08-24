@@ -1,6 +1,5 @@
 package com.mine.common.log.aspect;
 
-import com.mine.common.core.util.SpringContextHolder;
 import com.mine.common.feign.entity.upmsx.SysLog;
 import com.mine.common.log.annotation.OperationLog;
 import com.mine.common.log.event.SysLogEvent;

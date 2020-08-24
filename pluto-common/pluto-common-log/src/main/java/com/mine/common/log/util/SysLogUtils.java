@@ -50,7 +50,8 @@ public class SysLogUtils {
 		sysLog.setMethod(request.getMethod());
 		sysLog.setUserAgent(request.getHeader("user-agent"));
 		sysLog.setParams(HttpUtil.toParams(request.getParameterMap()));
-		sysLog.setServiceId(getClientId());
+		sysLog.setServiceId(request.getHeader("X-Forwarded-Prefix"));
+		sysLog.setRequestAttributes(RequestContextHolder.currentRequestAttributes());
 		return sysLog;
 	}
 

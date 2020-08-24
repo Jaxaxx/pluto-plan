@@ -1,4 +1,4 @@
-package com.mine.common.feign.config;
+package com.mine.common.feign.interceptor;
 
 import cn.hutool.http.Header;
 import com.mine.common.core.util.WebUtils;

@@ -21,7 +21,6 @@ public class FeignSysLogController {
     @ApiOperation(value = "日志表添加")
     @PostMapping
     public R insert(@RequestBody SysLogDTO dto) {
-        dto.setIsDeleted(0);
         iSysLogService.insert(dto);
         return R.ok();
     }

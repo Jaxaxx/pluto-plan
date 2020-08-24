@@ -28,10 +28,10 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>p6spy</groupId>
-            <artifactId>p6spy</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>p6spy</groupId>-->
+<!--            <artifactId>p6spy</artifactId>-->
+<!--        </dependency>-->
         <!-- mybatis-plus-generator -->
         <dependency>
             <groupId>com.baomidou</groupId>

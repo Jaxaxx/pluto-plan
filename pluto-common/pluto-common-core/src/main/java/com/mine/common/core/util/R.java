@@ -1,6 +1,9 @@
 package com.mine.common.core.util;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -12,9 +15,8 @@ import java.io.Serializable;
  * @Date
  */
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
 @Accessors(chain = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class R<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,6 +37,9 @@ public class R<T> implements Serializable {
      */
     private static final String FAIL_MSG = "FAIL";
 
+    private R() {
+
+    }
 
     @Getter
     @Setter

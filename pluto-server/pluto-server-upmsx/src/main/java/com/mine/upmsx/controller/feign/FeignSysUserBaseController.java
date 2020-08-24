@@ -26,7 +26,7 @@ public class FeignSysUserBaseController {
     public R getUserByUserName(@PathVariable("userName") String userName) {
         SysUserBase userBase = sysUserBaseService.getOne(new QueryWrapper<SysUserBase>().lambda().eq(SysUserBase::getUserName, userName));
         SysUserBaseVO sysUserBaseVO = BeanUtil.copyProperties(userBase, SysUserBaseVO.class);
-        return new R<SysUserBaseVO>().ok(sysUserBaseVO);
+        return R.ok(sysUserBaseVO);
     }
 
     @GetMapping("/test")
@@ -35,7 +35,7 @@ public class FeignSysUserBaseController {
         MyUser user = SecurityUtils.getUser();
         String str = JSONUtil.toJsonStr(JSONUtil.parse(user));
 
-        return new R<String>().ok(str);
+        return R.ok(str);
     }
 
 }
