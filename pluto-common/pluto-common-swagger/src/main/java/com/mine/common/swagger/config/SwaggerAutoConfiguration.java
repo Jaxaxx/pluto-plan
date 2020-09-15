@@ -1,11 +1,9 @@
 package com.mine.common.swagger.config;
 
 import com.google.common.base.Predicate;
-import io.swagger.annotations.ApiOperation;
+import com.google.common.base.Predicates;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.lang.Nullable;
-import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.OAuthBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -13,11 +11,12 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.WebMvcRequestHandler;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class SwaggerAutoConfiguration {
 
@@ -45,21 +44,29 @@ public class SwaggerAutoConfiguration {
     @Value("${security.oauth2.client.access-token-uri:http://localhost:9999/auth/oauth/token}")
     private String tokenUrl;
 
-    private static final String splitor = ";";
+    /**
+     * 默认的排除路径，排除Spring Boot默认的错误处理路径和端点
+     */
+    private static final List<String> DEFAULT_EXCLUDE_PATH = Arrays.asList("/error", "/actuator/**", "/feign/**");
+    private static final String BASE_PATH = "/**";
+    private static final String BASE_PACKAGE = "com.mine";
 
     @Bean
     public Docket api() {
 
+        //noinspection unchecked
+        List<Predicate<String>> basePath = new ArrayList();
+        basePath.add(PathSelectors.ant(BASE_PATH));
+
+        // exclude-path处理
+        List<Predicate<String>> excludePath = new ArrayList<>();
+        DEFAULT_EXCLUDE_PATH.forEach(path -> excludePath.add(PathSelectors.ant(path)));
+
         return new Docket(DocumentationType.SWAGGER_2)
                 .enable(enableSwagger)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.mine"))
-                .paths((s) -> {
-                    if (s.contains("feign")) {
-                        return false;
-                    }
-                    return true;
-                })
+                .apis(RequestHandlerSelectors.basePackage(BASE_PACKAGE))
+                .paths(Predicates.and(Predicates.not(Predicates.or(excludePath)), Predicates.or(basePath)))
                 .build()
                 .apiInfo(apiInfo())
                 .securitySchemes(Collections.singletonList(securityScheme()))
