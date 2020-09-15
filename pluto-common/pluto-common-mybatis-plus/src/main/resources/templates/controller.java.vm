@@ -1,8 +1,11 @@
 package ${package.Controller};
 
+import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mine.common.core.util.R;
 
 import com.mine.${package.ModuleName}.dto.${entity}DTO;
+import ${package.Entity}.${entity};
 import ${package.Service}.${table.serviceName};
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -48,40 +51,48 @@ public class ${table.controllerName} {
 
     #if(${table.serviceName})
         #set ($tableServiceNameFormat=${table.serviceName})
-        #set ($tableServiceName = $tableServiceNameFormat.substring(0,1).toLowerCase() + $tableServiceNameFormat.substring(1,$tableServiceNameFormat.length()))
+        #set ($tableServiceName = $tableServiceNameFormat.substring(1,2).toLowerCase() + $tableServiceNameFormat.substring(2,$tableServiceNameFormat.length()))
     #end
     private final ${table.serviceName}  $tableServiceName;
 
     @ApiOperation(value = "$!{table.comment}列表查询")
     @GetMapping
     public R list(${entity}DTO dto){
-        return R.ok(${tableServiceName}.list(dto));
+        return R.ok(${tableServiceName}.list());
+    }
+
+    @ApiOperation(value = "$!{table.comment}分页查询")
+    @GetMapping
+    public R page(Page page, ${entity}DTO dto){
+        return R.ok(${tableServiceName}.page(page));
     }
 
     @ApiOperation(value = "$!{table.comment}详细查询")
     @GetMapping("/{id}")
-    public R detail(@PathVariable("id") Long Id ){
-        return R.ok(${tableServiceName}.detail(Id));
+    public R detail(@PathVariable("id") Long id ){
+        return R.ok(${tableServiceName}.getById(id));
     }
 
     @ApiOperation(value = "$!{table.comment}添加")
     @PostMapping
     public R insert(@RequestBody ${entity}DTO dto){
-        ${tableServiceName}.insert(dto);
+        ${entity} entity = BeanUtil.copyProperties(dto, ${entity}.class);
+        ${tableServiceName}.save(entity);
         return R.ok();
     }
 
     @ApiOperation(value = "$!{table.comment}更新")
     @PutMapping
     public R update(@RequestBody ${entity}DTO dto){
-        ${tableServiceName}.update(dto);
+        ${entity} entity = BeanUtil.copyProperties(dto, ${entity}.class);
+        ${tableServiceName}.updateById(entity);
         return R.ok();
     }
 
     @ApiOperation(value = "$!{table.comment}删除")
     @DeleteMapping("/{id}")
     public R delete(@PathVariable("id") Long id){
-        ${tableServiceName}.delete(id);
+        ${tableServiceName}.removeById(id);
         return R.ok();
     }
 }

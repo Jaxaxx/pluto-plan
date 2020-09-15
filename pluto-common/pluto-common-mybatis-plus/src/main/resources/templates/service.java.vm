@@ -18,15 +18,5 @@ interface ${table.serviceName} : ${superServiceClass}<${entity}>
 #else
 public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
 
-    List<${entity}VO> list(${entity}DTO dto);
-
-    ${entity}VO detail(Long id);
-
-    void insert(${entity}DTO dto);
-
-    void update(${entity}DTO dto);
-
-    void delete(Long id);
-
 }
 #end

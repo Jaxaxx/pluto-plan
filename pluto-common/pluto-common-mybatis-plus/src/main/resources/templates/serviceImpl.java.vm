@@ -39,42 +39,6 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     #end
     private final ${table.mapperName} $tableMapperName;
 
-    @Override
-    public List<${entity}VO> list(${entity}DTO dto){
-        ${entity} entity = BeanUtil.copyProperties(dto, ${entity}.class);
-        List<${entity}> sysLogs = baseMapper.selectList(new LambdaQueryWrapper<>(entity));
-        return MapperUtils.INSTANCE.mapAsList(${entity}VO.class, sysLogs);
-    }
-
-    public IPage page(${entity}DTO dto){
-        ${entity} entity = BeanUtil.copyProperties(dto, ${entity}.class);
-        Page<${entity}> page = new Page<>(dto.getCurrent(), dto.getSize());
-        return baseMapper.selectPage(page, new LambdaQueryWrapper<${entity}>(entity));
-    }
-
-    @Override
-    public ${entity}VO detail(Long id){
-        SysLog result = baseMapper.selectById(id);
-        return BeanUtil.copyProperties(result, ${entity}VO.class);
-    }
-
-    @Override
-    public void insert(${entity}DTO dto){
-        ${entity} entity = BeanUtil.copyProperties(dto, ${entity}.class);
-        baseMapper.insert(entity);
-    }
-
-    @Override
-    public void update(${entity}DTO dto){
-        ${entity} entity = baseMapper.selectById(dto.getId());
-        BeanUtil.copyProperties(dto, entity);
-        baseMapper.updateById(entity);
-    }
-
-    @Override
-    public void delete(Long id){
-        baseMapper.deleteById(id);
-    }
 
 }
 #end
