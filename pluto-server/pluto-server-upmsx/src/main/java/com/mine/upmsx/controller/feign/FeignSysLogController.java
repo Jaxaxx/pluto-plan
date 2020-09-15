@@ -4,6 +4,7 @@ package com.mine.upmsx.controller.feign;
 import com.mine.common.core.util.R;
 import com.mine.upmsx.dto.SysLogDTO;
 import com.mine.upmsx.service.ISysLogService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

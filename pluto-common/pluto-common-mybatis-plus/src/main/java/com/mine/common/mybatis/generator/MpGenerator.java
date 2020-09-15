@@ -25,11 +25,11 @@ public class MpGenerator {
      * DataSource config
      * tableNames : {多个表用逗号分隔}
      */
-    private static String dateSourceUrl = "jdbc:mysql://127.0.0.1:3306/test-a?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useOldAliasMetadataBehavior=true&useSSL=false";
+    private static String dateSourceUrl = "jdbc:mysql://192.168.1.236:3311/test-a?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useOldAliasMetadataBehavior=true&useSSL=false";
     private static String dataSourceUserName = "root";
     private static String dataSourcePassWord = "MyNewPass4!";
     private static String dataSourceDriverName = "com.mysql.cj.jdbc.Driver";
-    private static String[] tableNames = {"sys_log"};
+    private static String[] tableNames = {"test_json"};
 
     /**
      * Project config

@@ -1,7 +1,11 @@
 package com.mine.common.swagger.config;
 
+import com.google.common.base.Predicate;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.lang.Nullable;
+import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.OAuthBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -9,6 +13,7 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
+import springfox.documentation.spring.web.WebMvcRequestHandler;
 import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.Arrays;
@@ -40,13 +45,21 @@ public class SwaggerAutoConfiguration {
     @Value("${security.oauth2.client.access-token-uri:http://localhost:9999/auth/oauth/token}")
     private String tokenUrl;
 
+    private static final String splitor = ";";
+
     @Bean
     public Docket api() {
+
         return new Docket(DocumentationType.SWAGGER_2)
                 .enable(enableSwagger)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.mine"))
-                .paths(PathSelectors.any())
+                .paths((s) -> {
+                    if (s.contains("feign")) {
+                        return false;
+                    }
+                    return true;
+                })
                 .build()
                 .apiInfo(apiInfo())
                 .securitySchemes(Collections.singletonList(securityScheme()))
@@ -55,7 +68,7 @@ public class SwaggerAutoConfiguration {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title(title + " " + appName)
+                .title(title + "\t" + appName)
                 .description(description)
                 .version(version)
                 .license(license)

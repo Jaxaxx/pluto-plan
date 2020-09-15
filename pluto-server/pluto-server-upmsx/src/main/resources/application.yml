@@ -12,15 +12,16 @@ spring:
     name: upmsx
   redis:
     database: 8
-    host: 127.0.0.1
-    port: 6379
+    host: 192.168.1.236
+    port: 6380
+    password: redis
     jedis:
       pool:
         max-active: 8
         max-idle: 8
         min-idle: 0
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/test-a?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useOldAliasMetadataBehavior=true&useSSL=false
+    url: jdbc:mysql://192.168.1.236:3311/test-a?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useOldAliasMetadataBehavior=true&useSSL=false
     username: root
     password: MyNewPass4!
     driver-class-name: com.mysql.cj.jdbc.Driver

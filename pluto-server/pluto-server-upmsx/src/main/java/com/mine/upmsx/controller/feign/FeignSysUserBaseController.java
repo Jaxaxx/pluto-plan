@@ -9,12 +9,14 @@ import com.mine.common.security.model.MyUser;
 import com.mine.common.security.util.SecurityUtils;
 import com.mine.upmsx.entity.SysUserBase;
 import com.mine.upmsx.service.ISysUserBaseService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Api(hidden = true)
 @RestController
 @RequestMapping("/feign")
 @RequiredArgsConstructor
