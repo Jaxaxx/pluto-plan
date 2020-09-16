@@ -55,7 +55,7 @@ public class SysLogAspect {
         } finally {
             long endTime = System.currentTimeMillis();
             logVo.setTime(endTime - startTime);
-//            publisher.publishEvent(new SysLogEvent(logVo));
+            publisher.publishEvent(new SysLogEvent(logVo));
         }
         return obj;
     }

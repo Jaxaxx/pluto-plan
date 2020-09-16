@@ -2,10 +2,13 @@ package com.mine.common.feign.interceptor;
 
 import cn.hutool.http.Header;
 import com.mine.common.core.util.WebUtils;
+import feign.Feign;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +18,8 @@ import javax.servlet.http.HttpServletRequest;
  * @Date
  */
 @Slf4j
-@AllArgsConstructor
+@Configuration
+@ConditionalOnClass(Feign.class)
 public class MyFeignRequestInterceptor implements RequestInterceptor {
 
     private static final String AUTHORIZATION_PREFIX = "bearer";
