@@ -24,7 +24,7 @@ public class SysLogListener {
     @EventListener(SysLogEvent.class)
     public void saveSysLog(SysLogEvent event) {
         SysLog sysLog = event.getSysLog();
-        RequestContextHolder.setRequestAttributes(sysLog.getRequestAttributes());
+        RequestContextHolder.setRequestAttributes(sysLog.getRequestAttributes()); // 解决异步request失效问题
         remoteSysLogService.saveLog(sysLog);
     }
 
