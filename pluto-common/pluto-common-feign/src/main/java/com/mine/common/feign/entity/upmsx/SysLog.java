@@ -87,10 +87,6 @@ public class SysLog extends Model<SysLog> {
     @TableField(fill = FieldFill.UPDATE)
     private Date updateTime;
 
-    @TableField(exist = false)
-    @JsonIgnore
-    private RequestAttributes requestAttributes;
-
     @Override
     protected Serializable pkVal() {
         return this.id;

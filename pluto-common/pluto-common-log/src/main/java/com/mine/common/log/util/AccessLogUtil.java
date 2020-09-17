@@ -27,7 +27,7 @@ public class AccessLogUtil {
         logInfo.add("===REQ_ARGS=== " + HttpUtil.toParams(request.getParameterMap()));
         logInfo.add("===REQ_TIME=== " + time + "ms");
         logInfo.add("===RES_DATA=== " + (Objects.isNull(result) ? JSONUtil.toJsonStr(R.ok()) : JSONUtil.toJsonStr(result)));
-        log.info(logInfo.toString());
+        log.debug(logInfo.toString());
     }
 
     private String getTitle(JoinPoint joinPoint) {

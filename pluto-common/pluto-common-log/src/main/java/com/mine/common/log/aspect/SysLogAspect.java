@@ -38,50 +38,50 @@ public class SysLogAspect {
 
     private final ApplicationEventPublisher publisher;
 
-    @Around("@annotation(sysLog)")
+    @Around("@annotation(AsysLog)")
     @SneakyThrows
-    public Object around(ProceedingJoinPoint point, SysLog sysLog) {
+    public Object around(ProceedingJoinPoint point, SysLog AsysLog) {
 
-        com.mine.common.feign.entity.upmsx.SysLog logVo = getSysLog(sysLog);
+        com.mine.common.feign.entity.upmsx.SysLog sysLog = getSysLog(AsysLog);
         // 发送异步日志事件
         Long startTime = System.currentTimeMillis();
-        Object obj = new Object();
+        Object result = new Object();
 
         try {
-            obj = point.proceed();
+            result = point.proceed();
         } catch (Exception e) {
-            logVo.setType(LogTypeEnum.ERROR.getType());
-            logVo.setException(e.getMessage());
+            sysLog.setType(LogTypeEnum.ERROR.getType());
+            sysLog.setException(e.getMessage());
             throw e;
         } finally {
             long endTime = System.currentTimeMillis();
-            logVo.setTime(endTime - startTime);
-            publisher.publishEvent(new SysLogEvent(logVo));
+            sysLog.setTime(endTime - startTime);
+            publisher.publishEvent(new SysLogEvent(sysLog));
         }
-        return obj;
+        return result;
     }
 
     /**
      * 构建日志存储对象
      *
-     * @param sysLog
+     * @param AsysLog
      * @return
      */
-    private com.mine.common.feign.entity.upmsx.SysLog getSysLog(SysLog sysLog) {
+    private com.mine.common.feign.entity.upmsx.SysLog getSysLog(SysLog AsysLog) {
         HttpServletRequest request = ((ServletRequestAttributes) Objects
                 .requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        com.mine.common.feign.entity.upmsx.SysLog logEneity = new com.mine.common.feign.entity.upmsx.SysLog();
-        logEneity.setTitle(sysLog.value());
-        logEneity.setType(LogTypeEnum.NORMAL.getType());
-        logEneity.setRemoteAddr(ServletUtil.getClientIP(request));
-        logEneity.setRequestUri(URLUtil.getPath(request.getRequestURI()));
-        logEneity.setMethod(request.getMethod());
-        logEneity.setUserAgent(request.getHeader("user-agent"));
-        logEneity.setParams(HttpUtil.toParams(request.getParameterMap()));
-        logEneity.setServiceId(request.getHeader("X-Forwarded-Prefix"));
-        logEneity.setCreateUserId(SecurityUtils.getUser().getId());
-        logEneity.setCreateUserName(SecurityUtils.getUsername());
-        return logEneity;
+        com.mine.common.feign.entity.upmsx.SysLog sysLog = new com.mine.common.feign.entity.upmsx.SysLog();
+        sysLog.setTitle(AsysLog.value());
+        sysLog.setType(LogTypeEnum.NORMAL.getType());
+        sysLog.setRemoteAddr(ServletUtil.getClientIP(request));
+        sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
+        sysLog.setMethod(request.getMethod());
+        sysLog.setUserAgent(request.getHeader("user-agent"));
+        sysLog.setParams(HttpUtil.toParams(request.getParameterMap()));
+        sysLog.setServiceId(request.getHeader("X-Forwarded-Prefix"));
+        sysLog.setCreateUserId(SecurityUtils.getUser().getId());
+        sysLog.setCreateUserName(SecurityUtils.getUsername());
+        return sysLog;
     }
 
 }
