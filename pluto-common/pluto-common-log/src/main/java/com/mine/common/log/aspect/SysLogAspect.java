@@ -8,6 +8,7 @@ import com.mine.common.log.annotation.SysLog;
 import com.mine.common.log.constant.LogTypeEnum;
 import com.mine.common.log.event.SysLogEvent;
 import com.mine.common.log.util.AccessLogUtil;
+import com.mine.common.security.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -78,7 +79,8 @@ public class SysLogAspect {
         logEneity.setUserAgent(request.getHeader("user-agent"));
         logEneity.setParams(HttpUtil.toParams(request.getParameterMap()));
         logEneity.setServiceId(request.getHeader("X-Forwarded-Prefix"));
-        logEneity.setRequestAttributes(RequestContextHolder.currentRequestAttributes());
+        logEneity.setCreateUserId(SecurityUtils.getUser().getId());
+        logEneity.setCreateUserName(SecurityUtils.getUsername());
         return logEneity;
     }
 
