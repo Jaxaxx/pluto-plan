@@ -62,12 +62,12 @@ mybatis-plus:
 security:
   oauth2:
     resource:
-      token-info-uri: http://localhost:9999/auth/oauth/check_token  # 当此服务端接收到来自客户端端的请求后，需要拿着请求中的 token 到认证服务端做 token 验证，就是请求的这个接口
+      token-info-uri: http://pluto-plan:9999/auth/oauth/check_token  # 当此服务端接收到来自客户端端的请求后，需要拿着请求中的 token 到认证服务端做 token 验证，就是请求的这个接口
     client:
       client-id: admin
       client-secret: 123456
-      access-token-uri: http://localhost:9999/auth/oauth/token   # access-token-uri 是密码模式需要用到的获取 token 的接口
-      user-authorization-uri: http://localhost:9999/auth/oauth/authorize   # user-authorization-uri 是授权码认证方式需要的
+      access-token-uri: http://pluto-plan:9999/auth/oauth/token   # access-token-uri 是密码模式需要用到的获取 token 的接口
+      user-authorization-uri: http://pluto-plan:9999/auth/oauth/authorize   # user-authorization-uri 是授权码认证方式需要的
       ignore-urls:
         - /actuator/**
         - /v2/api-docs
@@ -89,7 +89,7 @@ eureka:
     instance-id: ${spring.cloud.client.ip-address}:${server.port}
   client:
     service-url:
-      default-zone: http://127.0.0.1:8761/eureka
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@pluto-plan:8761/eureka
 
 # feign 配置
 feign:
