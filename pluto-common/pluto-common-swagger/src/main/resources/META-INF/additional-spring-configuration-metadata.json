@@ -1,0 +1,40 @@
+{
+  "properties": [
+    {
+      "name": "swagger.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "Description for swagger.enable."
+    },
+    {
+      "name": "swagger.info.title",
+      "type": "java.lang.String",
+      "defaultValue": " swagger of ",
+      "description": "Description for swagger.info.title."
+    },
+    {
+      "name": "swagger.info.description",
+      "type": "java.lang.String",
+      "defaultValue": "the swagger2 document",
+      "description": "Description for swagger.info.description."
+    },
+    {
+      "name": "swagger.info.version",
+      "type": "java.lang.String",
+      "defaultValue": "1.0.0",
+      "description": "Description for swagger.info.version."
+    },
+    {
+      "name": "swagger.info.license",
+      "type": "java.lang.String",
+      "defaultValue": "By Mercedes Jax",
+      "description": "Description for swagger.info.license."
+    },
+    {
+      "name": "swagger.info.terms-if-service-url",
+      "type": "java.lang.String",
+      "defaultValue": "https://github.com/haughty945/",
+      "description": "Description for swagger.info.terms-if-service-url."
+    }
+  ]
+}
