@@ -2,7 +2,6 @@ package com.mine.common.swagger.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Data
@@ -15,7 +14,6 @@ public class SwaggerProperties {
     private Info info = new Info();
 
     @Data
-    @ConfigurationProperties(prefix = "swagger.info")
     public static class Info {
         private String title = " swagger of ";
         private String description = "the swagger2 document";
