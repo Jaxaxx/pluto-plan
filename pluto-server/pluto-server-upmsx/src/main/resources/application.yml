@@ -33,7 +33,7 @@ spring:
   cloud:
     sentinel:
       transport:
-        dashboard: 192.168.1.236:8080
+        dashboard: pluto-plan:8080
       # 取消控制台懒加载
       eager: true
 
