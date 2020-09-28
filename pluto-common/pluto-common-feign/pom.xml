@@ -32,8 +32,8 @@
         </dependency>
         <!--断路器依赖-->
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+            <groupId>com.mine</groupId>
+            <artifactId>pluto-common-sentinel</artifactId>
         </dependency>
     </dependencies>
 

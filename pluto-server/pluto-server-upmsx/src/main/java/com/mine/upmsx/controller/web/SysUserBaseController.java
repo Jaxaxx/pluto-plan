@@ -1,5 +1,7 @@
 package com.mine.upmsx.controller.web;
 
+import com.alibaba.cloud.sentinel.annotation.SentinelRestTemplate;
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.mine.common.core.util.R;
 import com.mine.common.log.annotation.SysLog;
 import com.mine.common.security.util.SecurityUtils;
@@ -26,6 +28,7 @@ public class SysUserBaseController {
 
     private final ISysUserBaseService iSysUserBaseService;
 
+    @SentinelResource("resource")
     @ApiOperation(value = "登录信息表列表查询", notes = "登录信息表API")
     @GetMapping("/list")
     public R getList(SysUserBaseDTO dto) {
@@ -59,6 +62,8 @@ public class SysUserBaseController {
         iSysUserBaseService.delete(id);
         return R.ok();
     }
+
+
 
 }
 
