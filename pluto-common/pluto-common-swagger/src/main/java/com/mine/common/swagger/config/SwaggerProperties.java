@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "swagger")
 public class SwaggerProperties {
 
-    private Boolean enabled = true;
+    private Boolean enabled = false;
 
     private Info info = new Info();
 

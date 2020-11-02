@@ -3,7 +3,7 @@
     {
       "name": "swagger.enabled",
       "type": "java.lang.Boolean",
-      "defaultValue": true,
+      "defaultValue": false,
       "description": "Description for swagger.enable."
     },
     {
