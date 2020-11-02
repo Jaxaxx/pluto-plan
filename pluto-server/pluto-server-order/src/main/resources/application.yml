@@ -12,7 +12,7 @@ spring:
     name: app
   redis:
     database: 8
-    host: 192.168.1.236
+    host: 192.168.1.74
     port: 6380
     password: redis
     jedis:
@@ -21,7 +21,7 @@ spring:
         max-idle: 8
         min-idle: 0
   datasource:
-    url: jdbc:p6spy:mysql://192.168.1.236:3311/test-a?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useOldAliasMetadataBehavior=true&useSSL=false
+    url: jdbc:p6spy:mysql://192.168.1.74:3311/test-a?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useOldAliasMetadataBehavior=true&useSSL=false
     username: root
     password: MyNewPass4!
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver

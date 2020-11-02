@@ -12,7 +12,7 @@ spring:
     name: upmsx
   redis:
     database: 8
-    host: 192.168.1.236
+    host: 192.168.1.74
     port: 6380
     password: redis
     jedis:
@@ -21,7 +21,7 @@ spring:
         max-idle: 8
         min-idle: 0
   datasource:
-    url: jdbc:mysql://192.168.1.236:3311/test-a?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useOldAliasMetadataBehavior=true&useSSL=false
+    url: jdbc:mysql://192.168.1.74:3311/test-a?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useOldAliasMetadataBehavior=true&useSSL=false
     username: root
     password: MyNewPass4!
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -102,3 +102,5 @@ feign:
       enabled: true
     response:
       enabled: true
+swagger:
+  enabled: false

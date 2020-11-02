@@ -1,10 +1,11 @@
-package com.mine.common.swagger.config;
+package com.mine.common.swagger;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import lombok.RequiredArgsConstructor;
+import com.mine.common.swagger.config.SwaggerProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.OAuthBuilder;
@@ -20,10 +21,14 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author Jax-li
+ */
+//@ComponentScan("com.mine.common.swagger")
 public class SwaggerAutoConfiguration {
 
     @Autowired
-    private Environment env;
+    private Environment environment;
 
     @Bean
     public SwaggerProperties swaggerProperties() {
@@ -63,7 +68,7 @@ public class SwaggerAutoConfiguration {
      */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title(swaggerProperties().getInfo().getTitle() + "\t" + env.getProperty("spring.application.name"))
+                .title(swaggerProperties().getInfo().getTitle() + "\t" + environment.getProperty("spring.application.name"))
                 .description(swaggerProperties().getInfo().getDescription())
                 .version(swaggerProperties().getInfo().getVersion())
                 .license(swaggerProperties().getInfo().getLicense())

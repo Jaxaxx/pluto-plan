@@ -4,6 +4,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.lang.annotation.*;
 
+/**
+ * @author LiMing
+ */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

@@ -1,11 +1,9 @@
-package com.mine.gateway.config;
+package com.mine.common.gateway.config;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.route.RouteLocator;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 
@@ -14,7 +12,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Configuration
+/**
+ * @author Jax-li
+ */
 public class MySwaggerResourceProvider implements SwaggerResourcesProvider {
     /**
      * 网关应用名称

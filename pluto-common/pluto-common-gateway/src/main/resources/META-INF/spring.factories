@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.mine.common.gateway.MyGatewayAutoConfiguration,\
+  com.mine.common.gateway.config.GlobalCorsConfig,\
+  com.mine.common.gateway.config.MySwaggerResourceProvider,\
+  com.mine.common.gateway.handler.SwaggerHandler

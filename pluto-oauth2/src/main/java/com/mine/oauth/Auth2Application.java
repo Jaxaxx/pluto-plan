@@ -14,10 +14,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableMyFeignClients
 @SpringBootApplication
 @EnableDiscoveryClient
-public class Oauth2Application {
+public class Auth2Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(Oauth2Application.class, args);
+        SpringApplication.run(Auth2Application.class, args);
     }
 
 }

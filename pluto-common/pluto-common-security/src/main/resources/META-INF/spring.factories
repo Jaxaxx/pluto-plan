@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.mine.common.security.MySecurityAutoConfiguration,\
   com.mine.common.security.exception.MyWebResponseExceptionTranslator
