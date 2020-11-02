@@ -7,14 +7,17 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
+/**
+ * @author jax-li
+ */
 @EnableSwagger2
 @EnableMyFeignClients
 @SpringBootApplication
 @EnableDiscoveryClient
-public class OAuth2Application {
+public class Oauth2Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(OAuth2Application.class, args);
+        SpringApplication.run(Oauth2Application.class, args);
     }
 
 }

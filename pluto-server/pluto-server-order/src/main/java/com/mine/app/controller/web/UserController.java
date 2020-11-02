@@ -8,6 +8,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * @author jax-li
+ */
 @Api(tags = "用户模块API")
 @RestController
 @AllArgsConstructor
@@ -18,8 +21,7 @@ public class UserController {
     @GetMapping(value = "get")
     public Object get() {
 
-        R<SysUserBaseVO> myuser = remoteSysUserBaseService.getUserByUserName("myuser");
-//
+        SysUserBaseVO vo = remoteSysUserBaseService.getUserByUserName("myuser");
         R<String> test = remoteSysUserBaseService.test();
 
         return test;

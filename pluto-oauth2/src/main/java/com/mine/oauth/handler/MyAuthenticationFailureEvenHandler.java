@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class MyAuthencationFailureHandler extends AbstractAuthenticationFailureEvenHandler {
+public class MyAuthenticationFailureEvenHandler extends AbstractAuthenticationFailureEvenHandler {
 
     @Override
     public void handle(AuthenticationException exception, Authentication authentication) {

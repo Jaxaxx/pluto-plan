@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * @author jax-li
+ */
 @Slf4j
 @Service
 @AllArgsConstructor
@@ -25,27 +28,19 @@ public class MyUserDetailsServiceImpl implements MyUserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        /**
-         *  Remote Request upms to get user_info
-         */
-        R<SysUserBaseVO> result = remoteSysUserBaseService.getUserByUserName(username);
-        UserDetails userDetails = getUserDetail(result);
-        return userDetails;
+        SysUserBaseVO resultVo = remoteSysUserBaseService.getUserByUserName(username);
+        return getUserDetail(resultVo);
     }
 
-    private UserDetails getUserDetail(R<SysUserBaseVO> data) {
-        if (Objects.isNull(data) || Objects.isNull(data.getData()) || Objects.isNull(data.getData().getId())) {
+    private UserDetails getUserDetail(SysUserBaseVO vo) {
+        if (Objects.isNull(vo) || Objects.isNull(vo.getId())) {
             throw new UsernameNotFoundException("用户不存在");
         }
-        SysUserBaseVO vo = data.getData();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 
 
-        MyUser myUser = new MyUser(vo.getId(), vo.getMobile(), vo.getUserName(), vo.getPassword(), vo.getUserName(), true, true, true, true, authorities);
-
-        return myUser;
+        return new MyUser(vo.getId(), vo.getMobile(), vo.getUserName(), vo.getPassword(), vo.getUserName(), true, true, true, true, authorities);
     }
 
     @Override

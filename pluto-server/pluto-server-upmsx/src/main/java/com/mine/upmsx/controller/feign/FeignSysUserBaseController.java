@@ -9,13 +9,15 @@ import com.mine.common.security.model.MyUser;
 import com.mine.common.security.util.SecurityUtils;
 import com.mine.upmsx.entity.SysUserBase;
 import com.mine.upmsx.service.ISysUserBaseService;
-import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * @author jax-li
+ */
 @RestController
 @RequestMapping("/feign")
 @RequiredArgsConstructor
@@ -24,10 +26,9 @@ public class FeignSysUserBaseController {
     private final ISysUserBaseService sysUserBaseService;
 
     @GetMapping("/sysUserBase/{userName}")
-    public R getUserByUserName(@PathVariable("userName") String userName) {
+    public SysUserBaseVO getUserByUserName(@PathVariable("userName") String userName) {
         SysUserBase userBase = sysUserBaseService.getOne(new QueryWrapper<SysUserBase>().lambda().eq(SysUserBase::getUserName, userName));
-        SysUserBaseVO sysUserBaseVO = BeanUtil.copyProperties(userBase, SysUserBaseVO.class);
-        return R.ok(sysUserBaseVO);
+        return BeanUtil.copyProperties(userBase, SysUserBaseVO.class);
     }
 
     @GetMapping("/test")
