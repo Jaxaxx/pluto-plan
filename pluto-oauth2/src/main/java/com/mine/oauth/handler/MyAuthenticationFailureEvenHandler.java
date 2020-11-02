@@ -8,9 +8,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
 /**
- * @Description
- * @Author
- * @Date
+ * @author jax-li
  */
 @Slf4j
 @Component
