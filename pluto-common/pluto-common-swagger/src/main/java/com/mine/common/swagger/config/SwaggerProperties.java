@@ -24,7 +24,7 @@ public class SwaggerProperties {
         private String license = "By Mercedes Jax";
         private String termsIfServiceUrl = "https://github.com/haughty945/";
         private String basePackage = "com.mine";
-        private String accessTokenUri = "http://pluto-plan:9999/auth/oauth/token}";
+        private String accessTokenUri = "http://pluto-plan:9999/auth/oauth/token";
     }
 
 

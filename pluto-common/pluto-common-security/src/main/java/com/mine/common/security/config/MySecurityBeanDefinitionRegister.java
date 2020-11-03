@@ -6,17 +6,20 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
 
+/**
+ * @author LiMing
+ */
 @Slf4j
 public class MySecurityBeanDefinitionRegister implements ImportBeanDefinitionRegistrar {
 
     /**
      * 根据注解值动态注入资源服务器的相关属性
      *
-     * @param metadata 注解信息
+     * @param annotationMetadata 注解信息
      * @param registry 注册器
      */
     @Override
-    public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
+    public void registerBeanDefinitions(AnnotationMetadata annotationMetadata, BeanDefinitionRegistry registry) {
         Class<MyResourceServerConfigurerAdapter> aClass = MyResourceServerConfigurerAdapter.class;
         String beanName = uncapitalize(aClass.getSimpleName());
         BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(MyResourceServerConfigurerAdapter.class);
@@ -37,7 +40,7 @@ public class MySecurityBeanDefinitionRegister implements ImportBeanDefinitionReg
         }
 
         // cannot be longer than the char array
-        final int newCodePoints[] = new int[strLen];
+        final int[] newCodePoints = new int[strLen];
         int outOffset = 0;
         // copy the first codepoint
         newCodePoints[outOffset++] = newCodePoint;

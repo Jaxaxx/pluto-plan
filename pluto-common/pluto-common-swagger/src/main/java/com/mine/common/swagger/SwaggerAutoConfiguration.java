@@ -9,6 +9,7 @@ import io.swagger.models.Swagger;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
@@ -47,6 +48,7 @@ public class SwaggerAutoConfiguration {
     @Bean
     public Docket api() {
         log.info("[Swagger Starter] enabled status : {}", swaggerProperties.getEnabled());
+        log.debug("[Swagger-Property]::{}", swaggerProperties.toString());
         List<Predicate<String>> basePath = Lists.newArrayList();
         basePath.add(PathSelectors.ant(BASE_PATH));
         // exclude-path处理

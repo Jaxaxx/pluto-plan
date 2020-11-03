@@ -1,11 +1,11 @@
 package com.mine.common.security.util;
 
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
+/**
+ * @author LiMing
+ */
 @UtilityClass
 public class PasswordEncoderUtil {
 

@@ -1,6 +1,6 @@
 package com.mine.oauth.service;
 
-import com.mine.common.core.util.R;
+import com.mine.common.core.constant.SecurityConstants;
 import com.mine.common.feign.api.upmsx.RemoteSysUserBaseService;
 import com.mine.common.feign.entity.SysUserBaseVO;
 import com.mine.common.security.model.MyUser;
@@ -28,8 +28,7 @@ public class MyUserDetailsServiceImpl implements MyUserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SysUserBaseVO resultVo = remoteSysUserBaseService.getUserByUserName(username);
-        return getUserDetail(resultVo);
+        return getUserDetail(remoteSysUserBaseService.getUserByUserName(username));
     }
 
     private UserDetails getUserDetail(SysUserBaseVO vo) {
@@ -38,9 +37,7 @@ public class MyUserDetailsServiceImpl implements MyUserDetailsService {
         }
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-
-
-        return new MyUser(vo.getId(), vo.getMobile(), vo.getUserName(), vo.getPassword(), vo.getUserName(), true, true, true, true, authorities);
+        return new MyUser(vo.getId(), vo.getMobile(), vo.getUserName(), SecurityConstants.BCRYPT + vo.getPassword(), vo.getUserName(), true, true, true, true, authorities);
     }
 
     @Override

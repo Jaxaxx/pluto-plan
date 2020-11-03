@@ -1,6 +1,6 @@
 server:
   port: 0
-
+#
 spring:
   main:
     allow-bean-definition-overriding: true
@@ -36,7 +36,7 @@ spring:
         dashboard: pluto-plan:8080
       # 取消控制台懒加载
       eager: true
-
+#
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔
@@ -54,7 +54,7 @@ mybatis-plus:
     cache-enabled: false
     #配置JdbcTypeForNull, oracle数据库必须配置
     jdbc-type-for-null: 'null'
-
+#
 # redis 模式
 security:
   oauth2:
@@ -79,7 +79,7 @@ security:
         - /authorization/**
         - /feign/sysUserBase/**
         - /feign/sysLog/**
-
+#
 eureka:
   instance:
     prefer-ip-address: true
@@ -87,7 +87,7 @@ eureka:
   client:
     service-url:
       defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@pluto-plan:8761/eureka
-
+#
 # feign 配置
 feign:
   sentinel:
@@ -102,5 +102,6 @@ feign:
       enabled: true
     response:
       enabled: true
+#
 swagger:
-  enabled: false
+  enabled: true

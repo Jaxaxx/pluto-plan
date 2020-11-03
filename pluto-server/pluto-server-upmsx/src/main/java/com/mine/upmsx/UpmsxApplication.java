@@ -9,7 +9,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 
 /**
- * @author LiMing
+ * @author Jax-li
  */
 @EnableMySwagger
 @EnableMyFeignClients

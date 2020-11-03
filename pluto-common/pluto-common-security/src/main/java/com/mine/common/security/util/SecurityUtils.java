@@ -10,9 +10,7 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 
 /**
- * @Description 安全工具类
- * @Author
- * @Date
+ * @author LiMing
  */
 @Slf4j
 @UtilityClass
