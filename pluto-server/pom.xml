@@ -5,7 +5,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>pluto-server-upmsx</module>
-        <module>pluto-server-order</module>
     </modules>
 
     <parent>
