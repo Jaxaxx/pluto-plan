@@ -19,7 +19,6 @@
         <module>pluto-common-mybatis-plus</module>
         <module>pluto-common-feign</module>
         <module>pluto-common-log</module>
-        <module>pluto-common-sentinel</module>
         <module>pluto-common-gateway</module>
     </modules>
 

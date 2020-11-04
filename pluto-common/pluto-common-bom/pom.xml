@@ -21,13 +21,10 @@
         <security.oauth.version>2.3.4.RELEASE</security.oauth.version>
         <security.oauth.auto.version>2.1.2.RELEASE</security.oauth.auto.version>
         <spring-boot-admin.version>2.1.3</spring-boot-admin.version>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
         <jasypt.version>2.1.0</jasypt.version>
         <dem4j.version>1.6.1</dem4j.version>
         <xstream.version>1.4.9</xstream.version>
         <jackson.modules>2.9.6</jackson.modules>
-        <mysql.connector.version>8.0.15</mysql.connector.version>
         <swagger.core.version>1.5.22</swagger.core.version>
         <swagger.version>2.9.2</swagger.version>
         <hutool.version>5.2.4</hutool.version>
@@ -42,7 +39,6 @@
         <jackson.modules>2.9.6</jackson.modules>
         <mybatis-plus.version>3.3.2</mybatis-plus.version>
         <mybatis-plus-velocity-engine-core.version>2.2</mybatis-plus-velocity-engine-core.version>
-        <p6spy.version>3.9.1</p6spy.version>
         <mysql.connector.version>8.0.15</mysql.connector.version>
     </properties>
 
@@ -81,11 +77,6 @@
             <dependency>
                 <groupId>com.mine</groupId>
                 <artifactId>pluto-common-log</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.mine</groupId>
-                <artifactId>pluto-common-sentinel</artifactId>
                 <version>${revision}</version>
             </dependency>
             <!-- spring cloud alibaba dependencies -->
@@ -244,11 +235,6 @@
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity-engine-core</artifactId>
                 <version>${mybatis-plus-velocity-engine-core.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>p6spy</groupId>
-                <artifactId>p6spy</artifactId>
-                <version>${p6spy.version}</version>
             </dependency>
             <!--mysql 驱动-->
             <dependency>

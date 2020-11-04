@@ -12,7 +12,7 @@ spring:
     name: upmsx
   redis:
     database: 8
-    host: 192.168.1.74
+    host: 192.168.1.64
     port: 6380
     password: redis
     jedis:
@@ -21,7 +21,7 @@ spring:
         max-idle: 8
         min-idle: 0
   datasource:
-    url: jdbc:mysql://192.168.1.74:3311/test-a?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useOldAliasMetadataBehavior=true&useSSL=false
+    url: jdbc:mysql://192.168.1.64:3311/test-a?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useOldAliasMetadataBehavior=true&useSSL=false
     username: root
     password: MyNewPass4!
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -36,6 +36,11 @@ spring:
         dashboard: pluto-plan:8080
       # 取消控制台懒加载
       eager: true
+    nacos:
+      discovery:
+        enabled: true
+        server-addr: 127.0.0.1:8848
+
 #
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
@@ -79,14 +84,8 @@ security:
         - /authorization/**
         - /feign/sysUserBase/**
         - /feign/sysLog/**
+        - /get/**
 #
-eureka:
-  instance:
-    prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}
-  client:
-    service-url:
-      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@pluto-plan:8761/eureka
 #
 # feign 配置
 feign:
