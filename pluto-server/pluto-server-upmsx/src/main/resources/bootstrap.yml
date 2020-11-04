@@ -67,7 +67,7 @@ security:
       token-info-uri: http://pluto-plan:9999/auth/oauth/check_token  # 当此服务端接收到来自客户端端的请求后，需要拿着请求中的 token 到认证服务端做 token 验证，就是请求的这个接口
     client:
       client-id: admin
-      client-secret: 123456
+      client-secret: 789456
       access-token-uri: http://pluto-plan:9999/auth/oauth/token   # access-token-uri 是密码模式需要用到的获取 token 的接口
       user-authorization-uri: http://pluto-plan:9999/auth/oauth/authorize   # user-authorization-uri 是授权码认证方式需要的
       ignore-urls:
