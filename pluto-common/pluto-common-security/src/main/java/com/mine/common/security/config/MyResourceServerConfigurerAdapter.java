@@ -2,21 +2,19 @@ package com.mine.common.security.config;
 
 import com.mine.common.security.converter.MyUserConverter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.OAuth2ClientProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 /**
  * @author LiMing
@@ -24,10 +22,11 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 @RequiredArgsConstructor
 public class MyResourceServerConfigurerAdapter extends ResourceServerConfigurerAdapter {
 
-    final ResourceServerProperties resourceServerProperties;
-    final OAuth2ClientProperties oAuth2ClientProperties;
-    final RedisConnectionFactory redisConnectionFactory;
-    final PermitAllUrlProperties permitAllUrlProperties;
+    private final ResourceServerProperties resourceServerProperties;
+    private final OAuth2ClientProperties oAuth2ClientProperties;
+    private final RedisConnectionFactory redisConnectionFactory;
+    private final PermitAllUrlProperties permitAllUrlProperties;
+    private final AuthenticationEntryPoint myResourceAuthExceptionEntryPoint;
 
     @Bean
     public TokenStore redisTokenStore() {
@@ -54,6 +53,8 @@ public class MyResourceServerConfigurerAdapter extends ResourceServerConfigurerA
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
+        // token校验失败异常处理端点
+        resources.authenticationEntryPoint(myResourceAuthExceptionEntryPoint);
         resources.tokenServices(tokenService());
     }
 

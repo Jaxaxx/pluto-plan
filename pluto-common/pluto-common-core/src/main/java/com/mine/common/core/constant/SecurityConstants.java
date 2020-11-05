@@ -56,9 +56,11 @@ public interface SecurityConstants {
             + "authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, "
             + "refresh_token_validity, additional_information, autoapprove";
 
-    String CLIENT_FIELDS = "CONCAT('{noop}',client_secret) as client_secret, " + CLIENT_FIELDS_FOR_UPDATE;
+    String CLIENT_FIELDS = "client_secret, " + CLIENT_FIELDS_FOR_UPDATE;
 
-    String BASE_FIND_STATEMENT = "select client_id, " + CLIENT_FIELDS + " from " + OAUTH_TABLE_NAME;
+    String CLIENT_FIELDS_SELECT = "CONCAT('{noop}',client_secret) as client_secret, " + CLIENT_FIELDS_FOR_UPDATE;
+
+    String BASE_FIND_STATEMENT = "select client_id, " + CLIENT_FIELDS_SELECT + " from " + OAUTH_TABLE_NAME;
 
     String DEFAULT_FIND_STATEMENT = BASE_FIND_STATEMENT + " order by client_id";
 

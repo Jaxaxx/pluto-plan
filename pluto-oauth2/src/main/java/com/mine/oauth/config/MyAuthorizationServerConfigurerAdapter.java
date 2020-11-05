@@ -1,37 +1,18 @@
 package com.mine.oauth.config;
 
-import com.mine.common.core.constant.SecurityConstants;
-import com.mine.common.security.model.MyUser;
+import com.mine.common.security.exception.MyWebResponseExceptionTranslator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
-import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
-import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
-import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
-import org.springframework.security.oauth2.provider.token.TokenEnhancer;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
-import rx.annotations.Beta;
-
-import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 
 /**
  * @author jax-li
@@ -41,41 +22,10 @@ import java.util.Map;
 @EnableAuthorizationServer
 public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerConfigurerAdapter {
 
-    final DataSource dataSource;
-    final UserDetailsService myUserDetailsService;
-    final AuthenticationManager authenticationManager;
-    final RedisConnectionFactory redisConnectionFactory;
-    final WebResponseExceptionTranslator<OAuth2Exception> myWebResponseExceptionTranslator;
-
-     @Bean
-    public TokenStore redisTokenStore() {
-        RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
-        redisTokenStore.setPrefix(SecurityConstants.OAUTH_PREFIX);
-        redisTokenStore.setAuthenticationKeyGenerator(new DefaultAuthenticationKeyGenerator() {
-            @Override
-            public String extractKey(OAuth2Authentication authentication) {
-                return super.extractKey(authentication);
-            }
-        });
-        return redisTokenStore;
-    }
-
-    @Bean
-    public TokenEnhancer tokenEnhancer() {
-        return (accessToken, authentication) -> {
-            if (SecurityConstants.CLIENT_CREDENTIALS.equals(authentication.getOAuth2Request().getGrantType())) {
-                return accessToken;
-            }
-            final Map<String, Object> additionalInfo = new HashMap<String, Object>(16);
-            MyUser myUser = (MyUser) authentication.getUserAuthentication().getPrincipal();
-            additionalInfo.put(SecurityConstants.DETAILS_USER_ID, myUser.getId());
-            additionalInfo.put(SecurityConstants.DETAILS_PHONE, myUser.getPhone());
-            additionalInfo.put(SecurityConstants.DETAILS_LICENSE, SecurityConstants.MY_LICENSE);
-            additionalInfo.put(SecurityConstants.DETAILS_NAME, myUser.getName());
-            ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
-            return accessToken;
-        };
-    }
+    private final DefaultTokenServices tokenService;
+    private final UserDetailsService myUserDetailsService;
+    private final AuthenticationManager authenticationManager;
+    private final ClientDetailsService jdbcClientDetailsService;
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
@@ -88,18 +38,14 @@ public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerC
         endpoints.allowedTokenEndpointRequestMethods(HttpMethod.POST, HttpMethod.GET)
                 .authenticationManager(authenticationManager)
                 .userDetailsService(myUserDetailsService)
-                .tokenStore(redisTokenStore())
-                .tokenEnhancer(tokenEnhancer())
-                .exceptionTranslator(myWebResponseExceptionTranslator)
+                .tokenServices(tokenService)
+                .exceptionTranslator(new MyWebResponseExceptionTranslator())
         ;
     }
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        JdbcClientDetailsService clientDetailsService = new JdbcClientDetailsService(dataSource);
-        clientDetailsService.setSelectClientDetailsSql(SecurityConstants.DEFAULT_SELECT_STATEMENT);
-        clientDetailsService.setFindClientDetailsSql(SecurityConstants.DEFAULT_FIND_STATEMENT);
-        clients.withClientDetails(clientDetailsService);
+        clients.withClientDetails(jdbcClientDetailsService);
     }
 
     @Override

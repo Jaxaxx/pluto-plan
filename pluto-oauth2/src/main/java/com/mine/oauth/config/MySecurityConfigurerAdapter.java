@@ -1,6 +1,7 @@
 package com.mine.oauth.config;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,22 +14,18 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 /**
  * @author jax-li
  */
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MySecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
-    final UserDetailsService myUserDetailsService;
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        return passwordEncoder;
-    }
+    private final UserDetailsService myUserDetailsService;
+    private final AuthenticationEntryPoint myResourceAuthExceptionEntryPoint;
 
     @Bean
     @Override

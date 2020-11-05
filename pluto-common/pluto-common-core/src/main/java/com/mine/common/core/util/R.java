@@ -1,6 +1,7 @@
 package com.mine.common.core.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.mine.common.core.constant.MyAuthResponseEnum;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,7 +24,7 @@ public class R<T> implements Serializable {
     /**
      * 成功标记
      */
-    private static final Integer SUCCESS = 0;
+    public static final Integer SUCCESS = 0;
     /**
      * 成功标记
      */
@@ -31,15 +32,11 @@ public class R<T> implements Serializable {
     /**
      * 失败标记
      */
-    private static final Integer FAIL = 1;
+    public static final Integer FAIL = 1;
     /**
      * 成功标记
      */
     private static final String FAIL_MSG = "FAIL";
-
-    private R() {
-
-    }
 
     @Getter
     @Setter
@@ -71,6 +68,14 @@ public class R<T> implements Serializable {
 
     public static <T> R<T> failed(String msg) {
         return restResult(FAIL, msg, null);
+    }
+
+    public static <T> R<T> failed(Integer code, String msg) {
+        return restResult(code, msg, null);
+    }
+
+    public static <T> R<T> failed(MyAuthResponseEnum responseEnum) {
+        return restResult(responseEnum.getStatusCode(), responseEnum.getStatusText(), null);
     }
 
     public static <T> R<T> failed(T data) {

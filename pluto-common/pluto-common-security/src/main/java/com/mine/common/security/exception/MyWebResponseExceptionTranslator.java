@@ -16,14 +16,12 @@ import org.springframework.security.oauth2.provider.error.WebResponseExceptionTr
 import org.springframework.security.web.util.ThrowableAnalyzer;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 
+
 /**
- * @Description
- * @Author
- * @Date
+ * @author LiMing
  */
 @Slf4j
 public class MyWebResponseExceptionTranslator implements WebResponseExceptionTranslator {
-
 
     private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
 
@@ -83,8 +81,7 @@ public class MyWebResponseExceptionTranslator implements WebResponseExceptionTra
             return new ResponseEntity<>(e, headers,
                     HttpStatus.valueOf(status));
         }
-        return new ResponseEntity<>(new MyAuth2Exception(e.getMessage(), e.getOAuth2ErrorCode()), headers,
-                HttpStatus.valueOf(status));
+        return new ResponseEntity<>(new MyAuth2Exception(e.getMessage()), headers, HttpStatus.valueOf(status));
 
     }
 }
