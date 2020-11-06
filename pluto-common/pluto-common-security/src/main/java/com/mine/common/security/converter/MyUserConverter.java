@@ -43,7 +43,6 @@ public class MyUserConverter implements UserAuthenticationConverter {
             String username = (String) map.get(SecurityConstants.DETAILS_USERNAME);
             String phone = (String) map.get(SecurityConstants.DETAILS_PHONE);
             String name = (String) map.get(SecurityConstants.DETAILS_NAME);
-
             MyUser user = new MyUser(userId, phone, username, N_A, name,true, true, true, true, authorities);
             return new UsernamePasswordAuthenticationToken(user, N_A, authorities);
         }

@@ -30,6 +30,10 @@ public class MyUser extends User {
 
     @Getter
     @Setter
+    private String clientId;
+
+    @Getter
+    @Setter
     private transient String token;
 
     /**
@@ -51,7 +55,7 @@ public class MyUser extends User {
      * @throws IllegalArgumentException if a <code>null</code> value was passed either as
      *                                  a parameter or as an element in the <code>GrantedAuthority</code> collection
      */
-    public MyUser(Long id, String phone, String username, String password, String name , boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+    public MyUser(Long id, String phone, String username, String password, String name, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         this.id = id;
         this.phone = phone;

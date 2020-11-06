@@ -20,23 +20,28 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class R<T> implements Serializable {
 
+    /**
+     * code。
+     */
+    @Getter
+    public enum GlobalStatus {
+
+        // 成功
+        OK(0, "OK"),
+
+        // 失败
+        FAIL(1, "FAIL");
+
+        private final int code;
+        private final String msg;
+
+        GlobalStatus(int code, String msg) {
+            this.code = code;
+            this.msg = msg;
+        }
+    }
+
     private static final long serialVersionUID = 1L;
-    /**
-     * 成功标记
-     */
-    public static final Integer SUCCESS = 0;
-    /**
-     * 成功标记
-     */
-    private static final String SUCCESS_MSG = "success";
-    /**
-     * 失败标记
-     */
-    public static final Integer FAIL = 1;
-    /**
-     * 成功标记
-     */
-    private static final String FAIL_MSG = "FAIL";
 
     @Getter
     @Setter
@@ -51,27 +56,23 @@ public class R<T> implements Serializable {
     private T data;
 
     public static <T> R<T> ok() {
-        return restResult(SUCCESS, SUCCESS_MSG, null);
+        return restResult(GlobalStatus.OK.getCode(), GlobalStatus.OK.getMsg(), null);
     }
 
     public static <T> R<T> ok(T data) {
-        return restResult(SUCCESS, SUCCESS_MSG, data);
+        return restResult(GlobalStatus.OK.getCode(), GlobalStatus.OK.getMsg(), data);
     }
 
     public static <T> R<T> ok(String msg, T data) {
-        return restResult(SUCCESS, msg, data);
+        return restResult(GlobalStatus.OK.getCode(), msg, data);
     }
 
     public static <T> R<T> failed() {
-        return restResult(FAIL, FAIL_MSG, null);
+        return restResult(GlobalStatus.FAIL.getCode(), GlobalStatus.FAIL.getMsg(), null);
     }
 
     public static <T> R<T> failed(String msg) {
-        return restResult(FAIL, msg, null);
-    }
-
-    public static <T> R<T> failed(Integer code, String msg) {
-        return restResult(code, msg, null);
+        return restResult(GlobalStatus.FAIL.getCode(), msg, null);
     }
 
     public static <T> R<T> failed(MyAuthResponseEnum responseEnum) {
@@ -79,11 +80,11 @@ public class R<T> implements Serializable {
     }
 
     public static <T> R<T> failed(T data) {
-        return restResult(FAIL, FAIL_MSG, data);
+        return restResult(GlobalStatus.FAIL.getCode(), GlobalStatus.FAIL.getMsg(), data);
     }
 
     public static <T> R<T> failed(String msg, T data) {
-        return restResult(FAIL, msg, data);
+        return restResult(GlobalStatus.FAIL.getCode(), msg, data);
     }
 
     private static <T> R<T> restResult(int code, String msg, T data) {

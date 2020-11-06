@@ -15,4 +15,8 @@ public class MyAuth2Exception extends OAuth2Exception {
         super(msg, t);
     }
 
+    public MyAuth2Exception(String msg) {
+        super(msg);
+    }
+
 }

@@ -4,7 +4,10 @@ import com.alibaba.nacos.api.annotation.NacosInjected;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.pojo.ServiceInfo;
+import com.mine.common.security.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,11 +23,15 @@ import java.util.List;
 public class NacosController {
 
     @NacosInjected
-    private NamingService namingService;
+    private DiscoveryClient discoveryClient;
 
     @GetMapping(value = "test")
-    public List<ServiceInfo> get(@RequestParam String serviceName) throws NacosException {
-        return namingService.getSubscribeServices();
+    public List<?> get() throws NacosException {
+
+        Authentication authentication = SecurityUtils.getAuthentication();
+        String clientId = SecurityUtils.getClientId();
+
+        return discoveryClient.getServices();
 //        return namingService.getAllInstances(serviceName);
     }
 

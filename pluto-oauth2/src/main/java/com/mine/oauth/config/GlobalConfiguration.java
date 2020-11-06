@@ -49,6 +49,7 @@ public class GlobalConfiguration {
 
     /**
      * token 增强
+     *
      * @return
      */
     @Bean

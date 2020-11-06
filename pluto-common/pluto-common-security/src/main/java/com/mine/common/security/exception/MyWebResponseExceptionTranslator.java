@@ -21,7 +21,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
  * @author LiMing
  */
 @Slf4j
-public class MyWebResponseExceptionTranslator implements WebResponseExceptionTranslator {
+public final class MyWebResponseExceptionTranslator implements WebResponseExceptionTranslator {
 
     private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
 
