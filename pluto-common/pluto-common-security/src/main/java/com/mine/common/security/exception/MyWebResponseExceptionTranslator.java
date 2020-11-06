@@ -30,21 +30,14 @@ public class MyWebResponseExceptionTranslator implements WebResponseExceptionTra
 
         // Try to extract a SpringSecurityException from the stacktrace
         Throwable[] causeChain = throwableAnalyzer.determineCauseChain(e);
-        Exception ase = (ClientAuthenticationException) throwableAnalyzer.getFirstThrowableOfType(ClientAuthenticationException.class, causeChain);
-
-        if (ase != null) {
-            return handleOAuth2Exception((OAuth2Exception) ase);
-        }
-
-        ase = (AuthenticationException) throwableAnalyzer.getFirstThrowableOfType(AuthenticationException.class,
-                causeChain);
-
+        Exception ase = (AuthenticationException)
+                throwableAnalyzer.getFirstThrowableOfType(AuthenticationException.class, causeChain);
         if (ase != null) {
             return handleOAuth2Exception(new UnauthorizedException(e.getMessage(), e));
         }
 
-        ase = (AccessDeniedException) throwableAnalyzer
-                .getFirstThrowableOfType(AccessDeniedException.class, causeChain);
+        ase = (AccessDeniedException) throwableAnalyzer.getFirstThrowableOfType(AccessDeniedException.class,
+                causeChain);
         if (ase != null) {
             return handleOAuth2Exception(new ForbiddenException(ase.getMessage(), ase));
         }
@@ -59,6 +52,13 @@ public class MyWebResponseExceptionTranslator implements WebResponseExceptionTra
                 .getFirstThrowableOfType(HttpRequestMethodNotSupportedException.class, causeChain);
         if (ase != null) {
             return handleOAuth2Exception(new MethodNotAllowedException(ase.getMessage(), ase));
+        }
+
+        ase = (OAuth2Exception) throwableAnalyzer.getFirstThrowableOfType(
+                OAuth2Exception.class, causeChain);
+
+        if (ase != null) {
+            return handleOAuth2Exception((OAuth2Exception) ase);
         }
 
         return handleOAuth2Exception(new ServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), e));
