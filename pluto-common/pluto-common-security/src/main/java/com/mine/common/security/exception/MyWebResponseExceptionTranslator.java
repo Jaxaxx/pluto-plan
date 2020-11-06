@@ -30,9 +30,15 @@ public class MyWebResponseExceptionTranslator implements WebResponseExceptionTra
 
         // Try to extract a SpringSecurityException from the stacktrace
         Throwable[] causeChain = throwableAnalyzer.determineCauseChain(e);
+        Exception ase = (ClientAuthenticationException) throwableAnalyzer.getFirstThrowableOfType(ClientAuthenticationException.class, causeChain);
 
-        Exception ase = (AuthenticationException) throwableAnalyzer.getFirstThrowableOfType(AuthenticationException.class,
+        if (ase != null) {
+            return handleOAuth2Exception((OAuth2Exception) ase);
+        }
+
+        ase = (AuthenticationException) throwableAnalyzer.getFirstThrowableOfType(AuthenticationException.class,
                 causeChain);
+
         if (ase != null) {
             return handleOAuth2Exception(new UnauthorizedException(e.getMessage(), e));
         }
@@ -55,13 +61,6 @@ public class MyWebResponseExceptionTranslator implements WebResponseExceptionTra
             return handleOAuth2Exception(new MethodNotAllowedException(ase.getMessage(), ase));
         }
 
-        ase = (OAuth2Exception) throwableAnalyzer.getFirstThrowableOfType(
-                OAuth2Exception.class, causeChain);
-
-        if (ase != null) {
-            return handleOAuth2Exception((OAuth2Exception) ase);
-        }
-
         return handleOAuth2Exception(new ServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), e));
 
     }
@@ -81,7 +80,99 @@ public class MyWebResponseExceptionTranslator implements WebResponseExceptionTra
             return new ResponseEntity<>(e, headers,
                     HttpStatus.valueOf(status));
         }
-        return new ResponseEntity<>(new MyAuth2Exception(e.getMessage()), headers, HttpStatus.valueOf(status));
+        return new ResponseEntity<>(new MyAuth2Exception(e.getMessage(), e), headers, HttpStatus.valueOf(status));
 
     }
+
+    private static class ForbiddenException extends MyAuth2Exception {
+
+        public ForbiddenException(String msg, Throwable t) {
+            super(msg, t);
+        }
+
+        @Override
+        public String getOAuth2ErrorCode() {
+            return "access_denied";
+        }
+
+        @Override
+        public int getHttpErrorCode() {
+            return HttpStatus.FORBIDDEN.value();
+        }
+
+    }
+
+    private static class InvalidException extends MyAuth2Exception {
+
+        public InvalidException(String msg, Throwable t) {
+            super(msg, t);
+        }
+
+        @Override
+        public String getOAuth2ErrorCode() {
+            return "invalid_exception";
+        }
+
+        @Override
+        public int getHttpErrorCode() {
+            return HttpStatus.UPGRADE_REQUIRED.value();
+        }
+
+    }
+
+    private static class MethodNotAllowedException extends MyAuth2Exception {
+
+        public MethodNotAllowedException(String msg, Throwable t) {
+            super(msg, t);
+        }
+
+        @Override
+        public String getOAuth2ErrorCode() {
+            return "method_not_allowed";
+        }
+
+        @Override
+        public int getHttpErrorCode() {
+            return HttpStatus.METHOD_NOT_ALLOWED.value();
+        }
+
+    }
+
+    private static class ServerErrorException extends MyAuth2Exception {
+
+        public ServerErrorException(String msg, Throwable t) {
+            super(msg, t);
+        }
+
+        @Override
+        public String getOAuth2ErrorCode() {
+            return "server_error";
+        }
+
+        @Override
+        public int getHttpErrorCode() {
+            return HttpStatus.INTERNAL_SERVER_ERROR.value();
+        }
+
+    }
+
+    private static class UnauthorizedException extends MyAuth2Exception {
+
+        public UnauthorizedException(String msg, Throwable t) {
+            super(msg, t);
+        }
+
+        @Override
+        public String getOAuth2ErrorCode() {
+            return "unauthorized";
+        }
+
+        @Override
+        public int getHttpErrorCode() {
+            return HttpStatus.UNAUTHORIZED.value();
+        }
+
+
+    }
+
 }
