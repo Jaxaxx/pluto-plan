@@ -30,7 +30,7 @@ public class MyResourceAuthExceptionEntryPoint implements AuthenticationEntryPoi
     @Override
     @SneakyThrows
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException) {
-        log.error("资源服务鉴权失败::{}", messages.getMessage("AbstractAccessDecisionManager.unauthorized", "Authentication failed or expired");
+        log.error("资源服务鉴权失败::{}", messages.getMessage("AbstractAccessDecisionManager.unauthorized", "Authentication failed or expired"));
 //        response.setContentType(MediaType.APPLICATION_JSON);
 //        response.setStatus(HttpStatus.UNAUTHORIZED.value());
 //        R<Object> ret = R.failed(MyAuthResponseEnum.UNAUTHORIZED);
