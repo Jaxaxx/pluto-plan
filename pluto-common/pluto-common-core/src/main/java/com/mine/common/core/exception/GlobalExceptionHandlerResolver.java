@@ -1,5 +1,6 @@
 package com.mine.common.core.exception;
 
+import com.mine.common.core.constant.MyResponseEnum;
 import com.mine.common.core.util.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class GlobalExceptionHandlerResolver {
     @ResponseStatus(HttpStatus.OK)
     public R handleGlobalException(HttpServletRequest request, Exception e) {
         log.error("全局异常信息 api=[{}],ex={}", request.getRequestURI(), e.getMessage(), e);
-        R<Object> objectR = R.failed(e.getMessage());
+        R<Object> objectR = R.failed(MyResponseEnum.INTERNAL_SERVER_ERROR);
         if (e instanceof HttpRequestMethodNotSupportedException) {
             objectR.setMsg("Request method is not supported");
         } else if (e instanceof HttpMessageNotReadableException

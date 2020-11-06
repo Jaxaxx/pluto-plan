@@ -5,6 +5,7 @@ import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.pojo.ServiceInfo;
 import com.mine.common.security.util.SecurityUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.security.core.Authentication;
@@ -22,7 +23,6 @@ import java.util.List;
 @RequestMapping("get")
 public class NacosController {
 
-    @NacosInjected
     private DiscoveryClient discoveryClient;
 
     @GetMapping(value = "test")

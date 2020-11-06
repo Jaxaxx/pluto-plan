@@ -1,7 +1,7 @@
 package com.mine.common.core.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.mine.common.core.constant.MyAuthResponseEnum;
+import com.mine.common.core.constant.MyResponseEnum;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -75,7 +75,7 @@ public class R<T> implements Serializable {
         return restResult(GlobalStatus.FAIL.getCode(), msg, null);
     }
 
-    public static <T> R<T> failed(MyAuthResponseEnum responseEnum) {
+    public static <T> R<T> failed(MyResponseEnum responseEnum) {
         return restResult(responseEnum.getStatusCode(), responseEnum.getStatusText(), null);
     }
 

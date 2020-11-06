@@ -2,9 +2,7 @@ package com.mine.common.security.point;
 
 import com.alibaba.nacos.common.http.param.MediaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mine.common.core.constant.MyAuthResponseEnum;
 import com.mine.common.core.util.R;
-import com.mine.common.security.exception.MyAuth2Exception;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.MessageSourceAccessor;

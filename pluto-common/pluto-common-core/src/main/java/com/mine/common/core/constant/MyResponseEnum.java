@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
  *
  * @author LiMing
  */
-public enum MyAuthResponseEnum {
+public enum MyResponseEnum {
 
     /**
      * 授权失败,未授权
@@ -21,7 +21,7 @@ public enum MyAuthResponseEnum {
     private final Integer statusCode;
     private final String statusText;
 
-    MyAuthResponseEnum(Integer statusCode, String statusText) {
+    MyResponseEnum(Integer statusCode, String statusText) {
         this.statusCode = statusCode;
         this.statusText = statusText;
     }
