@@ -9,8 +9,6 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 /**
  * 响应信息主体
@@ -48,17 +46,12 @@ public class Result<T> implements Serializable {
      */
     private T data;
 
-    /**
-     * 时间戳
-     */
-    private Long timestamp;
-
     public static <T> Result<T> ok() {
         return ok(null);
     }
 
     public static <T> Result<T> ok(T data) {
-        return result(Boolean.TRUE, ResultCode.OK.getMsg(), ResultCode.OK.getCode(), data);
+        return result(Boolean.TRUE, ResultCode.OK.getCode(), ResultCode.OK.getMsg(), data);
     }
 
     public static <T> Result<T> fail(Throwable ex) {
@@ -66,20 +59,19 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> fail(String message) {
-        return fail(message, ResultCode.FAIL.getCode());
+        return fail(ResultCode.FAIL.getCode(), message);
     }
 
-    public static <T> Result<T> fail(String message, Integer code) {
-        return result(Boolean.FALSE, message, code, null);
+    public static <T> Result<T> fail(Integer code, String message) {
+        return result(Boolean.FALSE, code, message, null);
     }
 
-    private static <T> Result<T> result(Boolean success, String message, int code, T data) {
+    private static <T> Result<T> result(Boolean success, int code, String message, T data) {
         Result<T> result = new Result<>();
         result.setSuccess(success);
-        result.setMessage(message);
         result.setCode(code);
+        result.setMessage(message);
         result.setData(data);
-        result.setTimestamp(LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli());
         return result;
     }
 
