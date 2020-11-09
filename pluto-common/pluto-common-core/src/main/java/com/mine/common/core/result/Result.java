@@ -3,6 +3,8 @@ package com.mine.common.core.result;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mine.common.core.constant.ResultCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
@@ -16,6 +18,8 @@ import java.time.ZoneOffset;
  * @param <T>
  * @author jax-li
  */
+@Getter
+@Setter
 @ToString
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -79,23 +83,4 @@ public class Result<T> implements Serializable {
         return result;
     }
 
-    private void setSuccess(Boolean success) {
-        this.success = success;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    private void setCode(Integer code) {
-        this.code = code;
-    }
-
-    private void setData(T data) {
-        this.data = data;
-    }
-
-    private void setTimestamp(Long timestamp) {
-        this.timestamp = timestamp;
-    }
 }
