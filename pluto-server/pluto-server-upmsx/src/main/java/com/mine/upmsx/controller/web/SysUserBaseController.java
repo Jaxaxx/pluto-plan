@@ -1,10 +1,8 @@
 package com.mine.upmsx.controller.web;
 
-import com.alibaba.cloud.sentinel.annotation.SentinelRestTemplate;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
-import com.mine.common.core.util.R;
+import com.mine.common.core.result.Result;
 import com.mine.common.log.annotation.SysLog;
-import com.mine.common.security.util.SecurityUtils;
 import com.mine.upmsx.dto.SysUserBaseDTO;
 import com.mine.upmsx.service.ISysUserBaseService;
 import io.swagger.annotations.Api;
@@ -31,36 +29,36 @@ public class SysUserBaseController {
     @SentinelResource("resource")
     @ApiOperation(value = "登录信息表列表查询", notes = "登录信息表API")
     @GetMapping("/list")
-    public R getList(SysUserBaseDTO dto) {
-        return R.ok(iSysUserBaseService.list(dto));
+    public Result getList(SysUserBaseDTO dto) {
+        return Result.ok(iSysUserBaseService.list(dto));
     }
 
     @ApiOperation(value = "登录信息表详细查询", notes = "登录信息表API")
     @GetMapping("/{id}")
-    public R detail(@PathVariable("id") Long id) {
-        return R.ok(iSysUserBaseService.detail(id));
+    public Result detail(@PathVariable("id") Long id) {
+        return Result.ok(iSysUserBaseService.detail(id));
     }
 
     @SysLog("新增用户")
     @ApiOperation(value = "登录信息表添加", notes = "登录信息表API")
     @PostMapping
-    public R insert(@RequestBody SysUserBaseDTO dto) {
+    public Result insert(@RequestBody SysUserBaseDTO dto) {
         iSysUserBaseService.insert(dto);
-        return R.ok();
+        return Result.ok();
     }
 
     @ApiOperation(value = "登录信息表更新", notes = "登录信息表API")
     @PutMapping
-    public R update(@RequestBody SysUserBaseDTO dto) {
+    public Result update(@RequestBody SysUserBaseDTO dto) {
         iSysUserBaseService.update(dto);
-        return R.ok();
+        return Result.ok();
     }
 
     @ApiOperation(value = "登录信息表删除", notes = "登录信息表API")
     @DeleteMapping("/{id}")
-    public R delete(@PathVariable("id") Long id) {
+    public Result delete(@PathVariable("id") Long id) {
         iSysUserBaseService.delete(id);
-        return R.ok();
+        return Result.ok();
     }
 
 

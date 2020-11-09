@@ -3,7 +3,7 @@ package com.mine.upmsx.controller.feign;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.mine.common.core.util.R;
+import com.mine.common.core.result.Result;
 import com.mine.common.feign.entity.SysUserBaseVO;
 import com.mine.common.security.model.MyUser;
 import com.mine.common.security.util.SecurityUtils;
@@ -32,12 +32,12 @@ public class FeignSysUserBaseController {
     }
 
     @GetMapping("/test")
-    public R test() {
+    public Result test() {
 
         MyUser user = SecurityUtils.getUser();
         String str = JSONUtil.toJsonStr(JSONUtil.parse(user));
 
-        return R.ok(str);
+        return Result.ok(str);
     }
 
 }

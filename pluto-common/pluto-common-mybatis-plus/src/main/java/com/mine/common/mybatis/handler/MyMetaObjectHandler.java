@@ -5,7 +5,6 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.mine.common.core.constant.Constant;
 import com.mine.common.security.model.MyUser;
 import com.mine.common.security.util.SecurityUtils;
 import org.apache.ibatis.reflection.MetaObject;
@@ -21,6 +20,11 @@ import java.util.Date;
 public class MyMetaObjectHandler implements MetaObjectHandler {
 
     /**
+     * 逻辑删除否 0-未删除,1-已删除
+     */
+    private static final Byte TABLE_LOGIC_FALSE = 0;
+
+    /**
      * 插入操作自动填充
      *
      * @author:
@@ -33,7 +37,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         Object createUserName = getFieldValByName("createUserName", metaObject);
         Object createUserId = getFieldValByName("createUserId", metaObject);
         Object createTime = getFieldValByName("createTime", metaObject);
-        Object isDeteled = getFieldValByName("isDeleted", metaObject);
+        Object deleted = getFieldValByName("isDeleted", metaObject);
         MyUser user = SecurityUtils.getUser();
         Date currentDate = DateUtil.date();
         if (createUserName == null) {
@@ -47,8 +51,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         if (createTime == null) {
             setFieldValByName("createTime", currentDate, metaObject);
         }
-        if (isDeteled == null) {
-            setFieldValByName("isDeleted", Constant.BYTE_NO, metaObject);
+        if (deleted == null) {
+            setFieldValByName("isDeleted", TABLE_LOGIC_FALSE, metaObject);
         }
     }
 

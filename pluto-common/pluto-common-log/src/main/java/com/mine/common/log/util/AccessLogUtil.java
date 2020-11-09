@@ -2,7 +2,7 @@ package com.mine.common.log.util;
 
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
-import com.mine.common.core.util.R;
+import com.mine.common.core.result.Result;
 import io.swagger.annotations.ApiOperation;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ public class AccessLogUtil {
         logInfo.add("===REQ_ADDR=== " + request.getMethod() + "\t" + request.getRequestURI());
         logInfo.add("===REQ_ARGS=== " + HttpUtil.toParams(request.getParameterMap()));
         logInfo.add("===REQ_TIME=== " + time + "ms");
-        logInfo.add("===RES_DATA=== " + (Objects.isNull(result) ? JSONUtil.toJsonStr(R.ok()) : JSONUtil.toJsonStr(result)));
+        logInfo.add("===RES_DATA=== " + (Objects.isNull(result) ? JSONUtil.toJsonStr(Result.ok()) : JSONUtil.toJsonStr(result)));
         log.debug(logInfo.toString());
     }
 

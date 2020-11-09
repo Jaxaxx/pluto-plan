@@ -34,7 +34,7 @@ public interface SecurityConstants {
      */
     String DETAILS_USERNAME = "user_name";
     /**
-     * uuid
+     * name
      */
     String DETAILS_NAME = "name";
     /**
@@ -45,10 +45,6 @@ public interface SecurityConstants {
      * 协议字段
      */
     String DETAILS_LICENSE = "license";
-    /**
-     * 协议字段
-     */
-    String CLIENT_ID = "client_id";
     /**
      * 项目的license
      */

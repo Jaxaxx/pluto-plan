@@ -2,7 +2,7 @@ package com.mine.common.security.point;
 
 import com.alibaba.nacos.common.http.param.MediaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mine.common.core.util.R;
+import com.mine.common.core.result.Result;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -32,7 +32,7 @@ public class MyResourceAuthExceptionEntryPoint implements AuthenticationEntryPoi
         log.error("资源服务鉴权失败::{}", retMsg);
         response.setContentType(MediaType.APPLICATION_JSON);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        R<Object> ret = R.failed(retMsg);
+        Result<Object> ret = Result.fail(retMsg);
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.writeValue(response.getOutputStream(), ret);

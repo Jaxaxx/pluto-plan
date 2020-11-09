@@ -1,6 +1,6 @@
 package com.mine.upmsx.controller.web;
 
-import com.mine.common.core.util.R;
+import com.mine.common.core.result.Result;
 import com.mine.common.core.util.WebUtils;
 import com.mine.upmsx.dto.SysLogDTO;
 import com.mine.upmsx.service.ISysLogService;
@@ -29,36 +29,36 @@ public class SysLogController {
 
     @ApiOperation(value = "日志表列表查询")
     @GetMapping
-    public R list(SysLogDTO dto) {
-        return R.ok(iSysLogService.list(dto));
+    public Result list(SysLogDTO dto) {
+        return Result.ok(iSysLogService.list(dto));
     }
 
     @ApiOperation(value = "日志表详细查询")
     @GetMapping("/{id}")
-    public R detail(@PathVariable("id") Long Id) {
-        return R.ok(iSysLogService.detail(Id));
+    public Result detail(@PathVariable("id") Long Id) {
+        return Result.ok(iSysLogService.detail(Id));
     }
 
     @ApiOperation(value = "日志表添加")
     @PostMapping
-    public R insert(@RequestBody SysLogDTO dto) {
+    public Result insert(@RequestBody SysLogDTO dto) {
         HttpServletRequest request = WebUtils.getRequest();
         iSysLogService.insert(dto);
-        return R.ok();
+        return Result.ok();
     }
 
     @ApiOperation(value = "日志表更新")
     @PutMapping
-    public R update(@RequestBody SysLogDTO dto) {
+    public Result update(@RequestBody SysLogDTO dto) {
         iSysLogService.update(dto);
-        return R.ok();
+        return Result.ok();
     }
 
     @ApiOperation(value = "日志表删除")
     @DeleteMapping("/{id}")
-    public R delete(@PathVariable("id") Long id) {
+    public Result delete(@PathVariable("id") Long id) {
         iSysLogService.delete(id);
-        return R.ok();
+        return Result.ok();
     }
 }
 

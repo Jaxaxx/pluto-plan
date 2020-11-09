@@ -1,6 +1,6 @@
 package com.mine.common.feign.api.upmsx;
 
-import com.mine.common.core.util.R;
+import com.mine.common.core.result.Result;
 import com.mine.common.feign.entity.SysUserBaseVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,5 +22,5 @@ public interface RemoteSysUserBaseService {
     SysUserBaseVO getUserByUserName(@PathVariable("userName") String userName);
 
     @GetMapping("/feign/test")
-    R<String> test();
+    Result<String> test();
 }

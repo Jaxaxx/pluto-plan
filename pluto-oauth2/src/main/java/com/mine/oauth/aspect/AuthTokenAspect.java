@@ -1,7 +1,7 @@
 package com.mine.oauth.aspect;
 
 
-import com.mine.common.core.util.R;
+import com.mine.common.core.result.Result;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -30,6 +30,6 @@ public class AuthTokenAspect {
         Object proceed = pjp.proceed();
         ResponseEntity<OAuth2AccessToken> responseEntity = (ResponseEntity<OAuth2AccessToken>) proceed;
         OAuth2AccessToken body = responseEntity.getBody();
-        return ResponseEntity.ok(R.ok(body));
+        return ResponseEntity.ok(Result.ok(body));
     }
 }
