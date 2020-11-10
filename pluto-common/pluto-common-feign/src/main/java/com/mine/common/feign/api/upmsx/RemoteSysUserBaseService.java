@@ -1,5 +1,6 @@
 package com.mine.common.feign.api.upmsx;
 
+import com.mine.common.core.constant.ServiceNameConstants;
 import com.mine.common.core.result.Result;
 import com.mine.common.feign.entity.SysUserBaseVO;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 /**
  * @author jax-li
  */
-@FeignClient(value = "upmsx")
+@FeignClient(value = ServiceNameConstants.UPMS)
 public interface RemoteSysUserBaseService {
 
     /**

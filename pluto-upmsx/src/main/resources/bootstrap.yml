@@ -9,13 +9,14 @@ spring:
       name: eureka
       password: eureka
   application:
-    name: upmsx
+    name: @artifactId@
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
   redis:
     database: 8
-    host: 192.168.0.110
-    port: 6379
+    host: 192.168.1.64
+    port: 6380
     password: redis
     jedis:
       pool:
@@ -23,7 +24,7 @@ spring:
         max-idle: 8
         min-idle: 0
   datasource:
-    url: jdbc:mysql://192.168.0.110:3311/test-a?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useOldAliasMetadataBehavior=true&useSSL=false
+    url: jdbc:mysql://192.168.1.64:3311/test-a?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useOldAliasMetadataBehavior=true&useSSL=false
     username: root
     password: MyNewPass4!
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -41,7 +42,7 @@ spring:
     nacos:
       discovery:
         enabled: true
-        server-addr: 192.168.0.110:8848
+        server-addr: 127.0.0.1:8848
 
 #
 mybatis-plus:

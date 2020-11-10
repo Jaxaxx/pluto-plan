@@ -79,6 +79,11 @@
                 <artifactId>pluto-common-log</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>com.mine</groupId>
+                <artifactId>pluto-common-dynamic-gateway</artifactId>
+                <version>${revision}</version>
+            </dependency>
             <!-- spring cloud alibaba dependencies -->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>

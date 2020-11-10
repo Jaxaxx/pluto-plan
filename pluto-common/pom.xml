@@ -20,6 +20,7 @@
         <module>pluto-common-feign</module>
         <module>pluto-common-log</module>
         <module>pluto-common-gateway</module>
+        <module>pluto-common-dynamic-gateway</module>
     </modules>
 
 </project>

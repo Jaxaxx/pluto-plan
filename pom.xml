@@ -6,9 +6,9 @@
 
     <modules>
         <module>pluto-gateway</module>
-        <module>pluto-server</module>
         <module>pluto-common</module>
         <module>pluto-oauth2</module>
+        <module>pluto-upmsx</module>
     </modules>
 
     <groupId>com.mine</groupId>
