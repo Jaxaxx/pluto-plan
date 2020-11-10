@@ -9,6 +9,7 @@
         <module>pluto-common</module>
         <module>pluto-oauth2</module>
         <module>pluto-upmsx</module>
+        <module>pluto-visual</module>
     </modules>
 
     <groupId>com.mine</groupId>
