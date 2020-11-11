@@ -1,22 +1,15 @@
 package com.mine.common.swagger;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import com.google.common.collect.Lists;
-import com.mine.common.swagger.annotation.EnableMySwagger;
 import com.mine.common.swagger.config.SwaggerProperties;
-import io.swagger.models.Swagger;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.OAuthBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.builders.*;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
@@ -25,7 +18,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * @author Jax-li
@@ -38,31 +30,23 @@ public class SwaggerAutoConfiguration {
     final Environment environment;
     final SwaggerProperties swaggerProperties;
 
-    /**
-     * 默认的排除路径，排除Spring Boot默认的错误处理路径和端点
-     */
-    private static final List<String> DEFAULT_EXCLUDE_PATH = Arrays.asList("/error", "/actuator/**", "/feign/**");
-    private static final String BASE_PATH = "/**";
     private static final String REFERENCE = "spring_oauth";
 
     @Bean
     public Docket api() {
         log.info("[Swagger Starter] enabled status : {}", swaggerProperties.getEnabled());
         log.debug("[Swagger-Property]::{}", swaggerProperties.toString());
-        List<Predicate<String>> basePath = Lists.newArrayList();
-        basePath.add(PathSelectors.ant(BASE_PATH));
-        // exclude-path处理
-        List<Predicate<String>> excludePath = new ArrayList<>();
-        DEFAULT_EXCLUDE_PATH.forEach(path -> excludePath.add(PathSelectors.ant(path)));
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage(swaggerProperties.getInfo().getBasePackage()))
-                .paths(Predicates.and(Predicates.not(Predicates.or(excludePath)), Predicates.or(basePath)))
-                .build()
+        Docket docket = new Docket(DocumentationType.OAS_30)
                 .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
+                .paths(PathSelectors.any())
+                .build()
                 .securitySchemes(Collections.singletonList(securityScheme()))
                 .securityContexts(Collections.singletonList(securityContext()))
                 .enable(swaggerProperties.getEnabled());
+        return docket;
     }
 
     /**
@@ -81,22 +65,20 @@ public class SwaggerAutoConfiguration {
     /**
      * 使用密码模式
      *
-     * @return  SecurityScheme
+     * @return SecurityScheme
      */
     private SecurityScheme securityScheme() {
-        GrantType grantType = new ResourceOwnerPasswordCredentialsGrant(swaggerProperties.getInfo().getAccessTokenUri());
-
-        return new OAuthBuilder()
+        return OAuth2Scheme.OAUTH2_PASSWORD_FLOW_BUILDER
+                .tokenUrl(swaggerProperties.getInfo().getAccessTokenUri())
                 .name(REFERENCE)
-                .grantTypes(Collections.singletonList(grantType))
-                .scopes(Arrays.asList(scopes()))
+                .scopes(Lists.newArrayList(scopes()))
                 .build();
     }
 
     /**
      * 设置 swagger2 认证的安全上下文
      *
-     * @return  SecurityContext
+     * @return SecurityContext
      */
     private SecurityContext securityContext() {
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
 import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.context.annotation.Primary;
 import reactor.core.publisher.Flux;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
@@ -19,6 +20,7 @@ import java.util.Set;
 /**
  * @author Jax-li
  */
+@Primary
 @RequiredArgsConstructor
 public class MySwaggerResourceProvider implements SwaggerResourcesProvider {
     /**
@@ -29,7 +31,7 @@ public class MySwaggerResourceProvider implements SwaggerResourcesProvider {
     /**
      * swagger2默认的url后缀
      */
-    private static final String SWAGGER2URL = "/v2/api-docs";
+    public static final String SWAGGER2URL = "/v3/api-docs";
     /**
      * 网关路由
      */

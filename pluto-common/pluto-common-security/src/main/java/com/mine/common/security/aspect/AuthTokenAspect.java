@@ -1,4 +1,4 @@
-package com.mine.oauth.aspect;
+package com.mine.common.security.aspect;
 
 
 import com.mine.common.core.result.Result;

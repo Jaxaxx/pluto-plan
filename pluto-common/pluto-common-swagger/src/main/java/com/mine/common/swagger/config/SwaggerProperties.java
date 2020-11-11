@@ -19,11 +19,10 @@ public class SwaggerProperties {
     @Data
     public static class Info {
         private String title = " swagger of ";
-        private String description = "the swagger2 document";
+        private String description = "the swagger3 document";
         private String version = "1.0.0";
         private String license = "By Mercedes Jax";
         private String termsIfServiceUrl = "https://github.com/haughty945/";
-        private String basePackage = "com.mine";
         private String accessTokenUri = "http://pluto-plan:9999/auth/oauth/token";
     }
 

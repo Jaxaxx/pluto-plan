@@ -77,10 +77,11 @@ security:
       ignore-urls:
         - /actuator/**
         - /v2/api-docs
-        - /swagger-resources/configuration/ui
+        - /v3/api-docs
+        - /swagger-resources/**
         - /swagger-resources
-        - /swagger-resources/configuration/security
         - /swagger-ui.html
+        - /swagger-ui/*
         - /css/**
         - /js/**
         - /images/**
@@ -108,3 +109,14 @@ feign:
 #
 swagger:
   enabled: true
+#
+springfox:
+  documentation:
+    swagger-ui:
+      base-url: /${spring.application.name}
+#
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

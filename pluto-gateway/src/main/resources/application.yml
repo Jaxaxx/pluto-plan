@@ -1,0 +1,22 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: pluto-gateway
+          uri: lb://pluto-gateway
+          predicates:
+            - Path=/gateway/**
+          filters:
+            - StripPrefix=1
+        - id: pluto-oauth2
+          uri: lb://pluto-oauth2
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+        - id: pluto-upmsx
+          uri: lb://pluto-upmsx
+          predicates:
+            - Path=/upms/**
+          filters:
+            - StripPrefix=1
