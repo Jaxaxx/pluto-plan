@@ -3,9 +3,7 @@ package com.mine.common.core.result;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mine.common.core.constant.ResultCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -16,9 +14,7 @@ import java.io.Serializable;
  * @param <T>
  * @author jax-li
  */
-@Getter
-@Setter
-@ToString
+@Data
 @Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Result<T> implements Serializable {
@@ -75,4 +71,6 @@ public class Result<T> implements Serializable {
         return result;
     }
 
+    private Result() {
+    }
 }
