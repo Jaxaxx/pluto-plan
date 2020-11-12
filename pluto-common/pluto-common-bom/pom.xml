@@ -18,8 +18,7 @@
         <spring-platform.version>Cairo-SR7</spring-platform.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lombok.version>1.18.12</lombok.version>
-        <security.oauth.version>2.3.6.RELEASE</security.oauth.version>
-        <security.oauth.auto.version>2.1.2.RELEASE</security.oauth.auto.version>
+        <security.oauth.version>2.4.0.RELEASE</security.oauth.version>
         <spring-boot-admin.version>2.3.0</spring-boot-admin.version>
         <jasypt.version>2.1.0</jasypt.version>
         <dem4j.version>1.6.1</dem4j.version>
@@ -136,11 +135,11 @@
                 <scope>import</scope>
             </dependency>
             <!--稳定版本，替代spring security bom内置-->
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.security.oauth</groupId>-->
-<!--                <artifactId>spring-security-oauth2</artifactId>-->
-<!--                <version>${security.oauth.version}</version>-->
-<!--            </dependency>-->
+            <dependency>
+                <groupId>org.springframework.security.oauth</groupId>
+                <artifactId>spring-security-oauth2</artifactId>
+                <version>${security.oauth.version}</version>
+            </dependency>
 <!--            <dependency>-->
 <!--                <groupId>org.springframework.security.oauth.boot</groupId>-->
 <!--                <artifactId>spring-security-oauth2-autoconfigure</artifactId>-->
