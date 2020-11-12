@@ -18,7 +18,7 @@
         <spring-platform.version>Cairo-SR7</spring-platform.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lombok.version>1.18.12</lombok.version>
-        <security.oauth.version>2.4.0.RELEASE</security.oauth.version>
+        <security.oauth.version>2.3.6.RELEASE</security.oauth.version>
         <spring-boot-admin.version>2.3.0</spring-boot-admin.version>
         <jasypt.version>2.1.0</jasypt.version>
         <dem4j.version>1.6.1</dem4j.version>

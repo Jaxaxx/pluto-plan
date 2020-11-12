@@ -19,6 +19,11 @@ import org.springframework.stereotype.Component;
 public class AuthTokenAspect {
 
     /**
+     * swagger 固定 scope
+     */
+    private static final String SWAGGER_SCOPE = "swagger";
+
+    /**
      * Around注解 改变controller返回值的
      *
      * @param pjp ProceedingJoinPoint
@@ -30,6 +35,10 @@ public class AuthTokenAspect {
         Object proceed = pjp.proceed();
         ResponseEntity<OAuth2AccessToken> responseEntity = (ResponseEntity<OAuth2AccessToken>) proceed;
         OAuth2AccessToken body = responseEntity.getBody();
+        if (body.getScope().contains(SWAGGER_SCOPE)) {
+            // swagger 验证不修改返回值，否则swagger 无法认证
+            return proceed;
+        }
         return ResponseEntity.ok(Result.ok(body));
     }
 }

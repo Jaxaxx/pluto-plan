@@ -9,14 +9,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
-import springfox.documentation.builders.*;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -95,7 +95,7 @@ public class SwaggerAutoConfiguration {
      */
     private AuthorizationScope[] scopes() {
         return new AuthorizationScope[]{
-                new AuthorizationScope("all", "All scope is trusted!")
+                new AuthorizationScope("swagger", "scope:swagger is trusted!")
         };
     }
 
