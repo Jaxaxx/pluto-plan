@@ -64,7 +64,7 @@ public interface SecurityConstants {
 
     String DEFAULT_FIND_STATEMENT = BASE_FIND_STATEMENT + " order by client_id";
 
-    String DEFAULT_SELECT_STATEMENT = BASE_FIND_STATEMENT + " where client_id = ?";
+    String DEFAULT_SELECT_STATEMENT = BASE_FIND_STATEMENT + " where is_deleted = 0 and client_id = ?";
 
     String DEFAULT_INSERT_STATEMENT = "insert into " + OAUTH_TABLE_NAME + " (" + CLIENT_FIELDS
             + ", client_id) values (?,?,?,?,?,?,?,?,?,?,?)";
