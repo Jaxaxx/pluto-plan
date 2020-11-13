@@ -73,6 +73,7 @@ public class DaoAuthenticationProvider extends AbstractUserDetailsAuthentication
 	// ~ Methods
 	// ========================================================================================================
 
+	@Override
 	@SuppressWarnings("deprecation")
 	protected void additionalAuthenticationChecks(UserDetails userDetails,
 			UsernamePasswordAuthenticationToken authentication)
@@ -96,12 +97,14 @@ public class DaoAuthenticationProvider extends AbstractUserDetailsAuthentication
 		}
 	}
 
+	@Override
 	protected void doAfterPropertiesSet() {
 		Assert.notNull(this.userDetailsService, "A UserDetailsService must be set");
 	}
 
+	@Override
 	protected final UserDetails retrieveUser(String username,
-			UsernamePasswordAuthenticationToken authentication)
+											 UsernamePasswordAuthenticationToken authentication)
 			throws AuthenticationException {
 		prepareTimingAttackProtection();
 		try {

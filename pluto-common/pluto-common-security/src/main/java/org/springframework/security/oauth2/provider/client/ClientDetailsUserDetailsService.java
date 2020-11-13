@@ -50,6 +50,7 @@ public class ClientDetailsUserDetailsService implements UserDetailsService {
      * @return UserDetails
      * @throws UsernameNotFoundException
      */
+    @Override
     public UserDetails loadUserByUsername(String username) throws AuthenticationCredentialsNotFoundException {
         ClientDetails clientDetails;
         try {

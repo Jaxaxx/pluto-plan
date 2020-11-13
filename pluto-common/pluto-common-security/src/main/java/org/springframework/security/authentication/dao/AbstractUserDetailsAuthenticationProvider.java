@@ -104,12 +104,14 @@ public abstract class AbstractUserDetailsAuthenticationProvider implements
 			UsernamePasswordAuthenticationToken authentication)
 			throws AuthenticationException;
 
+	@Override
 	public final void afterPropertiesSet() throws Exception {
 		Assert.notNull(this.userCache, "A user cache must be set");
 		Assert.notNull(this.messages, "A message source must be set");
 		doAfterPropertiesSet();
 	}
 
+	@Override
 	public Authentication authenticate(Authentication authentication)
 			throws AuthenticationException {
 		Assert.isInstanceOf(UsernamePasswordAuthenticationToken.class, authentication,
@@ -295,6 +297,7 @@ public abstract class AbstractUserDetailsAuthenticationProvider implements
 		this.hideUserNotFoundExceptions = hideUserNotFoundExceptions;
 	}
 
+	@Override
 	public void setMessageSource(MessageSource messageSource) {
 		this.messages = new MessageSourceAccessor(messageSource);
 	}
@@ -303,6 +306,7 @@ public abstract class AbstractUserDetailsAuthenticationProvider implements
 		this.userCache = userCache;
 	}
 
+	@Override
 	public boolean supports(Class<?> authentication) {
 		return (UsernamePasswordAuthenticationToken.class
 				.isAssignableFrom(authentication));
@@ -335,6 +339,7 @@ public abstract class AbstractUserDetailsAuthenticationProvider implements
 	}
 
 	private class DefaultPreAuthenticationChecks implements UserDetailsChecker {
+		@Override
 		public void check(UserDetails user) {
 			if (!user.isAccountNonLocked()) {
 				logger.debug("User account is locked");
@@ -363,6 +368,7 @@ public abstract class AbstractUserDetailsAuthenticationProvider implements
 	}
 
 	private class DefaultPostAuthenticationChecks implements UserDetailsChecker {
+		@Override
 		public void check(UserDetails user) {
 			if (!user.isCredentialsNonExpired()) {
 				logger.debug("User account credentials have expired");

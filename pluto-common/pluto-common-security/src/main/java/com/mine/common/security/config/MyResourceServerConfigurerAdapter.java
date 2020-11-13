@@ -17,7 +17,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 /**
- * @author LiMing
+ * @author Jax-li
  */
 @RequiredArgsConstructor
 public class MyResourceServerConfigurerAdapter extends ResourceServerConfigurerAdapter {

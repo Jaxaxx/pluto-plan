@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 /**
  * 通过AOP切面来改变OAuth2 生成access_token返回值格式
  *
- * @author LiMing
+ * @author Jax-li
  */
 @Component
 @Aspect

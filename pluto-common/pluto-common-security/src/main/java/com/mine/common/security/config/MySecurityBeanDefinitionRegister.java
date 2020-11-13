@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
 
 /**
- * @author LiMing
+ * @author Jax-li
  */
 @Slf4j
 public class MySecurityBeanDefinitionRegister implements ImportBeanDefinitionRegistrar {

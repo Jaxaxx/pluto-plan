@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * @author LiMing
+ * @author Jax-li
  */
 @RestController
 @RequestMapping("get")

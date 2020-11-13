@@ -7,7 +7,7 @@ import com.mine.common.core.constant.ResultCode;
 import lombok.SneakyThrows;
 
 /**
- * @author LiMing
+ * @author Jax-li
  */
 public class MyAuth2ExceptionSerializer extends StdSerializer<MyAuth2Exception> {
 

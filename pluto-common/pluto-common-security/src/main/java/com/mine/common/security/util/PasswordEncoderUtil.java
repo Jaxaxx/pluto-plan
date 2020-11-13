@@ -4,7 +4,7 @@ import lombok.experimental.UtilityClass;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
- * @author LiMing
+ * @author Jax-li
  */
 @UtilityClass
 public class PasswordEncoderUtil {

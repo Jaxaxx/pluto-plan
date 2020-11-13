@@ -4,7 +4,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
- * @author LiMing
+ * @author Jax-li
  */
 public interface MyUserDetailsService extends UserDetailsService {
 

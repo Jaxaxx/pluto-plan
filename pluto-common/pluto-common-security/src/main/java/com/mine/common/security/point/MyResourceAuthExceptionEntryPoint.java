@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * token 资源服务token验证不通过异常端点
  *
- * @author LiMing
+ * @author Jax-li
  */
 @Slf4j
 public class MyResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint {
