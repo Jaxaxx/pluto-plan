@@ -24,7 +24,7 @@ public class AuthTokenAspect {
     private static final String SWAGGER_SCOPE = "swagger";
 
     /**
-     * Around注解 改变controller返回值的
+     * Around注解 改变oauth/token返回值
      *
      * @param pjp ProceedingJoinPoint
      * @return ResponseEntity

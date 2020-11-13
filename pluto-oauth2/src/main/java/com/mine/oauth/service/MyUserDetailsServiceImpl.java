@@ -9,7 +9,6 @@ import com.mine.common.security.service.MyUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,7 +32,7 @@ public class MyUserDetailsServiceImpl implements MyUserDetailsService {
     private final RemoteSysUserBaseService remoteSysUserBaseService;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         return getUserDetail(remoteSysUserBaseService.getUserByUserName(username));
     }
 
@@ -41,9 +40,9 @@ public class MyUserDetailsServiceImpl implements MyUserDetailsService {
 
         if (Objects.isNull(vo) || Objects.isNull(vo.getId())) {
 
-            throw new AuthenticationCredentialsNotFoundException(messages.getMessage(
+            throw new UsernameNotFoundException(messages.getMessage(
                     "AbstractUserDetailsAuthenticationProvider.userNameNotFound",
-                    "The UserName is not Found"));
+                    "The Username does not exist"));
         }
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));

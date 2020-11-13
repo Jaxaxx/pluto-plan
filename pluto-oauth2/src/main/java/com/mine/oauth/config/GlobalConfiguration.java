@@ -2,10 +2,13 @@ package com.mine.oauth.config;
 
 import com.mine.common.core.constant.SecurityConstants;
 import com.mine.common.security.model.MyUser;
+import com.mine.common.security.service.MyJdbcClientDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -31,6 +34,7 @@ import java.util.Map;
 public class GlobalConfiguration {
 
     private final DataSource dataSource;
+    private final UserDetailsService myUserDetailsService;
     private final RedisConnectionFactory redisConnectionFactory;
 
     @Bean
@@ -88,11 +92,11 @@ public class GlobalConfiguration {
     @Primary
     @Bean
     public ClientDetailsService jdbcClientDetailsService() {
-        JdbcClientDetailsService clientDetailsService = new JdbcClientDetailsService(dataSource);
-//        clientDetailsService.setInsertClientDetailsSql(SecurityConstants.DEFAULT_INSERT_STATEMENT);
-//        clientDetailsService.setDeleteClientDetailsSql(SecurityConstants.DEFAULT_DELETE_STATEMENT);
-//        clientDetailsService.setUpdateClientDetailsSql(SecurityConstants.DEFAULT_UPDATE_STATEMENT);
-//        clientDetailsService.setUpdateClientSecretSql(SecurityConstants.DEFAULT_UPDATE_SECRET_STATEMENT);
+        JdbcClientDetailsService clientDetailsService = new MyJdbcClientDetailsService(dataSource);
+        clientDetailsService.setInsertClientDetailsSql(SecurityConstants.DEFAULT_INSERT_STATEMENT);
+        clientDetailsService.setDeleteClientDetailsSql(SecurityConstants.DEFAULT_DELETE_STATEMENT);
+        clientDetailsService.setUpdateClientDetailsSql(SecurityConstants.DEFAULT_UPDATE_STATEMENT);
+        clientDetailsService.setUpdateClientSecretSql(SecurityConstants.DEFAULT_UPDATE_SECRET_STATEMENT);
         clientDetailsService.setSelectClientDetailsSql(SecurityConstants.DEFAULT_SELECT_STATEMENT);
         clientDetailsService.setFindClientDetailsSql(SecurityConstants.DEFAULT_FIND_STATEMENT);
         return clientDetailsService;
