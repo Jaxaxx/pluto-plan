@@ -12,7 +12,6 @@
     <artifactId>pluto-common</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>pluto-common-bom</module>
         <module>pluto-common-core</module>
         <module>pluto-common-swagger</module>
         <module>pluto-common-security</module>

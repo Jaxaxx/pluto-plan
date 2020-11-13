@@ -1,22 +1,12 @@
 package com.mine.upmsx.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.mine.common.core.util.MapperUtils;
-
 import com.mine.common.feign.entity.upmsx.SysLog;
-import com.mine.upmsx.dto.SysLogDTO;
 import com.mine.upmsx.mapper.SysLogMapper;
 import com.mine.upmsx.service.ISysLogService;
-import com.mine.upmsx.vo.SysLogVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @description: 【日志表】实现层
@@ -27,44 +17,5 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> implements ISysLogService {
-
-    private final SysLogMapper sysLogMapper;
-
-    @Override
-    public List<SysLogVO> list(SysLogDTO dto){
-        SysLog entity = BeanUtil.copyProperties(dto, SysLog.class);
-        List<SysLog> sysLogs = baseMapper.selectList(new LambdaQueryWrapper<>(entity));
-        return MapperUtils.INSTANCE.mapAsList(SysLogVO.class, sysLogs);
-    }
-
-    public IPage page(SysLogDTO dto){
-        SysLog entity = BeanUtil.copyProperties(dto, SysLog.class);
-        Page<SysLog> page = new Page<>(dto.getCurrent(), dto.getSize());
-        return baseMapper.selectPage(page, new LambdaQueryWrapper<SysLog>(entity));
-    }
-
-    @Override
-    public SysLogVO detail(Long id){
-        SysLog result = baseMapper.selectById(id);
-        return BeanUtil.copyProperties(result, SysLogVO.class);
-    }
-
-    @Override
-    public void insert(SysLogDTO dto){
-        SysLog entity = BeanUtil.copyProperties(dto, SysLog.class);
-        baseMapper.insert(entity);
-    }
-
-    @Override
-    public void update(SysLogDTO dto){
-        SysLog entity = baseMapper.selectById(dto.getId());
-        BeanUtil.copyProperties(dto, entity);
-        baseMapper.updateById(entity);
-    }
-
-    @Override
-    public void delete(Long id){
-        baseMapper.deleteById(id);
-    }
 
 }

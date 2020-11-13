@@ -1,6 +1,5 @@
 package com.mine.upmsx.dto;
 
-import com.mine.common.mybatis.model.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -14,7 +13,7 @@ import java.util.Date;
  */
 @Data
 @ApiModel(value = "【日志表】交互层")
-public class SysLogDTO extends BaseDTO {
+public class SysLogDTO {
 
     @ApiModelProperty(value = "id")
     private Long id;
