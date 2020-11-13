@@ -24,8 +24,7 @@
         <dem4j.version>1.6.1</dem4j.version>
         <xstream.version>1.4.9</xstream.version>
         <jackson.modules>2.9.6</jackson.modules>
-        <swagger.version>3.0.0</swagger.version>
-        <spring.plugin.core.version>2.0.0.RELEASE</spring.plugin.core.version>
+        <swagger.version>2.9.2</swagger.version>
         <hutool.version>5.4.7</hutool.version>
         <pinyin4j.version>2.5.0</pinyin4j.version>
         <ttl.version>2.10.1</ttl.version>
@@ -174,21 +173,16 @@
                 <artifactId>springfox-bean-validators</artifactId>
                 <version>${swagger.version}</version>
             </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-boot-starter</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>io.springfox</groupId>-->
+<!--                <artifactId>springfox-boot-starter</artifactId>-->
+<!--                <version>${swagger.version}</version>-->
+<!--            </dependency>-->
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-common</artifactId>
                 <version>${swagger.version}</version>
                 <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.plugin</groupId>
-                <artifactId>spring-plugin-core</artifactId>
-                <version>${spring.plugin.core.version}</version>
             </dependency>
             <!-- 实体映射工具 -->
             <dependency>
