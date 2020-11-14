@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.mine.common.security.config.PermitAllUrlProperties;
 import feign.Feign;
 import feign.RequestTemplate;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -14,15 +13,14 @@ import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 
 import java.util.List;
-
 /**
  * @Description 扩展OAuth2FeignRequestInterceptor
  * @Author
  * @Date
  */
-@Slf4j
 @ConditionalOnClass(Feign.class)
 @ConditionalOnProperty("security.oauth2.client.client-id")
+@SuppressWarnings("deprecation")
 public class MyFeignRequestInterceptor extends OAuth2FeignRequestInterceptor {
 
     private final OAuth2ClientContext oAuth2ClientContext;

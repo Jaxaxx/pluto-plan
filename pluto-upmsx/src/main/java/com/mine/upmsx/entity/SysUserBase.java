@@ -24,6 +24,11 @@ import java.util.Date;
 public class SysUserBase extends Model<SysUserBase> {
 
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1083273531444623782L;
+
     @TableId
     @ApiModelProperty(value = "用户Id")
     private Long id;

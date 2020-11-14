@@ -5,17 +5,13 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import org.springframework.data.annotation.Transient;
-import org.springframework.web.context.request.RequestAttributes;
 
 import java.io.Serializable;
 import java.util.Date;
-
 
 /**
  * @description: 【日志表】实体类
@@ -27,6 +23,11 @@ import java.util.Date;
 @Accessors(chain = true)
 @TableName("sys_log")
 public class SysLog extends Model<SysLog> {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 8756070004875795197L;
 
     @ApiModelProperty(value = "id")
     private Long id;

@@ -28,7 +28,7 @@ public class GlobalExceptionHandlerResolver {
      */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.OK)
-    public Result handleGlobalException(HttpServletRequest request, Exception e) {
+    public Result<?> handleGlobalException(HttpServletRequest request, Exception e) {
         log.error("全局异常信息 api=[{}],ex={}", request.getRequestURI(), e.getMessage(), e);
         Result<Object> result = Result.fail(e.getMessage());
         if (e instanceof HttpRequestMethodNotSupportedException) {

@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
  * @Date
  */
 @ConditionalOnClass(MybatisPlusConfig.class)
+@SuppressWarnings("deprecation")
 public class MybatisPlusConfig {
 
     /**

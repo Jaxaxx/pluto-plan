@@ -27,6 +27,7 @@ public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerC
     private final AuthenticationManager authenticationManager;
     private final ClientDetailsService jdbcClientDetailsService;
 
+    @SuppressWarnings("unchecked")
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         /**

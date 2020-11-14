@@ -17,6 +17,10 @@ import java.io.Serializable;
 public class RouteDefinitionVO extends RouteDefinition implements Serializable {
 
 	/**
+	 *
+	 */
+	private static final long serialVersionUID = -1233251317763157104L;
+	/**
 	 * 路由前缀
 	 */
 	private String gatewayPrefix;

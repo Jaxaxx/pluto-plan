@@ -11,6 +11,11 @@ import lombok.SneakyThrows;
  */
 public class MyAuth2ExceptionSerializer extends StdSerializer<MyAuth2Exception> {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = -2429809957019058942L;
+
     public MyAuth2ExceptionSerializer() {
         super(MyAuth2Exception.class);
     }

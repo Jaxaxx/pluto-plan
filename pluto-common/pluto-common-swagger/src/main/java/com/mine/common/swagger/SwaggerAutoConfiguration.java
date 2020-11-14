@@ -1,8 +1,5 @@
 package com.mine.common.swagger;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import com.google.common.collect.Lists;
 import com.mine.common.swagger.config.SwaggerProperties;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +16,8 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * @author Jax-li

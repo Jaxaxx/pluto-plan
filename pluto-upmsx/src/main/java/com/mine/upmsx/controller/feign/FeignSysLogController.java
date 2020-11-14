@@ -25,7 +25,7 @@ public class FeignSysLogController {
 
     @ApiOperation(value = "日志表添加")
     @PostMapping
-    public Result insert(@RequestBody SysLogDTO dto) {
+    public Result<?> insert(@RequestBody SysLogDTO dto) {
         SysLog sysLog = BeanUtil.copyProperties(dto, SysLog.class);
         iSysLogService.save(sysLog);
         return Result.ok();

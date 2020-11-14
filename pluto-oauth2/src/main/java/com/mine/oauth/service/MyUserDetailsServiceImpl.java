@@ -7,7 +7,6 @@ import com.mine.common.security.config.MySecurityMessageSource;
 import com.mine.common.security.model.MyUser;
 import com.mine.common.security.service.MyUserDetailsService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,7 +21,6 @@ import java.util.Objects;
 /**
  * @author jax-li
  */
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MyUserDetailsServiceImpl implements MyUserDetailsService {

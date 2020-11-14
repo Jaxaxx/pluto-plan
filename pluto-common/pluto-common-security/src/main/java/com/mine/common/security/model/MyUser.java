@@ -1,6 +1,7 @@
 package com.mine.common.security.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -10,11 +11,17 @@ import org.springframework.security.core.userdetails.User;
 import java.util.Collection;
 
 /**
- * @Description TODO 扩展用户信息
+ * @Description 扩展用户信息
  * @Author
  * @Date
  */
 public class MyUser extends User {
+
+    /**
+     *
+     */
+    @JsonIgnore
+    private static final long serialVersionUID = 8567482453015650896L;
 
     @Getter
     @Setter

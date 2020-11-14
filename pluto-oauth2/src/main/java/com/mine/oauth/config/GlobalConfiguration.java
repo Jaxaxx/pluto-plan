@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -33,7 +32,6 @@ import java.util.Map;
 public class GlobalConfiguration {
 
     private final DataSource dataSource;
-    private final UserDetailsService myUserDetailsService;
     private final RedisConnectionFactory redisConnectionFactory;
 
     @Bean

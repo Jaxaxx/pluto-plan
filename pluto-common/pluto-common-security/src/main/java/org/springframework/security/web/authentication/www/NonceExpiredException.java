@@ -28,6 +28,11 @@ public class NonceExpiredException extends AuthenticationException {
 	// ===================================================================================================
 
 	/**
+	 *
+	 */
+	private static final long serialVersionUID = -3487244679050681257L;
+
+	/**
 	 * Constructs a <code>NonceExpiredException</code> with the specified message.
 	 *
 	 * @param msg the detail message

@@ -4,13 +4,10 @@ import com.mine.common.core.util.WebUtils;
 import com.mine.common.log.util.AccessLogUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.log.LogFormatUtils;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class AccessLogAspect {
 
-    private final Log logger = LogFactory.getLog(getClass());
 
     @SneakyThrows
     @Around("execution(* com.mine.*.controller.web.*.*(..))")

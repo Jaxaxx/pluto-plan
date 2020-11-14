@@ -3,7 +3,6 @@ package com.mine.common.security.util;
 import cn.hutool.core.codec.Base64;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
 
@@ -15,7 +14,6 @@ import java.nio.charset.StandardCharsets;
  * @Author
  * @Date
  */
-@Slf4j
 @UtilityClass
 public class AuthUtils {
 	private final String BASIC_ = "Basic ";

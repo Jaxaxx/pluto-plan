@@ -31,6 +31,7 @@ public class AuthTokenAspect {
      * @throws Throwable
      */
     @Around("execution(* org.springframework.security.oauth2.provider.endpoint.TokenEndpoint.postAccessToken(..))")
+    @SuppressWarnings("unchecked")
     public Object handleControllerMethod(ProceedingJoinPoint pjp) throws Throwable {
         Object proceed = pjp.proceed();
         ResponseEntity<OAuth2AccessToken> responseEntity = (ResponseEntity<OAuth2AccessToken>) proceed;

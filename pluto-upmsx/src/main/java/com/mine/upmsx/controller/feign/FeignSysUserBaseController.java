@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
+/**ß
  * @author jax-li
  */
 @RestController
@@ -32,7 +32,7 @@ public class FeignSysUserBaseController {
     }
 
     @GetMapping("/test")
-    public Result test() {
+    public Result<?> test() {
 
         MyUser user = SecurityUtils.getUser();
         String str = JSONUtil.toJsonStr(JSONUtil.parse(user));

@@ -267,7 +267,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
      * @param name   文件名
      */
     @SneakyThrows
-    public void exportExcel(@NonNull List list, @NonNull ExcelWriter writer, String name) {
+    public void exportExcel(@NonNull List<Object> list, @NonNull ExcelWriter writer, String name) {
         writer.setOnlyAlias(true);
         HttpServletResponse response = WebUtils.getResponse();
         //response为HttpServletResponse对象

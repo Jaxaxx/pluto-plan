@@ -31,6 +31,7 @@ import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResour
  */
 @Configuration
 @ConditionalOnProperty("security.oauth2.client.client-id")
+@SuppressWarnings("deprecation")
 public class MyFeignClientConfiguration {
 
 	@Bean

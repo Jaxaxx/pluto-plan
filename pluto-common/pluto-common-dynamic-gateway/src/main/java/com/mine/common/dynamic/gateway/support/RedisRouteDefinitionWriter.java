@@ -24,12 +24,15 @@ import java.util.List;
 @Slf4j
 @Component
 @AllArgsConstructor
+@SuppressWarnings("all")
 public class RedisRouteDefinitionWriter implements RouteDefinitionRepository {
 
     /**
      * 路由存放
      */
     String ROUTE_KEY = "gateway_route_key";
+
+    
     private final RedisTemplate redisTemplate;
 
     @Override

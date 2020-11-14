@@ -1,6 +1,5 @@
 package com.mine.common.security.exception;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 /**
  * @author Jax-li
  */
-@Slf4j
+@SuppressWarnings("rawtypes")
 public final class MyWebResponseExceptionTranslator implements WebResponseExceptionTranslator {
 
     private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
@@ -86,6 +85,11 @@ public final class MyWebResponseExceptionTranslator implements WebResponseExcept
 
     private static class ForbiddenException extends MyAuth2Exception {
 
+        /**
+         *
+         */
+        private static final long serialVersionUID = -3211367958906565120L;
+
         public ForbiddenException(String msg, Throwable t) {
             super(msg, t);
         }
@@ -103,6 +107,11 @@ public final class MyWebResponseExceptionTranslator implements WebResponseExcept
     }
 
     private static class InvalidException extends MyAuth2Exception {
+
+        /**
+         *
+         */
+        private static final long serialVersionUID = -8573340446290695719L;
 
         public InvalidException(String msg, Throwable t) {
             super(msg, t);
@@ -122,6 +131,11 @@ public final class MyWebResponseExceptionTranslator implements WebResponseExcept
 
     private static class MethodNotAllowedException extends MyAuth2Exception {
 
+        /**
+         *
+         */
+        private static final long serialVersionUID = 2311129072383780001L;
+
         public MethodNotAllowedException(String msg, Throwable t) {
             super(msg, t);
         }
@@ -140,6 +154,11 @@ public final class MyWebResponseExceptionTranslator implements WebResponseExcept
 
     private static class ServerErrorException extends MyAuth2Exception {
 
+        /**
+         *
+         */
+        private static final long serialVersionUID = -2551662415211152587L;
+
         public ServerErrorException(String msg, Throwable t) {
             super(msg, t);
         }
@@ -157,6 +176,11 @@ public final class MyWebResponseExceptionTranslator implements WebResponseExcept
     }
 
     private static class UnauthorizedException extends MyAuth2Exception {
+
+        /**
+         *
+         */
+        private static final long serialVersionUID = 6493565496566723244L;
 
         public UnauthorizedException(String msg, Throwable t) {
             super(msg, t);

@@ -8,6 +8,11 @@ import org.springframework.context.ApplicationEvent;
  * @Date
  */
 public class DynamicRouteInitEvent extends ApplicationEvent {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1130435432793239420L;
+
 	public DynamicRouteInitEvent(Object source) {
 		super(source);
 	}

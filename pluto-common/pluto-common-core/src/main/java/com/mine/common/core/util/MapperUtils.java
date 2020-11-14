@@ -1,6 +1,5 @@
 package com.mine.common.core.util;
 
-import lombok.experimental.UtilityClass;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.converter.BidirectionalConverter;
@@ -80,7 +79,7 @@ public class MapperUtils {
         MapperFacade mapperFacade = CACHE_MAPPER_FACADE_MAP.get(mapKey);
         if (Objects.isNull(mapperFacade)) {
             MapperFactory factory = new DefaultMapperFactory.Builder().build();
-            ClassMapBuilder classMapBuilder = factory.classMap(dataClass, toClass);
+            ClassMapBuilder<T,E> classMapBuilder = factory.classMap(dataClass, toClass);
             configMap.forEach(classMapBuilder::field);
             classMapBuilder.byDefault().register();
             mapperFacade = factory.getMapperFacade();

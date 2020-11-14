@@ -3,15 +3,12 @@ package com.mine.common.log.aspect;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.HttpUtil;
-import com.mine.common.core.util.WebUtils;
 import com.mine.common.log.annotation.SysLog;
 import com.mine.common.log.constant.LogTypeEnum;
 import com.mine.common.log.event.SysLogEvent;
-import com.mine.common.log.util.AccessLogUtil;
 import com.mine.common.security.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -31,7 +28,6 @@ import java.util.Objects;
  */
 @Order(-1)
 @Aspect
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class SysLogAspect {

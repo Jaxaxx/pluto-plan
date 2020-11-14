@@ -7,6 +7,10 @@ import java.util.Collection;
 
 public class MobileAuthenticationToken extends AbstractAuthenticationToken {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private final Object principal;
 
     @Override
