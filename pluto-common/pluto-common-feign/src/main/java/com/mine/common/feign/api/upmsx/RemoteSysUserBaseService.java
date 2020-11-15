@@ -19,8 +19,11 @@ public interface RemoteSysUserBaseService {
      * @param userName 用户名
      * @return SysUserBaseVO系统用户基础VO
      */
-    @GetMapping("/feign/sysUserBase/{userName}")
-    SysUserBaseVO getUserByUserName(@PathVariable("userName") String userName);
+    @GetMapping("/feign/sysUserBase/{clientId}/{userName}")
+    SysUserBaseVO getUserByUserName(
+            @PathVariable("clientId") String clientId,
+            @PathVariable("userName") String userName);
+
 
     @GetMapping("/feign/test")
     Result<String> test();

@@ -28,6 +28,10 @@
             <groupId>com.mine</groupId>
             <artifactId>pluto-common-mybatis-plus</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.mine</groupId>
+            <artifactId>pluto-common-log</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

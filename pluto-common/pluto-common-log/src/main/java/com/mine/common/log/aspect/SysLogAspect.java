@@ -63,11 +63,13 @@ public class SysLogAspect {
      * @param AsysLog
      * @return
      */
-    private com.mine.common.feign.entity.upmsx.SysLog getSysLog(SysLog AsysLog) {
+    public static com.mine.common.feign.entity.upmsx.SysLog getSysLog(SysLog AsysLog) {
         HttpServletRequest request = ((ServletRequestAttributes) Objects
                 .requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         com.mine.common.feign.entity.upmsx.SysLog sysLog = new com.mine.common.feign.entity.upmsx.SysLog();
-        sysLog.setTitle(AsysLog.value());
+        if (Objects.nonNull(AsysLog)) {
+            sysLog.setTitle(AsysLog.value());
+        }
         sysLog.setType(LogTypeEnum.NORMAL.getType());
         sysLog.setRemoteAddr(ServletUtil.getClientIP(request));
         sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));

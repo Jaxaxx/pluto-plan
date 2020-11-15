@@ -16,6 +16,6 @@ public @interface SysLog {
      *
      * @return {String}
      */
-    String value();
+    String value() default "";
 
 }

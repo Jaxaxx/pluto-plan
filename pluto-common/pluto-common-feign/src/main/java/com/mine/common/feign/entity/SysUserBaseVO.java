@@ -37,10 +37,10 @@ public class SysUserBaseVO {
     private String idCard;
 
     @ApiModelProperty(value = "是否锁定  1 是 0 否")
-    private Integer isLocked;
+    private Boolean isLocked;
 
     @ApiModelProperty(value = "是否启用  1 是 0 否 ")
-    private Integer isEnabled;
+    private Boolean isEnabled;
 
     @ApiModelProperty(value = "最后登录时间")
     private Date lastLoginTime;

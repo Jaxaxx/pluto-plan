@@ -16,8 +16,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @description: 代码生成器
- * @from: com.baomidou.mybatisplus
+ * 代码生成器
+ *
+ * @since com.baomidou.mybatisplus
  */
 public class MpGenerator {
 
@@ -25,44 +26,41 @@ public class MpGenerator {
      * DataSource config
      * tableNames : {多个表用逗号分隔}
      */
-    private static String dateSourceUrl = "jdbc:mysql://192.168.1.236:3311/test-a?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useOldAliasMetadataBehavior=true&useSSL=false";
-    private static String dataSourceUserName = "root";
-    private static String dataSourcePassWord = "MyNewPass4!";
-    private static String dataSourceDriverName = "com.mysql.cj.jdbc.Driver";
-    private static String[] tableNames = {"test_json"};
+    private static final String dateSourceUrl = "jdbc:mysql://192.168.0.110/pluto-plan?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useOldAliasMetadataBehavior=true&useSSL=false";
+    private static final String dataSourceUserName = "root";
+    private static final String dataSourcePassWord = "MyNewPass4!";
+    private static final String dataSourceDriverName = "com.mysql.cj.jdbc.Driver";
+    private static final String[] tableNames = {"sys_user_client"};
 
     /**
      * Project config
      */
-    private static String author = "jax-li";
-    private static String projectDir = "D:\\";
-    private static String parent = "com.mine";
-    private static String moduleName = "upmsx";
+    private static final String author = "jax-li";
+    private static final String projectDir = "/Users/jax-li/IdeaProjects/pluto-plan";
+    private static final String parent = "com.mine";
+    private static final String moduleName = "upmsx";
 
 
     /**
      * 下面是一些可选的配置
      */
-    private static String mapperTemplatePath = "/templates/mapper.xml.vm";
-    private static String dtoTemplatePath = "/templates/dto.java.vm";
-    private static String voTemplatePath = "/templates/vo.java.vm";
-    private static String deleteFlag = "is_deleted";
-    private static String version = "version";
-    private static DbType dbType = DbType.MYSQL;
-    private static ITypeConvert iTypeConvert = new MySqlTypeConvert();
-    private static NamingStrategy tableStrategy = NamingStrategy.underline_to_camel;     // 表名生成策略
+    private static final String mapperTemplatePath = "/templates/mapper.xml.vm";
+    private static final String dtoTemplatePath = "/templates/dto.java.vm";
+    private static final String voTemplatePath = "/templates/vo.java.vm";
+    private static final String deleteFlag = "is_deleted";
+    private static final String version = "version";
+    private static final DbType dbType = DbType.MYSQL;
+    private static final ITypeConvert iTypeConvert = new MySqlTypeConvert();
+    private static final NamingStrategy tableStrategy = NamingStrategy.underline_to_camel;     // 表名生成策略
 
-    private static String frameDir = parent.replace(".", "/");
-    private static String rootDir = projectDir + "/src/main/";
-    private static String dtoDir = rootDir + "java/" + frameDir + "/" + moduleName + "/dto/";
-    private static String voDir = rootDir + "java/" + frameDir + "/" + moduleName + "/vo/";
-    private static String mapperDir = rootDir + "resources/mapper/";
+    private static final String frameDir = parent.replace(".", "/");
+    private static final String rootDir = projectDir + "/src/main/";
+    private static final String dtoDir = rootDir + "java/" + frameDir + "/" + moduleName + "/dto/";
+    private static final String voDir = rootDir + "java/" + frameDir + "/" + moduleName + "/vo/";
+    private static final String mapperDir = rootDir + "resources/mapper/";
 
-    private static List<TableFill> tableFills = new ArrayList<>();
+    private static final List<TableFill> tableFills = new ArrayList<>();
 
-    /**
-     *  自动填充字段
-     */
     static {
         TableFill createTime = new TableFill("create_time", FieldFill.INSERT);
         TableFill createUserId = new TableFill("create_user_id", FieldFill.INSERT);

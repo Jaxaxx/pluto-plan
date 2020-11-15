@@ -6,6 +6,7 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 
@@ -37,6 +38,8 @@ public class SecurityUtils {
             return principal.toString();
         } else if (principal instanceof MyUser) {
             return ((MyUser) principal).getUsername();
+        } else if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
         }
         return null;
     }

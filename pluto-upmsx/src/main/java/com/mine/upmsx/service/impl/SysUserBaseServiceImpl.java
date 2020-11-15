@@ -64,13 +64,7 @@ public class SysUserBaseServiceImpl extends ServiceImpl<SysUserBaseMapper, SysUs
     }
 
     @Override
-    public SysUserBaseVO getUserByUserName(String userName) {
-        SysUserBase sysUserBase = baseMapper.selectOne(new LambdaQueryWrapper<SysUserBase>()
-                .eq(SysUserBase::getUserName, userName)
-        );
-        if (Objects.isNull(sysUserBase)) {
-            return null;
-        }
-        return BeanUtil.copyProperties(sysUserBase, SysUserBaseVO.class);
+    public SysUserBaseVO getLoginInfo(String clientId, String userName) {
+        return baseMapper.getLoginInfo(clientId, userName);
     }
 }

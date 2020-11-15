@@ -9,7 +9,7 @@ import com.mine.common.core.util.MapperUtils;
 
 import com.mine.${package.ModuleName}.dto.${entity}DTO;
 import ${package.Entity}.${entity};
-import com.mine.${package.ModuleName}.mapper.SysLogMapper;
+import com.mine.${package.ModuleName}.mapper.${table.mapperName};
 import ${package.Service}.${table.serviceName};
 import com.mine.${package.ModuleName}.vo.${entity}VO;
 import lombok.RequiredArgsConstructor;

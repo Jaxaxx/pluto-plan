@@ -54,8 +54,7 @@ public class MyUser extends User {
      *                              <code>DaoAuthenticationProvider</code>
      * @param enabled               set to <code>true</code> if the user is enabled
      * @param accountNonExpired     set to <code>true</code> if the account has not expired
-     * @param credentialsNonExpired set to <code>true</code> if the credentials have not
-     *                              expired
+     * @param credentialsNonExpired set to <code>true</code> if the credentials have not expired
      * @param accountNonLocked      set to <code>true</code> if the account is not locked
      * @param authorities           the authorities that should be granted to the caller if they
      *                              presented the correct username and password and the user is enabled. Not null.

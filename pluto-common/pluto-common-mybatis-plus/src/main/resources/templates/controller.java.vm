@@ -2,7 +2,7 @@ package ${package.Controller};
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.mine.common.core.util.Result;
+import com.mine.common.core.result.Result;
 
 import com.mine.${package.ModuleName}.dto.${entity}DTO;
 import ${package.Entity}.${entity};

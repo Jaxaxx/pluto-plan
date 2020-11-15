@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.mine.common.core.result.Result;
+import com.mine.common.core.util.WebUtils;
 import com.mine.common.feign.entity.SysUserBaseVO;
 import com.mine.common.security.model.MyUser;
 import com.mine.common.security.util.SecurityUtils;
@@ -15,7 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**ß
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * ß
+ *
  * @author jax-li
  */
 @RestController
@@ -25,10 +30,11 @@ public class FeignSysUserBaseController {
 
     private final ISysUserBaseService sysUserBaseService;
 
-    @GetMapping("/sysUserBase/{userName}")
-    public SysUserBaseVO getUserByUserName(@PathVariable("userName") String userName) {
-        SysUserBase userBase = sysUserBaseService.getOne(new QueryWrapper<SysUserBase>().lambda().eq(SysUserBase::getUserName, userName));
-        return BeanUtil.copyProperties(userBase, SysUserBaseVO.class);
+    @GetMapping("/sysUserBase/{clientId}/{userName}")
+    public SysUserBaseVO getUserByUserName(
+            @PathVariable("clientId") String clientId,
+            @PathVariable("userName") String userName) {
+        return sysUserBaseService.getLoginInfo(clientId,userName);
     }
 
     @GetMapping("/test")

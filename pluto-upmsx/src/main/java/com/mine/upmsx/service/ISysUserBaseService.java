@@ -26,5 +26,5 @@ public interface ISysUserBaseService extends IService<SysUserBase> {
 
     void delete(Long id);
 
-    SysUserBaseVO getUserByUserName(String userName);
+    SysUserBaseVO getLoginInfo(String clientId, String userName);
 }
