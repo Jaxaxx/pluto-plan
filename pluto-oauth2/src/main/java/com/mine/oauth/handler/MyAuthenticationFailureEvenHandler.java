@@ -17,5 +17,8 @@ public class MyAuthenticationFailureEvenHandler extends AbstractAuthenticationFa
     @Override
     public void handle(AuthenticationException exception, Authentication authentication) {
         log.info("用户：{} 登录失败，异常：{}", authentication.getPrincipal(), exception.getLocalizedMessage());
+        /**
+         * 1.记录登录日志，进行锁定账户等操作
+         */
     }
 }

@@ -31,5 +31,9 @@ public class MyAuthenticationSuccessEventHandler extends AbstractAuthenticationS
         log.info("认证成功，: {}", user.getUsername());
         // sms模式delete验证码
         redisTemplate.delete(RedisPrefixConstants.VERIFY_CODE + (user.getPhone()));
+        /**
+         * 1.登录成功修改最后登录时间
+         * 2.记录登录日志
+         */
     }
 }
