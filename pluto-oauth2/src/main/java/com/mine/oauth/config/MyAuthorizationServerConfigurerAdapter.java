@@ -26,8 +26,8 @@ public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerC
     private final UserDetailsService myUserDetailsService;
     private final AuthenticationManager authenticationManager;
     private final ClientDetailsService jdbcClientDetailsService;
-    @SuppressWarnings("rawtypes")
-    private final WebResponseExceptionTranslator myWebResponseExceptionTranslator;
+//    @SuppressWarnings("rawtypes")
+//    private final WebResponseExceptionTranslator myWebResponseExceptionTranslator;
 
     @SuppressWarnings("unchecked")
     @Override
