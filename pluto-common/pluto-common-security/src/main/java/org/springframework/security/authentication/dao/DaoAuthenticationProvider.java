@@ -38,6 +38,7 @@ import org.springframework.util.Assert;
  * @author Rob Winch
  */
 public class DaoAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
+
 	// ~ Static fields/initializers
 	// =====================================================================================
 
@@ -88,6 +89,7 @@ public class DaoAuthenticationProvider extends AbstractUserDetailsAuthentication
 		String presentedPassword = authentication.getCredentials().toString();
 
 		if (!passwordEncoder.matches(presentedPassword, userDetails.getPassword())) {
+            // 用户名密码不匹配
 			logger.debug("Authentication failed: password does not match stored value");
 
 			throw new BadCredentialsException(messages.getMessage(

@@ -12,14 +12,16 @@
  */
 package org.springframework.security.oauth2.provider.client;
 
+import com.mine.common.security.exception.MyAuth2Exception;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.NoSuchClientException;
@@ -29,6 +31,8 @@ import org.springframework.security.oauth2.provider.NoSuchClientException;
  */
 @Slf4j
 public class ClientDetailsUserDetailsService implements UserDetailsService {
+
+    MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
 
     private final ClientDetailsService clientDetailsService;
     private String emptyPassword = "";
@@ -47,18 +51,18 @@ public class ClientDetailsUserDetailsService implements UserDetailsService {
     /**
      * 重写源码解决oauth2 获取token header中basic认证失败
      *
-     * @param username	username
+     * @param username username
      * @return UserDetails
      * @throws UsernameNotFoundException
      */
     @Override
-    public UserDetails loadUserByUsername(String username) throws AuthenticationCredentialsNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws InvalidClientException {
         ClientDetails clientDetails;
         try {
             clientDetails = clientDetailsService.loadClientByClientId(username);
         } catch (NoSuchClientException e) {
             log.error("认证异常::: {}", e.getMessage());
-			throw new AuthenticationCredentialsNotFoundException(e.getMessage(), e);
+            throw new MyAuth2Exception(e.getMessage(), e);
         }
         String clientSecret = clientDetails.getClientSecret();
         if (clientSecret == null || clientSecret.trim().length() == 0) {

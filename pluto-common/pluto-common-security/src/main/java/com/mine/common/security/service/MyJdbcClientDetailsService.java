@@ -21,7 +21,6 @@ public class MyJdbcClientDetailsService extends JdbcClientDetailsService {
      * @throws InvalidClientException
      */
     @Override
-    @SneakyThrows
     public ClientDetails loadClientByClientId(String clientId) {
         return super.loadClientByClientId(clientId);
     }

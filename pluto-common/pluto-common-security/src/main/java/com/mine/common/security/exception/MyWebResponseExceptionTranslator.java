@@ -83,7 +83,7 @@ public final class MyWebResponseExceptionTranslator implements WebResponseExcept
 
     }
 
-    private static class ForbiddenException extends MyAuth2Exception {
+    public static class ForbiddenException extends MyAuth2Exception {
 
         /**
          *

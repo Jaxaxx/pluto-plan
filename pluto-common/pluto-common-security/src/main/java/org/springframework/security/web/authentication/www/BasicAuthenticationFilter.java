@@ -31,8 +31,10 @@ import org.springframework.util.Assert;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.nio.charset.Charset;
 
 /**
@@ -139,8 +141,7 @@ public class BasicAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    @SneakyThrows
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         final boolean debug = this.logger.isDebugEnabled();
         try {
             UsernamePasswordAuthenticationToken authRequest = authenticationConverter.convert(request);
@@ -183,9 +184,9 @@ public class BasicAuthenticationFilter extends OncePerRequestFilter {
             if (this.ignoreFailure) {
                 chain.doFilter(request, response);
             } else {
+                // 封装401response header信息
                 this.authenticationEntryPoint.commence(request, response, failed);
             }
-
             return;
         }
 
@@ -232,10 +233,12 @@ public class BasicAuthenticationFilter extends OncePerRequestFilter {
 
     @SneakyThrows
     protected void onSuccessfulAuthentication(HttpServletRequest req, HttpServletResponse rep, Authentication auth) {
+        logger.debug(auth);
     }
 
     @SneakyThrows
-    protected void onUnsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse rep, AuthenticationException authEx)  {
+    protected void onUnsuccessfulAuthentication(HttpServletRequest req, HttpServletResponse rep, AuthenticationException authEx) {
+        logger.error(authEx.getMessage());
     }
 
     protected AuthenticationEntryPoint getAuthenticationEntryPoint() {
