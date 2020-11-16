@@ -80,5 +80,9 @@ public interface SecurityConstants {
      * {bcrypt} 加密的特征码
      */
     String BCRYPT = "{bcrypt}";
+    /**
+     * {noop} 加密的特征码
+     */
+    String NOOP = "{noop}";
 
 }

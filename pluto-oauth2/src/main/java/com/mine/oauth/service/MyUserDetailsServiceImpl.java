@@ -1,30 +1,32 @@
 package com.mine.oauth.service;
 
-import cn.hutool.core.collection.CollectionUtil;
 import com.mine.common.core.constant.SecurityConstants;
-import com.mine.common.feign.api.upmsx.RemoteSysLogService;
+import com.mine.common.core.util.WebUtils;
 import com.mine.common.feign.api.upmsx.RemoteSysUserBaseService;
 import com.mine.common.feign.entity.SysUserBaseVO;
-import com.mine.common.feign.entity.upmsx.SysLog;
-import com.mine.common.log.aspect.SysLogAspect;
 import com.mine.common.security.config.MySecurityMessageSource;
+import com.mine.common.security.constant.GrantTypeConstant;
 import com.mine.common.security.model.MyUser;
 import com.mine.common.security.service.MyUserDetailsService;
 import com.mine.common.security.util.SecurityUtils;
+import io.netty.util.internal.NoOpTypeParameterMatcher;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author jax-li
@@ -34,29 +36,32 @@ import java.util.*;
 public class MyUserDetailsServiceImpl implements MyUserDetailsService {
 
     protected MessageSourceAccessor messages = MySecurityMessageSource.getAccessor();
-
     private final RemoteSysUserBaseService remoteSysUserBaseService;
-    private final RemoteSysLogService remoteSysLogService;
+    private final PasswordEncoder passwordEncoder;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) {
+    private UserDetails getLoginInfo(@NonNull String grantType, String username) {
         // 用户信息校验之前，SecurityContextHolder.getContext().getAuthentication() 存放的是clientid
         final String clientId = SecurityUtils.getUsername();
-        return getUserDetail(remoteSysUserBaseService.getUserByUserName(clientId, username));
+        SysUserBaseVO vo = remoteSysUserBaseService.getUserByUserName(clientId, username);
+        if (grantType.equals(GrantTypeConstant.PASSWORD)) {
+            vo.setPassword(SecurityConstants.BCRYPT + (vo.getPassword()));
+        }
+        if (grantType.equals(GrantTypeConstant.SMS)) {
+            vo.setPassword(passwordEncoder.encode(SecurityConstants.BCRYPT + (vo.getPassword())));
+        }
+        return conversion(vo);
     }
 
-    private UserDetails getUserDetail(SysUserBaseVO vo) {
-        checkUserDetail(vo);
-
+    private UserDetails conversion(SysUserBaseVO vo) {
+        check(vo);
         Set<String> authSet = new HashSet<>();
         authSet.add("ROLE_ADMIN");
         Collection<? extends GrantedAuthority> authorities = AuthorityUtils
                 .createAuthorityList(authSet.toArray(new String[0]));
-
         return new MyUser(vo.getId(),
                 vo.getMobile(),
                 vo.getUserName(),
-                SecurityConstants.BCRYPT + vo.getPassword(),
+                vo.getPassword(),
                 vo.getUserName(),
                 !vo.getIsEnabled(),
                 true,
@@ -65,7 +70,7 @@ public class MyUserDetailsServiceImpl implements MyUserDetailsService {
                 authorities);
     }
 
-    private void checkUserDetail(SysUserBaseVO vo) {
+    private void check(SysUserBaseVO vo) {
 
         if (Objects.isNull(vo) || Objects.isNull(vo.getId())) {
             throw new UsernameNotFoundException(messages.getMessage(
@@ -73,6 +78,17 @@ public class MyUserDetailsServiceImpl implements MyUserDetailsService {
                     "The Username does not exist"));
         }
         // TODO 其他校验逻辑
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) {
+        String grantType = WebUtils.getRequest().getParameter("grant_type");
+        return getLoginInfo(grantType, username);
+    }
+
+    @Override
+    public UserDetails loadUserByUserNameAndSms(String username) {
+        return getLoginInfo(GrantTypeConstant.SMS, username);
     }
 
     @Override
@@ -84,4 +100,5 @@ public class MyUserDetailsServiceImpl implements MyUserDetailsService {
     public UserDetails loadUserBySocial(String principal) {
         return null;
     }
+
 }

@@ -17,4 +17,7 @@ public interface MyUserDetailsService extends UserDetailsService {
     UserDetails loadAppUserByPhone(String principal);
 
     UserDetails loadUserBySocial(String principal);
+
+    UserDetails loadUserByUserNameAndSms(String username);
+
 }

@@ -16,6 +16,7 @@ public interface RemoteSysUserBaseService {
     /**
      * 通过用户名查询用户基本信息
      *
+     * @param clientId 客户端id
      * @param userName 用户名
      * @return SysUserBaseVO系统用户基础VO
      */
