@@ -42,7 +42,7 @@ public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerC
                 .authenticationManager(authenticationManager)
                 .userDetailsService(myUserDetailsService)
                 .tokenServices(tokenService)
-                .exceptionTranslator(myWebResponseExceptionTranslator)
+//                .exceptionTranslator(myWebResponseExceptionTranslator)
         ;
     }
 

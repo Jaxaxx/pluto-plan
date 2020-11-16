@@ -26,7 +26,6 @@ public class MyAuth2ExceptionSerializer extends StdSerializer<MyAuth2Exception> 
         gen.writeStartObject();
         gen.writeObjectField("success",  Boolean.FALSE);
         gen.writeStringField("code", ResultCode.FAIL.getCode().toString());
-        gen.writeStringField("error_code", value.getOAuth2ErrorCode());
         gen.writeStringField("message", value.getMessage());
         gen.writeEndObject();
     }
