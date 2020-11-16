@@ -17,6 +17,7 @@
         <module>pluto-oauth2</module>
         <module>pluto-upmsx</module>
         <module>pluto-visual</module>
+        <module>pluto-system</module>
     </modules>
 
     <groupId>com.mine</groupId>

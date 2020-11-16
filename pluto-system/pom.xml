@@ -9,27 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>pluto-upmsx</artifactId>
+    <artifactId>pluto-system</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>com.mine</groupId>
-            <artifactId>pluto-common-swagger</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.mine</groupId>
             <artifactId>pluto-common-log</artifactId>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 
 </project>

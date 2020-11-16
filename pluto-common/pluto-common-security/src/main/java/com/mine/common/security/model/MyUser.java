@@ -37,10 +37,6 @@ public class MyUser extends User {
 
     @Getter
     @Setter
-    private String clientId;
-
-    @Getter
-    @Setter
     private transient String token;
 
     /**
