@@ -2,7 +2,6 @@ package com.mine.oauth.config;
 
 import com.mine.common.core.constant.SecurityConstants;
 import com.mine.common.security.model.MyUser;
-import com.mine.common.security.service.MyJdbcClientDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -89,7 +88,7 @@ public class GlobalConfiguration {
     @Primary
     @Bean
     public ClientDetailsService jdbcClientDetailsService() {
-        JdbcClientDetailsService clientDetailsService = new MyJdbcClientDetailsService(dataSource);
+        JdbcClientDetailsService clientDetailsService = new JdbcClientDetailsService(dataSource);
         clientDetailsService.setInsertClientDetailsSql(SecurityConstants.DEFAULT_INSERT_STATEMENT);
         clientDetailsService.setDeleteClientDetailsSql(SecurityConstants.DEFAULT_DELETE_STATEMENT);
         clientDetailsService.setUpdateClientDetailsSql(SecurityConstants.DEFAULT_UPDATE_STATEMENT);

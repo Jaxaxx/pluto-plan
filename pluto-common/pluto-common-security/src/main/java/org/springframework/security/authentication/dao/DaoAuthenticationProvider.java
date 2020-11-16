@@ -16,6 +16,8 @@
 
 package org.springframework.security.authentication.dao;
 
+import com.mine.common.core.constant.SecurityConstants;
+import com.mine.common.security.constant.GrantTypeConstant;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -26,10 +28,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsPasswordService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
+
+import java.util.Map;
 
 /**
  * An {@link AuthenticationProvider} implementation that retrieves user details from a
@@ -76,8 +79,7 @@ public class DaoAuthenticationProvider extends AbstractUserDetailsAuthentication
     // ========================================================================================================
 
     @Override
-    protected void additionalAuthenticationChecks(UserDetails userDetails,
-                                                  UsernamePasswordAuthenticationToken authentication)
+    protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication)
             throws AuthenticationException {
         if (authentication.getCredentials() == null) {
             logger.debug("Authentication failed: no credentials provided");
@@ -86,10 +88,17 @@ public class DaoAuthenticationProvider extends AbstractUserDetailsAuthentication
                     "AbstractUserDetailsAuthenticationProvider.badCredentials",
                     "Bad credentials"));
         }
-
+        // 客户端输入的密码
         String presentedPassword = authentication.getCredentials().toString();
-        System.out.println(presentedPassword);
-        System.out.println(userDetails.getPassword());
+
+        if (authentication.getDetails() instanceof Map) {
+            // sms 自定义验证码模式处理逻辑
+            Map<String, String> parameters = (Map<String, String>) authentication.getDetails();
+            if (parameters.get("grant_type").equals(GrantTypeConstant.SMS) && presentedPassword.startsWith(SecurityConstants.NOOP)) {
+                presentedPassword = presentedPassword.replace(SecurityConstants.NOOP, "");
+            }
+        }
+
         if (!passwordEncoder.matches(presentedPassword, userDetails.getPassword())) {
             // 用户名密码不匹配
             logger.debug("Authentication failed: password does not match stored value");
@@ -106,8 +115,7 @@ public class DaoAuthenticationProvider extends AbstractUserDetailsAuthentication
     }
 
     @Override
-    protected final UserDetails retrieveUser(String username,
-                                             UsernamePasswordAuthenticationToken authentication)
+    protected final UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication)
             throws AuthenticationException {
         prepareTimingAttackProtection();
         try {
@@ -128,10 +136,8 @@ public class DaoAuthenticationProvider extends AbstractUserDetailsAuthentication
     }
 
     @Override
-    protected Authentication createSuccessAuthentication(Object principal,
-                                                         Authentication authentication, UserDetails user) {
-        boolean upgradeEncoding = this.userDetailsPasswordService != null
-                && this.passwordEncoder.upgradeEncoding(user.getPassword());
+    protected Authentication createSuccessAuthentication(Object principal, Authentication authentication, UserDetails user) {
+        boolean upgradeEncoding = this.userDetailsPasswordService != null && this.passwordEncoder.upgradeEncoding(user.getPassword());
         if (upgradeEncoding) {
             String presentedPassword = authentication.getCredentials().toString();
             String newPassword = this.passwordEncoder.encode(presentedPassword);
@@ -178,8 +184,7 @@ public class DaoAuthenticationProvider extends AbstractUserDetailsAuthentication
         return userDetailsService;
     }
 
-    public void setUserDetailsPasswordService(
-            UserDetailsPasswordService userDetailsPasswordService) {
+    public void setUserDetailsPasswordService(UserDetailsPasswordService userDetailsPasswordService) {
         this.userDetailsPasswordService = userDetailsPasswordService;
     }
 

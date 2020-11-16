@@ -1,11 +1,12 @@
 package org.springframework.security.oauth2.provider.sms;
 
-import com.mine.common.security.service.MyUserDetailsService;
+import com.mine.common.core.constant.SecurityConstants;
+import com.mine.common.security.constant.GrantTypeConstant;
 import com.mine.common.security.util.ApplicationContextAwareUtil;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.token.AbstractTokenGranter;
@@ -19,7 +20,8 @@ import java.util.Map;
  */
 public class SmsTokenGranter extends AbstractTokenGranter {
 
-    private static final String GRANT_TYPE = "sms";
+    private static final String GRANT_TYPE = GrantTypeConstant.SMS;
+    private static final String USER_DETAIL_SERVICE_NAME = SecurityConstants.USER_DETAIL_SERVICE_NAME;
 
     private final AuthenticationManager authenticationManager;
 
@@ -37,13 +39,18 @@ public class SmsTokenGranter extends AbstractTokenGranter {
     @Override
     protected OAuth2Authentication getOAuth2Authentication(ClientDetails client, TokenRequest tokenRequest) {
 
-        Map<String, String> parameters = new LinkedHashMap<String, String>(tokenRequest.getRequestParameters());
-        // 验证码校验
-        this.checkPhoneSms(parameters);
-		String username = parameters.get("username");
-		MyUserDetailsService myUserDetailsService = ApplicationContextAwareUtil.getBean("myUserDetailsServiceImpl");
-		UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
-		String password = userDetails.getPassword();
+        Map<String, String> parameters = new LinkedHashMap<>(tokenRequest.getRequestParameters());
+
+        String username = parameters.get("username");
+        UserDetailsService userDetailsService = ApplicationContextAwareUtil.getBean(USER_DETAIL_SERVICE_NAME);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        try {
+            // 先安装框架的过滤器链顺序校验用户名再校验验证码，否则提示不友好
+            SmsGrantTypePreProcessor.doHandler();
+        } catch (BadCredentialsException ex) {
+            throw new InvalidGrantException(ex.getMessage());
+        }
+        String password = userDetails.getPassword();
         // Protect from downstream leaks of password
         Authentication userAuth = new UsernamePasswordAuthenticationToken(username, password);
         ((AbstractAuthenticationToken) userAuth).setDetails(parameters);
@@ -64,7 +71,4 @@ public class SmsTokenGranter extends AbstractTokenGranter {
         return new OAuth2Authentication(storedOAuth2Request, userAuth);
     }
 
-    private void checkPhoneSms(Map<String, String> parameters) {
-
-    }
 }

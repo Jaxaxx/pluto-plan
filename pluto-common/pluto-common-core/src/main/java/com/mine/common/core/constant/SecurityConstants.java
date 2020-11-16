@@ -12,19 +12,9 @@ public interface SecurityConstants {
      */
     String OAUTH_PREFIX = "oauth:";
     /**
-     * app短信登录URL
-     */
-    String SMS_APP_TOKEN_URL = "/mobile/token/app/sms";
-    /**
-     * 自定义登录URL
-     */
-    String MOBILE_TOKEN_URL = "/mobile/token/**";
-
-    /**
      * 客户端模式
      */
     String CLIENT_CREDENTIALS = "client_credentials";
-
     /**
      * 用户ID字段
      */
@@ -84,5 +74,7 @@ public interface SecurityConstants {
      * {noop} 加密的特征码
      */
     String NOOP = "{noop}";
+    String USER_DETAIL_SERVICE_NAME = "userDetailsService";
+    String REDIS_TEMPLATE_BEAN_NAME = "redisTemplate";
 
 }

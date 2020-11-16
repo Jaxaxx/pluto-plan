@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mine.upmsx.mapper.SysUserBaseMapper">
-
-    <!-- 通用查询映射结果 -->
+<mapper namespace="com.mine.upmsx.mapper.SysUserBaseMapper"><!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.mine.upmsx.entity.SysUserBase">
         <id column="id" property="id"/>
         <result column="user_name" property="userName"/>
@@ -20,10 +18,7 @@
         <result column="update_user_id" property="updateUserId"/>
         <result column="update_user_name" property="updateUserName"/>
         <result column="update_time" property="updateTime"/>
-    </resultMap>
-
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
+    </resultMap><!-- 通用查询结果列 --><sql id="Base_Column_List">
         id, user_name, password, mobile, email, id_card, is_locked, is_enabled, last_login_time, is_deleted, create_user_id, create_user_name, create_time, update_user_id, update_user_name, update_time
     </sql>
 
@@ -37,14 +32,16 @@
                user.is_locked,
                user.is_enabled,
                user.last_login_time
-        from sys_user_base  user
-             left join sys_user_client client on user.id = client.user_id
-        where
-              user.user_name = #{userName}
+        from sys_user_base user
+                 left join sys_user_client client on user.id = client.user_id
+        where (
+                user.user_name = #{userName}
+                or user.mobile = #{userName}
+                or user.id_card = #{userName}
+            )
           and client.client_id = #{clientId}
           and user.is_deleted = 0
           and client.is_deleted = 0
     </select>
-
 
 </mapper>

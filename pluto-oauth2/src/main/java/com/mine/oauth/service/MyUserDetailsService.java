@@ -7,20 +7,15 @@ import com.mine.common.feign.entity.SysUserBaseVO;
 import com.mine.common.security.config.MySecurityMessageSource;
 import com.mine.common.security.constant.GrantTypeConstant;
 import com.mine.common.security.model.MyUser;
-import com.mine.common.security.service.MyUserDetailsService;
 import com.mine.common.security.util.SecurityUtils;
-import io.netty.util.internal.NoOpTypeParameterMatcher;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -31,33 +26,45 @@ import java.util.Set;
 /**
  * @author jax-li
  */
-@Service
+@Service(value = SecurityConstants.USER_DETAIL_SERVICE_NAME)
 @RequiredArgsConstructor
-public class MyUserDetailsServiceImpl implements MyUserDetailsService {
+public class MyUserDetailsService implements UserDetailsService {
 
     protected MessageSourceAccessor messages = MySecurityMessageSource.getAccessor();
     private final RemoteSysUserBaseService remoteSysUserBaseService;
-    private final PasswordEncoder passwordEncoder;
 
     private UserDetails getLoginInfo(@NonNull String grantType, String username) {
         // 用户信息校验之前，SecurityContextHolder.getContext().getAuthentication() 存放的是clientid
         final String clientId = SecurityUtils.getUsername();
         SysUserBaseVO vo = remoteSysUserBaseService.getUserByUserName(clientId, username);
+        // check userinfo
+        check(vo);
+        // 密码使用bcrypt对比
         if (grantType.equals(GrantTypeConstant.PASSWORD)) {
             vo.setPassword(SecurityConstants.BCRYPT + (vo.getPassword()));
         }
+        // 验证码_短信_一键登录...使用noop对比
         if (grantType.equals(GrantTypeConstant.SMS)) {
-            vo.setPassword(passwordEncoder.encode(SecurityConstants.BCRYPT + (vo.getPassword())));
+            vo.setPassword(SecurityConstants.NOOP + vo.getPassword());
         }
         return conversion(vo);
     }
 
+    private void check(SysUserBaseVO vo) {
+
+        if (Objects.isNull(vo) || Objects.isNull(vo.getId())) {
+            throw new UsernameNotFoundException(messages.getMessage(
+                    "AbstractUserDetailsAuthenticationProvider.userNameNotFound",
+                    "User does not exist"));
+        }
+        // TODO 其他校验逻辑
+    }
+
     private UserDetails conversion(SysUserBaseVO vo) {
-        check(vo);
+
         Set<String> authSet = new HashSet<>();
         authSet.add("ROLE_ADMIN");
-        Collection<? extends GrantedAuthority> authorities = AuthorityUtils
-                .createAuthorityList(authSet.toArray(new String[0]));
+        Collection<? extends GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(authSet.toArray(new String[0]));
         return new MyUser(vo.getId(),
                 vo.getMobile(),
                 vo.getUserName(),
@@ -70,35 +77,10 @@ public class MyUserDetailsServiceImpl implements MyUserDetailsService {
                 authorities);
     }
 
-    private void check(SysUserBaseVO vo) {
-
-        if (Objects.isNull(vo) || Objects.isNull(vo.getId())) {
-            throw new UsernameNotFoundException(messages.getMessage(
-                    "AbstractUserDetailsAuthenticationProvider.userNameNotFound",
-                    "The Username does not exist"));
-        }
-        // TODO 其他校验逻辑
-    }
-
     @Override
     public UserDetails loadUserByUsername(String username) {
         String grantType = WebUtils.getRequest().getParameter("grant_type");
         return getLoginInfo(grantType, username);
-    }
-
-    @Override
-    public UserDetails loadUserByUserNameAndSms(String username) {
-        return getLoginInfo(GrantTypeConstant.SMS, username);
-    }
-
-    @Override
-    public UserDetails loadAppUserByPhone(String principal) {
-        return null;
-    }
-
-    @Override
-    public UserDetails loadUserBySocial(String principal) {
-        return null;
     }
 
 }

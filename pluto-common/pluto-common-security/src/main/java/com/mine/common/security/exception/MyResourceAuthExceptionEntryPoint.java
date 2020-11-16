@@ -1,4 +1,4 @@
-package com.mine.common.security.point;
+package com.mine.common.security.exception;
 
 import com.alibaba.nacos.common.http.param.MediaType;
 import com.fasterxml.jackson.databind.ObjectMapper;

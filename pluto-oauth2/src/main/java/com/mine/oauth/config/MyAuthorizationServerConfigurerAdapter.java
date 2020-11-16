@@ -1,6 +1,5 @@
 package com.mine.oauth.config;
 
-import com.mine.common.security.exception.MyWebResponseExceptionTranslator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,6 +11,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 
 /**
@@ -26,6 +26,8 @@ public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerC
     private final UserDetailsService myUserDetailsService;
     private final AuthenticationManager authenticationManager;
     private final ClientDetailsService jdbcClientDetailsService;
+    @SuppressWarnings("rawtypes")
+    private final WebResponseExceptionTranslator myWebResponseExceptionTranslator;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -40,7 +42,7 @@ public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerC
                 .authenticationManager(authenticationManager)
                 .userDetailsService(myUserDetailsService)
                 .tokenServices(tokenService)
-                .exceptionTranslator(new MyWebResponseExceptionTranslator())
+                .exceptionTranslator(myWebResponseExceptionTranslator)
         ;
     }
 
