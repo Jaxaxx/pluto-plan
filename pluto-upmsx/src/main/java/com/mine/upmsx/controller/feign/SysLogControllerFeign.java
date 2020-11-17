@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/feign/sysLog")
 @RequiredArgsConstructor
-public class FeignSysLogController {
+public class SysLogControllerFeign {
 
     private final ISysLogService iSysLogService;
 

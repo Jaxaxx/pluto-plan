@@ -28,17 +28,17 @@ public class MpGenerator {
      * DataSource config
      * tableNames : {多个表用逗号分隔}
      */
-    private static final String dateSourceUrl = "jdbc:mysql://192.168.1.64:3311/test-a?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useOldAliasMetadataBehavior=true&useSSL=false";
+    private static final String dateSourceUrl = "jdbc:mysql://192.168.0.110:3306/pluto-plan?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useOldAliasMetadataBehavior=true&useSSL=false";
     private static final String dataSourceUserName = "root";
     private static final String dataSourcePassWord = "MyNewPass4!";
     private static final String dataSourceDriverName = "com.mysql.cj.jdbc.Driver";
-    private static final String[] tableNames = {"sys_user_base"};
+    private static final String[] tableNames = {"sys_user_info"};
 
     /**
      * Project config
      */
     private static final String author = "jax-li";
-    private static final String projectDir = "D:\\";
+    private static final String projectDir = "/Users/jax-li/IdeaProjects/pluto-plan/pluto-upmsx/";
     private static final String parent = "com.mine";
     private static final String moduleName = "upmsx";
 

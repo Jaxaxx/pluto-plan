@@ -4,6 +4,7 @@ import com.mine.common.core.constant.SecurityConstants;
 import com.mine.common.core.util.WebUtils;
 import com.mine.common.feign.api.upmsx.RemoteSysUserBaseService;
 import com.mine.common.feign.entity.SysUserBaseVO;
+import com.mine.common.feign.entity.upmsx.SysUserBase;
 import com.mine.common.security.config.MySecurityMessageSource;
 import com.mine.common.security.constant.GrantTypeConstant;
 import com.mine.common.security.model.MyUser;
@@ -36,21 +37,21 @@ public class MyUserDetailsService implements UserDetailsService {
     private UserDetails getLoginInfo(@NonNull String grantType, String username) {
         // 用户信息校验之前，SecurityContextHolder.getContext().getAuthentication() 存放的是clientid
         final String clientId = SecurityUtils.getUsername();
-        SysUserBaseVO vo = remoteSysUserBaseService.getUserByUserName(clientId, username);
+        SysUserBase user = remoteSysUserBaseService.getUserByUserName(clientId, username);
         // check userinfo
-        check(vo);
+        check(user);
         // 密码使用bcrypt对比
         if (grantType.equals(GrantTypeConstant.PASSWORD)) {
-            vo.setPassword(SecurityConstants.BCRYPT + (vo.getPassword()));
+            user.setPassword(SecurityConstants.BCRYPT + (user.getPassword()));
         }
         // 验证码_短信_一键登录...使用noop对比
         if (grantType.equals(GrantTypeConstant.SMS)) {
-            vo.setPassword(SecurityConstants.NOOP + vo.getPassword());
+            user.setPassword(SecurityConstants.NOOP + user.getPassword());
         }
-        return conversion(vo);
+        return conversion(user);
     }
 
-    private void check(SysUserBaseVO vo) {
+    private void check(SysUserBase vo) {
 
         if (Objects.isNull(vo) || Objects.isNull(vo.getId())) {
             throw new UsernameNotFoundException(messages.getMessage(
@@ -60,10 +61,11 @@ public class MyUserDetailsService implements UserDetailsService {
         // TODO 其他校验逻辑
     }
 
-    private UserDetails conversion(SysUserBaseVO vo) {
+    private UserDetails conversion(SysUserBase vo) {
 
         Set<String> authSet = new HashSet<>();
         authSet.add("ROLE_ADMIN");
+
         Collection<? extends GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(authSet.toArray(new String[0]));
         return new MyUser(vo.getId(),
                 vo.getMobile(),

@@ -25,9 +25,6 @@ public class SysUserBaseVO {
     @ApiModelProperty(value = "用户名")
     private String userName;
 
-    @ApiModelProperty(value = "登录密码")
-    private String password;
-
     @ApiModelProperty(value = "移动电话号码")
     private String mobile;
 
@@ -48,23 +45,5 @@ public class SysUserBaseVO {
 
     @ApiModelProperty(value = "是否删除 1 是 0 否 ")
     private Boolean isDeleted;
-
-    @ApiModelProperty(value = "创建用户Id")
-    private Long createUserId;
-
-    @ApiModelProperty(value = "创建用户名称")
-    private String createUserName;
-
-    @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createTime;
-
-    @ApiModelProperty(value = "修改用户Id")
-    private Long updateUserId;
-
-    @ApiModelProperty(value = "更新用户名称")
-    private String updateUserName;
-
-    @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updateTime;
 
 }

@@ -40,7 +40,7 @@ public interface SecurityConstants {
      */
     String MY_LICENSE = "made by Jax-li";
 
-    String OAUTH_TABLE_NAME = "sys_oauth_client_details";
+    String OAUTH_TABLE_NAME = "sys_auth_client";
 
     String CLIENT_FIELDS_FOR_UPDATE = "resource_ids, scope, "
             + "authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, "

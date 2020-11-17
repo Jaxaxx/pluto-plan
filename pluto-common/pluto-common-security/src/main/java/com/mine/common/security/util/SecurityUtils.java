@@ -74,6 +74,10 @@ public class SecurityUtils {
         return getUser(authentication);
     }
 
+    public Long getUserId() {
+        return getUser().getId();
+    }
+
     private MyUser getUser(Authentication authentication) {
         Object principal = authentication.getPrincipal();
         if (principal instanceof MyUser) {

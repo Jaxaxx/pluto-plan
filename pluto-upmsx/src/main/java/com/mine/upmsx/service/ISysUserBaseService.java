@@ -2,12 +2,11 @@ package com.mine.upmsx.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.mine.common.feign.entity.SysUserBaseVO;
+import com.mine.common.feign.entity.upmsx.SysUserBase;
 import com.mine.upmsx.dto.SysUserBaseDTO;
-import com.mine.upmsx.entity.SysUserBase;
+import com.mine.upmsx.vo.UserVO;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * @description: 【登录信息表】代理层
@@ -17,13 +16,7 @@ import java.util.List;
  */
 public interface ISysUserBaseService extends IService<SysUserBase> {
 
-    List<SysUserBaseVO> list(SysUserBaseDTO dto);
-
-    void update(SysUserBaseDTO dto);
-
-    void delete(Long id);
-
-    SysUserBaseVO getLoginInfo(String clientId, String userName);
+    SysUserBase getLoginInfo(String clientId, String userName);
 
     void updateLastLoginTime(Long userId, LocalDateTime now);
 
@@ -32,4 +25,7 @@ public interface ISysUserBaseService extends IService<SysUserBase> {
      * @param dto   用户基本信息dto
      */
     void sign(SysUserBaseDTO dto);
+
+    UserVO info();
+
 }

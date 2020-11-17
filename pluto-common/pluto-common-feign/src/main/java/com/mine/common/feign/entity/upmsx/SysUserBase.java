@@ -1,4 +1,4 @@
-package com.mine.upmsx.entity;
+package com.mine.common.feign.entity.upmsx;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;

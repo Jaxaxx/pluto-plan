@@ -1,8 +1,7 @@
 package com.mine.upmsx.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.mine.common.feign.entity.SysUserBaseVO;
-import com.mine.upmsx.entity.SysUserBase;
+import com.mine.common.feign.entity.upmsx.SysUserBase;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,7 +17,7 @@ import java.time.LocalDateTime;
 @Mapper
 public interface SysUserBaseMapper extends BaseMapper<SysUserBase> {
 
-    SysUserBaseVO getLoginInfo(@Param("clientId") String clientId,
+    SysUserBase getLoginInfo(@Param("clientId") String clientId,
                                @Param("userName") String userName);
 
     void updateLastLoginTime(@Param("userId") Long userId, @Param("lastLoginTime") LocalDateTime lastLoginTime);

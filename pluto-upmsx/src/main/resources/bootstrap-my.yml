@@ -86,11 +86,9 @@ security:
         - /js/**
         - /images/**
         - /webjars/**
-        - /authorization/**
-        - /feign/sysUserBase/**
+        - /feign/user/base/**
         - /feign/sysLog/**
-        - /get/**
-        - /sysUserBase
+        - /user/base/sign
 #
 #
 # feign 配置

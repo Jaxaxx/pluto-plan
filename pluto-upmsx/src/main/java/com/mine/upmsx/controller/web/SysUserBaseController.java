@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Security;
+
 /**
  * 【登录信息表】控制层
  *
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(tags = {"【登录信息表】模块API"})
 @RestController
-@RequestMapping("/sysUserBase")
+@RequestMapping("/user/base")
 @RequiredArgsConstructor
 public class SysUserBaseController {
 
@@ -27,32 +29,22 @@ public class SysUserBaseController {
     @SysLog("用户注册")
     @SysSign
     @ApiOperation(value = "用户注册", notes = "登录信息表API")
-    @PostMapping
+    @PostMapping("/sign")
     public Result<?> sign(@RequestBody SysUserBaseDTO dto) {
         iSysUserBaseService.sign(dto);
         return Result.ok();
     }
 
+    @ApiOperation(value = "获取用户信息", notes = "登录信息表API")
+    @GetMapping
+    public Result<?> info() {
+        return Result.ok(iSysUserBaseService.info());
+    }
 
     @ApiOperation(value = "登录信息表列表查询", notes = "登录信息表API")
     @GetMapping("/list")
     public Result<?> getList(SysUserBaseDTO dto) {
-        return Result.ok(iSysUserBaseService.list(dto));
-    }
-
-    @SysLog("修改用户信息")
-    @ApiOperation(value = "登录信息表更新", notes = "登录信息表API")
-    @PutMapping
-    public Result<?> update(@RequestBody SysUserBaseDTO dto) {
-        iSysUserBaseService.update(dto);
-        return Result.ok();
-    }
-
-    @ApiOperation(value = "登录信息表删除", notes = "登录信息表API")
-    @DeleteMapping("/{id}")
-    public Result<?> delete(@PathVariable("id") Long id) {
-        iSysUserBaseService.delete(id);
-        return Result.ok();
+        return Result.ok(iSysUserBaseService.list());
     }
 
 }
