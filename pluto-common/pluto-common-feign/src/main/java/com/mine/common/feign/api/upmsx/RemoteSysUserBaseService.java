@@ -5,7 +5,11 @@ import com.mine.common.core.result.Result;
 import com.mine.common.feign.entity.SysUserBaseVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.time.LocalDateTime;
 
 /**
  * @author jax-li
@@ -28,4 +32,8 @@ public interface RemoteSysUserBaseService {
 
     @GetMapping("/feign/test")
     Result<String> test();
+
+    @PatchMapping("/feign/sysUserBase")
+    void updateLastLoginTime(@RequestParam("userId") Long userId,
+                             @RequestParam("lastLoginTime")LocalDateTime lastLoginTime);
 }

@@ -54,6 +54,7 @@
         <mybatis-plus.version>3.4.0</mybatis-plus.version>
         <mybatis-plus-velocity-engine-core.version>2.2</mybatis-plus-velocity-engine-core.version>
         <mysql.connector.version>8.0.15</mysql.connector.version>
+        <feign.httpclient.verison>10.10.1</feign.httpclient.verison>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
     </properties>
@@ -151,6 +152,12 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <!-- Required to use PATCH -->
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-httpclient</artifactId>
+                <version>${feign.httpclient.verison}</version>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>

@@ -27,30 +27,21 @@ import java.util.Collections;
 @ComponentScan("com.mine.common.swagger")
 public class SwaggerAutoConfiguration {
 
-    final Environment environment;
-    final SwaggerProperties swaggerProperties;
+    private final Environment environment;
+    private final SwaggerProperties swaggerProperties;
 
     /**
      * 默认的排除路径，排除Spring Boot默认的错误处理路径和端点
      */
-//    private static final List<String> DEFAULT_EXCLUDE_PATH = Arrays.asList("/error", "/actuator/**", "/feign/**");
-//    private static final String BASE_PATH = "/**";
     private static final String REFERENCE = "spring_oauth";
 
     @Bean
     public Docket api() {
         log.info("[Swagger Starter] enabled status : {}", swaggerProperties.getEnabled());
         log.debug("[Swagger-Property]::{}", swaggerProperties.toString());
-//        List<Predicate<String>> basePath = Lists.newArrayList();
-//        basePath.add(PathSelectors.ant(BASE_PATH));
-        // exclude-path处理
-//        List<Predicate<String>> excludePath = new ArrayList<>();
-//        DEFAULT_EXCLUDE_PATH.forEach(path -> excludePath.add(PathSelectors.ant(path)));
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
-//                .apis(RequestHandlerSelectors.basePackage(swaggerProperties.getInfo().getBasePackage()))
-//                .paths(Predicates.and(Predicates.not(Predicates.or(excludePath)), Predicates.or(basePath)))
                 .build()
                 .apiInfo(apiInfo())
                 .securitySchemes(Collections.singletonList(securityScheme()))

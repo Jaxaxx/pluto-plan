@@ -14,9 +14,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * 系统日志工具
- *
- * @author LiMing
+ *  系统日志工具类
  */
 public class SysLogUtil {
 
@@ -46,8 +44,10 @@ public class SysLogUtil {
         sysLog.setParams(paramString);
         sysLog.setUserAgent(request.getHeader("user-agent"));
         sysLog.setServiceId(request.getHeader("X-Forwarded-Prefix"));
-        sysLog.setCreateUserId(SecurityUtils.getUser().getId());
-        sysLog.setCreateUserName(SecurityUtils.getUsername());
+        if (Objects.nonNull(SecurityUtils.getUser())) {
+            sysLog.setCreateUserId(SecurityUtils.getUser().getId());
+            sysLog.setCreateUserName(SecurityUtils.getUsername());
+        }
         return sysLog;
     }
 

@@ -48,6 +48,9 @@ public class SysLogDTO {
     @ApiModelProperty(value = "异常信息")
     private String exception;
 
+    @ApiModelProperty(value = "备注")
+    private String note;
+
     @ApiModelProperty(value = "是否删除：0-否，1-是")
     private Integer isDeleted;
 

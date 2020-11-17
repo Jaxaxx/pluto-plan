@@ -6,6 +6,7 @@ import com.mine.common.feign.entity.SysUserBaseVO;
 import com.mine.upmsx.dto.SysUserBaseDTO;
 import com.mine.upmsx.entity.SysUserBase;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -27,4 +28,6 @@ public interface ISysUserBaseService extends IService<SysUserBase> {
     void delete(Long id);
 
     SysUserBaseVO getLoginInfo(String clientId, String userName);
+
+    void updateLastLoginTime(Long userId, LocalDateTime now);
 }

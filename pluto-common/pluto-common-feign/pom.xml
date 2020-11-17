@@ -30,6 +30,12 @@
             <groupId>com.mine</groupId>
             <artifactId>pluto-common-mybatis-plus</artifactId>
         </dependency>
+        <dependency>
+            <!-- Required to use PATCH -->
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-httpclient</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

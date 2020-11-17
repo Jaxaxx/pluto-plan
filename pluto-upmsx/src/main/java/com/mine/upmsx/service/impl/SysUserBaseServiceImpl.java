@@ -1,7 +1,6 @@
 package com.mine.upmsx.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mine.common.core.util.MapperUtils;
@@ -14,10 +13,8 @@ import com.mine.upmsx.service.ISysUserBaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @description: 【登录信息表】实现层
@@ -50,7 +47,7 @@ public class SysUserBaseServiceImpl extends ServiceImpl<SysUserBaseMapper, SysUs
         String encode = PasswordEncoderUtil.encode(password);
         dto.setPassword(encode);
         SysUserBase sysUserBase = BeanUtil.copyProperties(dto, SysUserBase.class);
-            baseMapper.insert(sysUserBase);
+        baseMapper.insert(sysUserBase);
     }
 
     @Override
@@ -68,5 +65,10 @@ public class SysUserBaseServiceImpl extends ServiceImpl<SysUserBaseMapper, SysUs
     @Override
     public SysUserBaseVO getLoginInfo(String clientId, String userName) {
         return baseMapper.getLoginInfo(clientId, userName);
+    }
+
+    @Override
+    public void updateLastLoginTime(Long userId, LocalDateTime now) {
+        baseMapper.updateLastLoginTime(userId, now);
     }
 }

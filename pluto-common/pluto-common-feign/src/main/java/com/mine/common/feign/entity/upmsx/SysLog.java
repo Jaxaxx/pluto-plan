@@ -62,6 +62,9 @@ public class SysLog extends Model<SysLog> {
     @ApiModelProperty(value = "异常信息")
     private String exception;
 
+    @ApiModelProperty(value = "备注")
+    private String note;
+
     @ApiModelProperty(value = "是否删除：0-否，1-是")
     @TableLogic(value = "0", delval = "1")
     @TableField(fill = FieldFill.INSERT)
