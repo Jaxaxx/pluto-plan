@@ -91,6 +91,7 @@ security:
         - /feign/sysUserBase/**
         - /feign/sysLog/**
         - /get/**
+        - /sysUserBase
 #
 #
 # feign 配置

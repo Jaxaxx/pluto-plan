@@ -1,8 +1,8 @@
 package com.mine.upmsx.controller.web;
 
-import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.mine.common.core.result.Result;
 import com.mine.common.log.annotation.SysLog;
+import com.mine.upmsx.annotation.SysSign;
 import com.mine.upmsx.dto.SysUserBaseDTO;
 import com.mine.upmsx.service.ISysUserBaseService;
 import io.swagger.annotations.Api;
@@ -24,27 +24,23 @@ public class SysUserBaseController {
 
     private final ISysUserBaseService iSysUserBaseService;
 
-    @SentinelResource("resource")
+    @SysLog("用户注册")
+    @SysSign
+    @ApiOperation(value = "用户注册", notes = "登录信息表API")
+    @PostMapping
+    public Result<?> sign(@RequestBody SysUserBaseDTO dto) {
+        iSysUserBaseService.sign(dto);
+        return Result.ok();
+    }
+
+
     @ApiOperation(value = "登录信息表列表查询", notes = "登录信息表API")
     @GetMapping("/list")
     public Result<?> getList(SysUserBaseDTO dto) {
         return Result.ok(iSysUserBaseService.list(dto));
     }
 
-    @ApiOperation(value = "登录信息表详细查询", notes = "登录信息表API")
-    @GetMapping("/{id}")
-    public Result<?> detail(@PathVariable("id") Long id) {
-        return Result.ok(iSysUserBaseService.detail(id));
-    }
-
-    @SysLog("新增用户")
-    @ApiOperation(value = "登录信息表添加", notes = "登录信息表API")
-    @PostMapping
-    public Result<?> insert(@RequestBody SysUserBaseDTO dto) {
-        iSysUserBaseService.insert(dto);
-        return Result.ok();
-    }
-
+    @SysLog("修改用户信息")
     @ApiOperation(value = "登录信息表更新", notes = "登录信息表API")
     @PutMapping
     public Result<?> update(@RequestBody SysUserBaseDTO dto) {

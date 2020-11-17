@@ -1,6 +1,7 @@
 package com.mine.upmsx.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.mine.common.security.util.SecurityUtils;
 import com.mine.upmsx.entity.SysUserClient;
 import com.mine.upmsx.mapper.SysUserClientMapper;
 import com.mine.upmsx.service.ISysUserClientService;
@@ -19,7 +20,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SysUserClientServiceImpl extends ServiceImpl<SysUserClientMapper, SysUserClient> implements ISysUserClientService {
 
-    private final SysUserClientMapper sysUserClientMapper;
-
-
+    @Override
+    public void add(Long userId) {
+        SysUserClient entity = new SysUserClient();
+        entity.setUserId(userId);
+        entity.setClientId(SecurityUtils.getClientId());
+        baseMapper.insert(entity);
+    }
 }

@@ -10,8 +10,10 @@ import com.mine.upmsx.dto.SysUserBaseDTO;
 import com.mine.upmsx.entity.SysUserBase;
 import com.mine.upmsx.mapper.SysUserBaseMapper;
 import com.mine.upmsx.service.ISysUserBaseService;
+import com.mine.upmsx.service.ISysUserClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,27 +29,13 @@ import java.util.List;
 public class SysUserBaseServiceImpl extends ServiceImpl<SysUserBaseMapper, SysUserBase> implements ISysUserBaseService {
 
     private final SysUserBaseMapper sysUserBaseMapper;
+    private final ISysUserClientService sysUserClientService;
 
     @Override
     public List<SysUserBaseVO> list(SysUserBaseDTO dto) {
         List<SysUserBase> sysUserBases = sysUserBaseMapper.selectList(new QueryWrapper<>());
         List<SysUserBaseVO> sysUserBaseVOS = MapperUtils.INSTANCE.mapAsList(SysUserBaseVO.class, sysUserBases);
         return sysUserBaseVOS;
-    }
-
-    @Override
-    public SysUserBaseVO detail(Long id) {
-        SysUserBase sysUserBase = baseMapper.selectById(id);
-        return BeanUtil.copyProperties(sysUserBase, SysUserBaseVO.class);
-    }
-
-    @Override
-    public void insert(SysUserBaseDTO dto) {
-        String password = dto.getPassword();
-        String encode = PasswordEncoderUtil.encode(password);
-        dto.setPassword(encode);
-        SysUserBase sysUserBase = BeanUtil.copyProperties(dto, SysUserBase.class);
-        baseMapper.insert(sysUserBase);
     }
 
     @Override
@@ -70,5 +58,24 @@ public class SysUserBaseServiceImpl extends ServiceImpl<SysUserBaseMapper, SysUs
     @Override
     public void updateLastLoginTime(Long userId, LocalDateTime now) {
         baseMapper.updateLastLoginTime(userId, now);
+    }
+
+    public Long insert(SysUserBaseDTO dto) {
+        String password = dto.getPassword();
+        String encode = PasswordEncoderUtil.encode(password);
+        dto.setPassword(encode);
+        SysUserBase sysUserBase = BeanUtil.copyProperties(dto, SysUserBase.class);
+        baseMapper.insert(sysUserBase);
+        return sysUserBase.getId();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void sign(SysUserBaseDTO dto) {
+        // 主表user_base保存信息
+        final Long userId = this.insert(dto);
+        // user_client表
+        sysUserClientService.add(userId);
+        // user_info
     }
 }

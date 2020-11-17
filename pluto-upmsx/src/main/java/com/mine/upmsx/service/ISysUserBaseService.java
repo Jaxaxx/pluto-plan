@@ -19,10 +19,6 @@ public interface ISysUserBaseService extends IService<SysUserBase> {
 
     List<SysUserBaseVO> list(SysUserBaseDTO dto);
 
-    SysUserBaseVO detail(Long id);
-
-    void insert(SysUserBaseDTO dto);
-
     void update(SysUserBaseDTO dto);
 
     void delete(Long id);
@@ -30,4 +26,10 @@ public interface ISysUserBaseService extends IService<SysUserBase> {
     SysUserBaseVO getLoginInfo(String clientId, String userName);
 
     void updateLastLoginTime(Long userId, LocalDateTime now);
+
+    /**
+     * 用户注册
+     * @param dto   用户基本信息dto
+     */
+    void sign(SysUserBaseDTO dto);
 }

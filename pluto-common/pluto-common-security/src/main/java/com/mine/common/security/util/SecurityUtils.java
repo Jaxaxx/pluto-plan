@@ -55,7 +55,7 @@ public class SecurityUtils {
             OAuth2Authentication auth2Authentication = (OAuth2Authentication) authentication;
             return auth2Authentication.getOAuth2Request().getClientId();
         }
-        return null;
+        return authentication.getName();
     }
 
     /**
