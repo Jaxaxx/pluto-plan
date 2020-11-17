@@ -45,7 +45,7 @@ public class SmsTokenGranter extends AbstractTokenGranter {
         UserDetailsService userDetailsService = ApplicationContextAwareUtil.getBean(USER_DETAIL_SERVICE_NAME);
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         try {
-            // 先安装框架的过滤器链顺序校验用户名再校验验证码，否则提示不友好
+            // 先按照框架的过滤器链顺序校验用户名再校验验证码，否则提示不友好
             SmsGrantTypePreProcessor.doHandler();
         } catch (BadCredentialsException ex) {
             throw new InvalidGrantException(ex.getMessage());

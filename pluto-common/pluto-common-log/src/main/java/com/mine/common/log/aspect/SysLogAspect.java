@@ -6,6 +6,7 @@ import cn.hutool.http.HttpUtil;
 import com.mine.common.log.annotation.SysLog;
 import com.mine.common.log.constant.LogTypeEnum;
 import com.mine.common.log.event.SysLogEvent;
+import com.mine.common.security.filter.BodyReaderHttpServletRequestWrapper;
 import com.mine.common.security.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -19,6 +20,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Objects;
 
 /**
@@ -70,12 +72,18 @@ public class SysLogAspect {
         if (Objects.nonNull(AsysLog)) {
             sysLog.setTitle(AsysLog.value());
         }
+        String paramString = "";
+        try {
+            paramString = new BodyReaderHttpServletRequestWrapper(request).getBodyString(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         sysLog.setType(LogTypeEnum.NORMAL.getType());
         sysLog.setRemoteAddr(ServletUtil.getClientIP(request));
         sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
         sysLog.setMethod(request.getMethod());
+        sysLog.setParams(paramString);
         sysLog.setUserAgent(request.getHeader("user-agent"));
-        sysLog.setParams(HttpUtil.toParams(request.getParameterMap()));
         sysLog.setServiceId(request.getHeader("X-Forwarded-Prefix"));
         sysLog.setCreateUserId(SecurityUtils.getUser().getId());
         sysLog.setCreateUserName(SecurityUtils.getUsername());

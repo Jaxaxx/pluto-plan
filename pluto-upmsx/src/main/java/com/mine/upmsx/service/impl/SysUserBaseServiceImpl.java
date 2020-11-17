@@ -14,6 +14,8 @@ import com.mine.upmsx.service.ISysUserBaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Objects;
 
@@ -48,7 +50,7 @@ public class SysUserBaseServiceImpl extends ServiceImpl<SysUserBaseMapper, SysUs
         String encode = PasswordEncoderUtil.encode(password);
         dto.setPassword(encode);
         SysUserBase sysUserBase = BeanUtil.copyProperties(dto, SysUserBase.class);
-        baseMapper.insert(sysUserBase);
+            baseMapper.insert(sysUserBase);
     }
 
     @Override

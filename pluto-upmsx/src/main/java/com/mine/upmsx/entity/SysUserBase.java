@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 
 /**
@@ -60,36 +60,36 @@ public class SysUserBase extends Model<SysUserBase> {
 
     @ApiModelProperty(value = "最后登录时间")
     @TableField("last_login_time")
-    private Date lastLoginTime;
+    private LocalDateTime lastLoginTime;
 
     @ApiModelProperty(value = "是否删除 1 是 0 否 ")
-    @TableLogic(value = "0",delval = "1")
-    @TableField(value = "is_deleted",fill = FieldFill.INSERT)
-    private Integer isDeleted;
+    @TableLogic(value = "0", delval = "1")
+    @TableField(value = "is_deleted", fill = FieldFill.INSERT)
+    private Boolean isDeleted;
 
     @ApiModelProperty(value = "创建用户Id")
-    @TableField(value = "create_user_id",fill = FieldFill.INSERT)
+    @TableField(value = "create_user_id", fill = FieldFill.INSERT)
     private Long createUserId;
 
     @ApiModelProperty(value = "创建用户名称")
-    @TableField(value = "create_user_name",fill = FieldFill.INSERT)
+    @TableField(value = "create_user_name", fill = FieldFill.INSERT)
     private String createUserName;
 
     @ApiModelProperty(value = "创建时间")
-    @TableField(value = "create_time",fill = FieldFill.INSERT)
-    private Date createTime;
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
 
     @ApiModelProperty(value = "修改用户Id")
-    @TableField(value = "update_user_id",fill = FieldFill.UPDATE)
+    @TableField(value = "update_user_id", fill = FieldFill.UPDATE)
     private Long updateUserId;
 
     @ApiModelProperty(value = "更新用户名称")
-    @TableField(value = "update_user_name",fill = FieldFill.UPDATE)
+    @TableField(value = "update_user_name", fill = FieldFill.UPDATE)
     private String updateUserName;
 
     @ApiModelProperty(value = "更新时间")
-    @TableField(value = "update_time",fill = FieldFill.UPDATE)
-    private Date updateTime;
+    @TableField(value = "update_time", fill = FieldFill.UPDATE)
+    private LocalDateTime updateTime;
 
     @Override
     protected Serializable pkVal() {

@@ -28,15 +28,15 @@ public class AuthTokenAspect {
      *
      * @param pjp ProceedingJoinPoint
      * @return ResponseEntity
-     * @throws Throwable
+     * @throws Throwable ex
      */
     @Around("execution(* org.springframework.security.oauth2.provider.endpoint.TokenEndpoint.postAccessToken(..))")
     @SuppressWarnings("unchecked")
-    public Object handleControllerMethod(ProceedingJoinPoint pjp) throws Throwable {
+    public Object handleAuthToken(ProceedingJoinPoint pjp) throws Throwable {
         Object proceed = pjp.proceed();
         ResponseEntity<OAuth2AccessToken> responseEntity = (ResponseEntity<OAuth2AccessToken>) proceed;
         OAuth2AccessToken body = responseEntity.getBody();
-        if (body.getScope().contains(SWAGGER_SCOPE)) {
+        if (body != null && body.getScope().contains(SWAGGER_SCOPE)) {
             // swagger 验证不修改返回值，否则swagger 无法认证
             return proceed;
         }

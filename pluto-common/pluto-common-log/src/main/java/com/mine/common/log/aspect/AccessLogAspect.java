@@ -2,6 +2,7 @@ package com.mine.common.log.aspect;
 
 import com.mine.common.core.util.WebUtils;
 import com.mine.common.log.util.AccessLogUtil;
+import com.mine.common.security.filter.BodyReaderHttpServletRequestWrapper;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -44,7 +45,8 @@ public class AccessLogAspect {
         try {
             obj = point.proceed();
             HttpServletRequest request = WebUtils.getRequest();
-            log.debug("[feign] : {} {}, {}", request.getMethod(), request.getRequestURI(), request.getParameterMap());
+            String bodyString = new BodyReaderHttpServletRequestWrapper(request).getBodyString(request);
+            log.debug("[feign] : {} {}, {}", request.getMethod(), request.getRequestURI(), bodyString);
         } catch (Exception e) {
             throw e;
         } finally {

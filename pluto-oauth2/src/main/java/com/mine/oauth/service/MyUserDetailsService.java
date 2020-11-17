@@ -70,7 +70,7 @@ public class MyUserDetailsService implements UserDetailsService {
                 vo.getUserName(),
                 vo.getPassword(),
                 vo.getUserName(),
-                !vo.getIsEnabled(),
+                vo.getIsEnabled(),
                 true,
                 true,
                 !vo.getIsLocked(),

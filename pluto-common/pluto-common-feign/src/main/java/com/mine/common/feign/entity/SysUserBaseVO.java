@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -43,10 +44,10 @@ public class SysUserBaseVO {
     private Boolean isEnabled;
 
     @ApiModelProperty(value = "最后登录时间")
-    private Date lastLoginTime;
+    private LocalDateTime lastLoginTime;
 
     @ApiModelProperty(value = "是否删除 1 是 0 否 ")
-    private Integer isDeleted;
+    private Boolean isDeleted;
 
     @ApiModelProperty(value = "创建用户Id")
     private Long createUserId;
@@ -55,7 +56,7 @@ public class SysUserBaseVO {
     private String createUserName;
 
     @ApiModelProperty(value = "创建时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @ApiModelProperty(value = "修改用户Id")
     private Long updateUserId;
@@ -64,6 +65,6 @@ public class SysUserBaseVO {
     private String updateUserName;
 
     @ApiModelProperty(value = "更新时间")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
 }

@@ -9,6 +9,7 @@ import com.mine.common.security.model.MyUser;
 import com.mine.common.security.util.SecurityUtils;
 import org.apache.ibatis.reflection.MetaObject;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -22,7 +23,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     /**
      * 逻辑删除否 0-未删除,1-已删除
      */
-    private static final Byte TABLE_LOGIC_FALSE = 0;
+    private static final Boolean TABLE_LOGIC_FALSE = Boolean.FALSE;
 
     /**
      * 插入操作自动填充
@@ -39,7 +40,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         Object createTime = getFieldValByName("createTime", metaObject);
         Object deleted = getFieldValByName("isDeleted", metaObject);
         MyUser user = SecurityUtils.getUser();
-        Date currentDate = DateUtil.date();
+        LocalDateTime currentDate = LocalDateTime.now();
         if (createUserName == null) {
             String name = ObjectUtil.isNull(user) ? "N/A" : StrUtil.isBlank(user.getName()) ? user.getUsername() : user.getName();
             setFieldValByName("createUserName", name, metaObject);
@@ -70,7 +71,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         Object updateUserId = getFieldValByName("updateUserId", metaObject);
         Object updateTime = getFieldValByName("updateTime", metaObject);
         MyUser user = SecurityUtils.getUser();
-        DateTime currentDate = DateUtil.date();
+        LocalDateTime currentDate = LocalDateTime.now();
         if (updateUserName == null) {
             String name = ObjectUtil.isNull(user) ? "N/A" : StrUtil.isBlank(user.getName()) ? user.getUsername() : user.getName();
             setFieldValByName("updateUserName", name, metaObject);

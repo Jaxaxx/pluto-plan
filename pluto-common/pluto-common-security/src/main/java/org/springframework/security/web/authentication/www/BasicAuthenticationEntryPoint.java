@@ -16,6 +16,11 @@
 
 package org.springframework.security.web.authentication.www;
 
+import com.alibaba.nacos.common.http.param.MediaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mine.common.core.result.Result;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
@@ -40,31 +45,47 @@ import java.io.IOException;
  * @author Ben Alex
  */
 public class BasicAuthenticationEntryPoint implements AuthenticationEntryPoint,
-		InitializingBean {
-	// ~ Instance fields
-	// ================================================================================================
+        InitializingBean {
+    // ~ Instance fields
+    // ================================================================================================
+    private Logger log = LoggerFactory.getLogger(this.getClass());
+    private String realmName;
 
-	private String realmName;
+    // ~ Methods
+    // ========================================================================================================
 
-	// ~ Methods
-	// ========================================================================================================
+    public void afterPropertiesSet() {
+        Assert.hasText(realmName, "realmName must be specified");
+    }
 
-	public void afterPropertiesSet() {
-		Assert.hasText(realmName, "realmName must be specified");
-	}
+    /**
+     * 获取token接口header中的密钥解密出错在这里转换
+     *
+     * @param request  request
+     * @param response response
+     * @param ex       ex
+     * @throws IOException ex
+     */
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex) throws IOException {
+        response.addHeader("WWW-Authenticate", "Basic realm=\"" + realmName + "\"");
+//		response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
+        response.setContentType(MediaType.APPLICATION_JSON);
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        Result<Object> ret = Result.fail(ex);
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(response.getOutputStream(), ret);
+        } catch (Exception e) {
+            throw new IOException();
+        }
+    }
 
-	public void commence(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException authException) throws IOException {
-		response.addHeader("WWW-Authenticate", "Basic realm=\"" + realmName + "\"");
-		response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
-	}
+    public String getRealmName() {
+        return realmName;
+    }
 
-	public String getRealmName() {
-		return realmName;
-	}
-
-	public void setRealmName(String realmName) {
-		this.realmName = realmName;
-	}
+    public void setRealmName(String realmName) {
+        this.realmName = realmName;
+    }
 
 }

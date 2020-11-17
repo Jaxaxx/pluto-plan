@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -64,7 +65,7 @@ public class SysLog extends Model<SysLog> {
     @ApiModelProperty(value = "是否删除：0-否，1-是")
     @TableLogic(value = "0", delval = "1")
     @TableField(fill = FieldFill.INSERT)
-    private Integer isDeleted;
+    private Boolean isDeleted;
 
     @TableField(fill = FieldFill.INSERT)
     private Long createUserId;
@@ -75,7 +76,7 @@ public class SysLog extends Model<SysLog> {
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @TableField(fill = FieldFill.UPDATE)
     private Long updateUserId;
@@ -86,7 +87,7 @@ public class SysLog extends Model<SysLog> {
 
     @ApiModelProperty(value = "更新时间")
     @TableField(fill = FieldFill.UPDATE)
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     @Override
     protected Serializable pkVal() {
