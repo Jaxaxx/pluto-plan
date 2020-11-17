@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
 import com.baomidou.mybatisplus.generator.config.po.TableFill;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
+import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 
 import java.util.ArrayList;
@@ -26,17 +28,17 @@ public class MpGenerator {
      * DataSource config
      * tableNames : {多个表用逗号分隔}
      */
-    private static final String dateSourceUrl = "jdbc:mysql://192.168.0.110/pluto-plan?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useOldAliasMetadataBehavior=true&useSSL=false";
+    private static final String dateSourceUrl = "jdbc:mysql://192.168.1.64:3311/test-a?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&serverTimezone=Asia/Shanghai&useOldAliasMetadataBehavior=true&useSSL=false";
     private static final String dataSourceUserName = "root";
     private static final String dataSourcePassWord = "MyNewPass4!";
     private static final String dataSourceDriverName = "com.mysql.cj.jdbc.Driver";
-    private static final String[] tableNames = {"sys_user_client"};
+    private static final String[] tableNames = {"sys_user_base"};
 
     /**
      * Project config
      */
     private static final String author = "jax-li";
-    private static final String projectDir = "/Users/jax-li/IdeaProjects/pluto-plan";
+    private static final String projectDir = "D:\\";
     private static final String parent = "com.mine";
     private static final String moduleName = "upmsx";
 
@@ -62,12 +64,14 @@ public class MpGenerator {
     private static final List<TableFill> tableFills = new ArrayList<>();
 
     static {
+        TableFill isDeleted = new TableFill("is_deleted", FieldFill.INSERT);
         TableFill createTime = new TableFill("create_time", FieldFill.INSERT);
         TableFill createUserId = new TableFill("create_user_id", FieldFill.INSERT);
         TableFill createUserName = new TableFill("create_user_name", FieldFill.INSERT);
         TableFill updateTime = new TableFill("update_time", FieldFill.UPDATE);
         TableFill updateUserId = new TableFill("update_user_id", FieldFill.UPDATE);
         TableFill updateUserName = new TableFill("update_user_name", FieldFill.UPDATE);
+        tableFills.add(isDeleted);
         tableFills.add(createTime);
         tableFills.add(createUserId);
         tableFills.add(createUserName);
@@ -97,6 +101,15 @@ public class MpGenerator {
         dsc.setUsername(dataSourceUserName);
         dsc.setPassword(dataSourcePassWord);
         dsc.setUrl(dateSourceUrl);
+        dsc.setTypeConvert(new MySqlTypeConvert() {
+            @Override
+            public IColumnType processTypeConvert(GlobalConfig config, String fieldType) {
+                if (fieldType.toLowerCase().contains("tinyint")) {
+                    return DbColumnType.BOOLEAN;
+                }
+                return super.processTypeConvert(config, fieldType);
+            }
+        });
         mpg.setDataSource(dsc);
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
