@@ -2,7 +2,6 @@ package com.mine.common.core.result;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.mine.common.core.constant.ResultCode;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

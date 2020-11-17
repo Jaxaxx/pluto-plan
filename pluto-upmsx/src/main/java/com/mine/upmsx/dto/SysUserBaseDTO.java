@@ -1,7 +1,6 @@
 package com.mine.upmsx.dto;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.mine.common.core.model.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,7 +15,7 @@ import java.util.Date;
  */
 @Data
 @ApiModel(value = "【登录信息表】交互层")
-public class SysUserBaseDTO extends BaseDTO {
+public class SysUserBaseDTO {
 
     @ApiModelProperty(value = "用户Id")
     private Long id;

@@ -10,7 +10,7 @@ public interface SecurityConstants {
     /**
      * oauth 相关前缀
      */
-    String OAUTH_PREFIX = "oauth:";
+    String OAUTH_PREFIX = RedisPrefixConstants.OAUTH_PREFIX;
     /**
      * 客户端模式
      */
@@ -74,6 +74,7 @@ public interface SecurityConstants {
      * {noop} 加密的特征码
      */
     String NOOP = "{noop}";
+
     String USER_DETAIL_SERVICE_NAME = "userDetailsService";
     String REDIS_TEMPLATE_BEAN_NAME = "redisTemplate";
 

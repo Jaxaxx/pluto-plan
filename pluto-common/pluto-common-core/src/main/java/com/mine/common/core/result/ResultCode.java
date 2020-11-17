@@ -1,4 +1,4 @@
-package com.mine.common.core.constant;
+package com.mine.common.core.result;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,20 +1,16 @@
 package com.mine.common.security.filter;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
+import cn.hutool.json.JSONUtil;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import java.io.*;
+import java.nio.charset.Charset;
 
-public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapper{
+public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapper {
     private final byte[] body;
 
     public BodyReaderHttpServletRequestWrapper(HttpServletRequest request) throws IOException {
@@ -40,29 +36,25 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             if (inputStream != null) {
                 try {
                     inputStream.close();
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
             if (reader != null) {
                 try {
                     reader.close();
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
-        return sb.toString();
+        return sb.toString().isEmpty() ? sb.toString() : JSONUtil.toJsonStr(sb);
     }
 
     /**
@@ -80,13 +72,13 @@ public class BodyReaderHttpServletRequestWrapper extends HttpServletRequestWrapp
                 byteArrayOutputStream.write(buffer, 0, len);
             }
             byteArrayOutputStream.flush();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         InputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
         return byteArrayInputStream;
     }
+
     @Override
     public BufferedReader getReader() throws IOException {
         return new BufferedReader(new InputStreamReader(getInputStream()));

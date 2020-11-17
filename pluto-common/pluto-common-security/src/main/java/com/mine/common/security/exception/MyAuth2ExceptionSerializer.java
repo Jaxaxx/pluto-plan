@@ -3,7 +3,7 @@ package com.mine.common.security.exception;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import com.mine.common.core.constant.ResultCode;
+import com.mine.common.core.result.ResultCode;
 import lombok.SneakyThrows;
 
 /**
@@ -24,7 +24,7 @@ public class MyAuth2ExceptionSerializer extends StdSerializer<MyAuth2Exception> 
     @SneakyThrows
     public void serialize(MyAuth2Exception value, JsonGenerator gen, SerializerProvider provider) {
         gen.writeStartObject();
-        gen.writeObjectField("success",  Boolean.FALSE);
+        gen.writeObjectField("success", Boolean.FALSE);
         gen.writeStringField("code", ResultCode.FAIL.getCode().toString());
         gen.writeStringField("message", value.getMessage());
         gen.writeEndObject();
