@@ -19,6 +19,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
@@ -43,7 +44,7 @@ public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerC
     private final RedisConnectionFactory redisConnectionFactory;
     private final UserDetailsService myUserDetailsService;
     private final AuthenticationManager authenticationManager;
-//    private final WebResponseExceptionTranslator myWebResponseExceptionTranslator;
+    private final WebResponseExceptionTranslator myWebResponseExceptionTranslator;
 
     // expand Bean
     // ======================================================
@@ -122,7 +123,7 @@ public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerC
                 .authenticationManager(authenticationManager)
                 .userDetailsService(myUserDetailsService)
                 .tokenServices(tokenServices())
-//                .exceptionTranslator(myWebResponseExceptionTranslator)
+                .exceptionTranslator(myWebResponseExceptionTranslator)
         ;
     }
 

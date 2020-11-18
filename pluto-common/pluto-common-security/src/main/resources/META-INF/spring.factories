@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.mine.common.security.MySecurityAutoConfiguration,\
   com.mine.common.security.exception.MyResourceAuthExceptionEntryPoint,\
-  com.mine.common.security.filter.RequestAgainFilter
+  com.mine.common.security.filter.RequestAgainFilter,\
+  com.mine.common.security.exception.MyWebResponseExceptionTranslator
