@@ -59,7 +59,7 @@ public class UserSignAspect {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return request;
+        return result;
     }
 
     public void doBefore(HttpServletRequest request) {
