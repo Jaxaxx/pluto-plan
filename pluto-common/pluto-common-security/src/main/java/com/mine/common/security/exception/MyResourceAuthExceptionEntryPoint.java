@@ -3,6 +3,7 @@ package com.mine.common.security.exception;
 import com.alibaba.nacos.common.http.param.MediaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mine.common.core.result.Result;
+import com.mine.common.security.config.MySecurityMessageSource;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -23,13 +24,15 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class MyResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint {
 
-    protected MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
+    protected MessageSourceAccessor messages = MySecurityMessageSource.getAccessor();
 
     @Override
     @SneakyThrows
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException) {
-        String retMsg = messages.getMessage("AbstractAccessDecisionManager.unauthorized", "Authentication failed or expired");
-        log.error("资源服务鉴权失败::{}", retMsg);
+        String retMsg = messages.getMessage(
+                "AbstractAccessDecisionManager.unauthorized",
+                "Authentication failed or expired");
+        log.error("资源服务鉴权失败::{}", authenticationException.getMessage());
         response.setContentType(MediaType.APPLICATION_JSON);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         Result<Object> ret = Result.fail(retMsg);

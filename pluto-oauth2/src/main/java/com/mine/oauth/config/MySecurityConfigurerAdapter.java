@@ -38,14 +38,6 @@ public class MySecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(myUserDetailsService);
     }
 
-    @Bean
-    public AuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(myUserDetailsService);
-        daoAuthenticationProvider.setHideUserNotFoundExceptions(false);
-        return daoAuthenticationProvider;
-    }
-
     /**
      * 允许匿名访问所有接口 主要是 oauth 接口
      *
@@ -58,12 +50,6 @@ public class MySecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**")
                 .permitAll()
         ;
-    }
-
-    @Autowired
-    public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder
-                .authenticationProvider(daoAuthenticationProvider());
     }
 
     /**
