@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mine.upmsx.mapper.SysRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.mine.upmsx.entity.SysRole">
+        <id column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="level" property="level"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="note" property="note"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="create_user_name" property="createUserName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user_id" property="updateUserId"/>
+        <result column="update_user_name" property="updateUserName"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, code, name, type, level, parent_id, note, is_deleted, create_user_id, create_user_name, create_time, update_user_id, update_user_name, update_time
+    </sql>
+
+    <select id="selectRoleByUserId" resultType="com.mine.upmsx.vo.SysRoleVO">
+        select role.name,
+               role.code,
+               role.type,
+               role.level,
+               role.parent_id,
+               role.note
+            from sys_role role
+            left join sys_user_role u_role on u_role.role_id = role.id
+        where u_role.is_deleted = 0
+            and role.is_deleted = 0
+            and u_role.user_id = #{userId};
+    </select>
+
+
+</mapper>

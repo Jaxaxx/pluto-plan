@@ -32,7 +32,7 @@ public class MpGenerator {
     private static final String dataSourceUserName = "root";
     private static final String dataSourcePassWord = "MyNewPass4!";
     private static final String dataSourceDriverName = "com.mysql.cj.jdbc.Driver";
-    private static final String[] tableNames = {"sys_user_info"};
+    private static final String[] tableNames = {"sys_role"};
 
     /**
      * Project config

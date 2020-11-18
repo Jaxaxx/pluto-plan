@@ -12,4 +12,6 @@ public class UserVO {
 
     private SysUserInfoVO info;
 
+    private SysRoleVO role;
+
 }

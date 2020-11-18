@@ -1,16 +1,18 @@
 package com.mine.upmsx.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mine.common.feign.entity.SysUserBaseVO;
 import com.mine.common.feign.entity.upmsx.SysUserBase;
 import com.mine.common.security.util.PasswordEncoderUtil;
 import com.mine.common.security.util.SecurityUtils;
 import com.mine.upmsx.dto.SysUserBaseDTO;
+import com.mine.upmsx.entity.SysRole;
+import com.mine.upmsx.entity.SysUserRole;
 import com.mine.upmsx.mapper.SysUserBaseMapper;
-import com.mine.upmsx.service.ISysUserBaseService;
-import com.mine.upmsx.service.ISysUserClientService;
-import com.mine.upmsx.service.ISysUserInfoService;
+import com.mine.upmsx.service.*;
+import com.mine.upmsx.vo.SysRoleVO;
 import com.mine.upmsx.vo.SysUserInfoVO;
 import com.mine.upmsx.vo.UserVO;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,8 @@ public class SysUserBaseServiceImpl extends ServiceImpl<SysUserBaseMapper, SysUs
 
     private final ISysUserClientService sysUserClientService;
     private final ISysUserInfoService sysUserInfoService;
+    private final ISysUserRoleService sysUserRoleService;
+    private final ISysRoleService sysRoleService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -41,6 +45,8 @@ public class SysUserBaseServiceImpl extends ServiceImpl<SysUserBaseMapper, SysUs
         sysUserClientService.add(userId);
         // user_info
         sysUserInfoService.add(userId);
+        // user_role
+        sysUserRoleService.add(userId);
     }
 
     public Long insert(SysUserBaseDTO dto) {
@@ -70,10 +76,11 @@ public class SysUserBaseServiceImpl extends ServiceImpl<SysUserBaseMapper, SysUs
         Long userId = SecurityUtils.getUserId();
         SysUserBaseVO base = BeanUtil.toBean(this.getById(userId), SysUserBaseVO.class);
         SysUserInfoVO info = sysUserInfoService.getByUserId(userId);
-
+        SysRoleVO role = sysRoleService.getByUserId(userId);
         return UserVO.builder()
                 .base(base)
                 .info(info)
+                .role(role)
                 .build();
     }
 }

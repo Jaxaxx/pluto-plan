@@ -18,7 +18,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
@@ -36,15 +35,16 @@ import java.util.Map;
 @Configuration
 @RequiredArgsConstructor
 @EnableAuthorizationServer
+@SuppressWarnings({"rawtypes","unchecked"})
 public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerConfigurerAdapter {
 
     // Factory Bean
     // ======================================================
-    private final DataSource dataSource;
     private final RedisConnectionFactory redisConnectionFactory;
     private final UserDetailsService myUserDetailsService;
     private final AuthenticationManager authenticationManager;
     private final WebResponseExceptionTranslator myWebResponseExceptionTranslator;
+    private final ClientDetailsService jdbcClientDetailsService;
 
     // expand Bean
     // ======================================================
@@ -56,7 +56,7 @@ public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerC
         tokenServices.setTokenStore(redisTokenStore());
         tokenServices.setSupportRefreshToken(true);
         tokenServices.setTokenEnhancer(tokenEnhancer());
-        tokenServices.setClientDetailsService(jdbcClientDetailsService());
+        tokenServices.setClientDetailsService(jdbcClientDetailsService);
         return tokenServices;
     }
 
@@ -96,18 +96,7 @@ public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerC
         };
     }
 
-    @Bean
-    @Primary
-    public ClientDetailsService jdbcClientDetailsService() {
-        JdbcClientDetailsService clientDetailsService = new JdbcClientDetailsService(dataSource);
-        clientDetailsService.setInsertClientDetailsSql(SecurityConstants.DEFAULT_INSERT_STATEMENT);
-        clientDetailsService.setDeleteClientDetailsSql(SecurityConstants.DEFAULT_DELETE_STATEMENT);
-        clientDetailsService.setUpdateClientDetailsSql(SecurityConstants.DEFAULT_UPDATE_STATEMENT);
-        clientDetailsService.setUpdateClientSecretSql(SecurityConstants.DEFAULT_UPDATE_SECRET_STATEMENT);
-        clientDetailsService.setSelectClientDetailsSql(SecurityConstants.DEFAULT_SELECT_STATEMENT);
-        clientDetailsService.setFindClientDetailsSql(SecurityConstants.DEFAULT_FIND_STATEMENT);
-        return clientDetailsService;
-    }
+
 
     // function
     // ======================================================
@@ -129,7 +118,7 @@ public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerC
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.withClientDetails(jdbcClientDetailsService());
+        clients.withClientDetails(jdbcClientDetailsService);
     }
 
     @Override
