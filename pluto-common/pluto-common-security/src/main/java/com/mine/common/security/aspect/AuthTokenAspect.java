@@ -21,7 +21,7 @@ public class AuthTokenAspect {
     /**
      * swagger 固定 scope
      */
-    private static final String SWAGGER_SCOPE = "swagger";
+    public static final String SWAGGER_SCOPE = "swagger";
 
     /**
      * Around注解 改变oauth/token返回值

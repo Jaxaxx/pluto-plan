@@ -3,8 +3,10 @@ package com.mine.upmsx.aspect;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.mine.common.core.constant.SecurityConstants;
+import com.mine.common.core.result.Result;
 import com.mine.common.core.util.WebUtils;
 import com.mine.common.feign.api.auth.RemoteAuthService;
+import com.mine.common.security.aspect.AuthTokenAspect;
 import com.mine.common.security.filter.BodyReaderHttpServletRequestWrapper;
 import com.mine.common.security.util.SecurityUtils;
 import com.mine.upmsx.annotation.SysSign;
@@ -16,12 +18,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -55,7 +59,11 @@ public class UserSignAspect {
         doBefore(request);
         Object result = pjp.proceed();
         try {
-            result = doAfter(request);
+            if (SecurityUtils.getClientId().equals(AuthTokenAspect.SWAGGER_SCOPE)) {
+                result = Result.ok(doAfter(request).getBody());
+            } else {
+                result = doAfter(request);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -116,7 +124,7 @@ public class UserSignAspect {
 
     @SneakyThrows
     @SuppressWarnings("unchecked")
-    private Object doAfter(HttpServletRequest request) {
+    private ResponseEntity<OAuth2AccessToken> doAfter(HttpServletRequest request) {
         String bodyString = new BodyReaderHttpServletRequestWrapper(request).getBodyString(request);
         Map<String, String> requestParamMap = JSONUtil.toBean(bodyString, Map.class);
         final String userName = requestParamMap.get("userName");
