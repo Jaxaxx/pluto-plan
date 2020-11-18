@@ -104,8 +104,7 @@ public class SecurityUtils {
 
     private String getToken(Authentication authentication) {
         try {
-            String token = ((OAuth2AuthenticationDetails) (authentication).getDetails()).getTokenValue();
-            return token;
+            return ((OAuth2AuthenticationDetails) (authentication).getDetails()).getTokenValue();
         } catch (Exception e) {
             log.error("请求未携带token");
             return null;

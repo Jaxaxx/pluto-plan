@@ -59,6 +59,10 @@ public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerC
         return tokenServices;
     }
 
+    /**
+     * redis token 规则
+     * @return
+     */
     @Bean
     public TokenStore redisTokenStore() {
         RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
@@ -76,7 +80,8 @@ public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerC
     @Bean
     public TokenEnhancer tokenEnhancer() {
         return (accessToken, authentication) -> {
-            if (SecurityConstants.CLIENT_CREDENTIALS.equals(authentication.getOAuth2Request().getGrantType())) {
+            if (SecurityConstants.CLIENT_CREDENTIALS
+                    .equals(authentication.getOAuth2Request().getGrantType())) {
                 return accessToken;
             }
             final Map<String, Object> additionalInfo = new HashMap<String, Object>(16);
