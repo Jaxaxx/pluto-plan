@@ -2,11 +2,11 @@ package com.mine.upmsx.aspect;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.api.R;
 import com.mine.common.core.constant.SecurityConstants;
 import com.mine.common.core.result.Result;
 import com.mine.common.core.util.WebUtils;
 import com.mine.common.feign.api.auth.RemoteAuthService;
-import com.mine.common.security.aspect.AuthTokenAspect;
 import com.mine.common.security.filter.BodyReaderHttpServletRequestWrapper;
 import com.mine.common.security.util.SecurityUtils;
 import com.mine.upmsx.annotation.SysSign;
@@ -26,6 +26,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.ClientDetails;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -51,6 +53,7 @@ public class UserSignAspect {
     private final ISysAuthClientService sysAuthClientService;
     private final PasswordEncoder passwordEncoder;
     private final RemoteAuthService remoteAuthService;
+    private final ClientDetailsService clientDetailsService;
 
     @SneakyThrows
     @Around("@annotation(sysSign)")
@@ -59,12 +62,9 @@ public class UserSignAspect {
         doBefore(request);
         Object result = pjp.proceed();
         try {
-            if (SecurityUtils.getClientId().equals(AuthTokenAspect.SWAGGER_SCOPE)) {
-                result = Result.ok(doAfter(request).getBody());
-            } else {
-                result = doAfter(request);
-            }
+            return doAfter(request);
         } catch (Exception e) {
+            log.error("登录自动获取token出错");
             e.printStackTrace();
         }
         return result;
@@ -124,20 +124,31 @@ public class UserSignAspect {
 
     @SneakyThrows
     @SuppressWarnings("unchecked")
-    private ResponseEntity<OAuth2AccessToken> doAfter(HttpServletRequest request) {
+    private Object doAfter(HttpServletRequest request) {
         String bodyString = new BodyReaderHttpServletRequestWrapper(request).getBodyString(request);
         Map<String, String> requestParamMap = JSONUtil.toBean(bodyString, Map.class);
         final String userName = requestParamMap.get("userName");
         final String password = requestParamMap.get("password");
         final String Authorization = request.getHeader(AUTHORIZATION);
         Map<String, String> parameters = new HashMap<>();
+        parameters.put("grant_type", "password");
         parameters.put("username", userName);
         parameters.put("password", password);
-        parameters.put("grant_type", "password");
+
+
 
         User user = new User(userName, password, SecurityUtils.getAuthentication().getAuthorities());
         Principal principal = new UsernamePasswordAuthenticationToken(user, password);
-        return remoteAuthService.token(principal, parameters, Authorization);
+
+        ResponseEntity<OAuth2AccessToken> responseEntity = remoteAuthService.token(principal, parameters, Authorization);
+
+        String clientId = SecurityUtils.getClientId();
+        ClientDetails authenticatedClient = clientDetailsService.loadClientByClientId(clientId);
+        if (authenticatedClient.getScope().contains("swagger")) {
+            return Result.ok(responseEntity.getBody());
+        }
+
+        return Result.ok(responseEntity.getBody().getAdditionalInformation().get("data"));
     }
 
 }
