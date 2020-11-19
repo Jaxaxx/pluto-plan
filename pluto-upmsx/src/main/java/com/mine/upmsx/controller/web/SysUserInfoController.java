@@ -42,7 +42,7 @@ public class SysUserInfoController {
         return Result.ok(sysUserInfoService.list());
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "用户信息表详细查询")
     @GetMapping("/{id}")
     public Result<?> detail(@PathVariable("id") Long id ){

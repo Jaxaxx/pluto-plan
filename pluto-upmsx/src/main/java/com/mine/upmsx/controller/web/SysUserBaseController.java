@@ -2,7 +2,6 @@ package com.mine.upmsx.controller.web;
 
 import com.mine.common.core.result.Result;
 import com.mine.common.core.valid.AddGroup;
-import com.mine.common.core.valid.UpdateGroup;
 import com.mine.common.log.annotation.SysLog;
 import com.mine.upmsx.annotation.SysSign;
 import com.mine.upmsx.dto.SysUserBaseDTO;

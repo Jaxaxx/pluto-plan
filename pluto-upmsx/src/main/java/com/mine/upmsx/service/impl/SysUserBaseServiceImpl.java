@@ -71,12 +71,15 @@ public class SysUserBaseServiceImpl extends ServiceImpl<SysUserBaseMapper, SysUs
         }
         return userBase;
     }
-
+    private static final String defaultRolePrefix = "ROLE_";
     private Set<String> getRoleCodes(Long userId) {
         Set<String> roles = new HashSet<>();
         List<SysRoleVO> roleVOS = sysRoleService.getByUserId(userId);
         if (CollectionUtil.isNotEmpty(roleVOS)) {
-            roles = roleVOS.stream().map(SysRoleVO::getCode).collect(Collectors.toSet());
+            roles = roleVOS.stream()
+                    .map(SysRoleVO::getCode)
+                    .map(code -> defaultRolePrefix + code)
+                    .collect(Collectors.toSet());
         }
         return roles;
     }
