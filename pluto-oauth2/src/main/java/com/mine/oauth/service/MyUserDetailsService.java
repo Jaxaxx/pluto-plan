@@ -62,21 +62,6 @@ public class MyUserDetailsService implements UserDetailsService {
     }
 
     private UserDetails conversion(SysUserBase user) {
-
-        final Set<String> role = new HashSet<>();
-        role.add("ROLE_DEMO_ALL");
-        role.add("ROLE_DEMO_READ");
-        role.add("ROLE_DEMO_WRITE");
-
-        final Set<String> permissions = new HashSet<>();
-        permissions.add("PERM_DEMO_ALL");
-        permissions.add("PERM_DEMO_READ");
-
-        Set<String> authSet = new HashSet<>();
-        authSet.addAll(role);
-        authSet.addAll(permissions);
-
-        Collection<? extends GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(authSet.toArray(new String[0]));
         return new MyUser(user.getId(),
                 user.getMobile(),
                 user.getUserName(),
@@ -86,7 +71,7 @@ public class MyUserDetailsService implements UserDetailsService {
                 true,
                 true,
                 !user.getIsLocked(),
-                authorities);
+                user.getAuthorities());
     }
 
     @Override

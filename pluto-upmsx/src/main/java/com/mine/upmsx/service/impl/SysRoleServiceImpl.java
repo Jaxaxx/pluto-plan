@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 【角色表】实现层
  *
@@ -21,7 +23,7 @@ import org.springframework.stereotype.Service;
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements ISysRoleService {
 
     @Override
-    public SysRoleVO getByUserId(Long userId) {
+    public List<SysRoleVO> getByUserId(Long userId) {
         return baseMapper.selectRoleByUserId(userId);
     }
 }

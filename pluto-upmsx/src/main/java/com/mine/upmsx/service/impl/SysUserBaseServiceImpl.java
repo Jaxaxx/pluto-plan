@@ -1,25 +1,28 @@
 package com.mine.upmsx.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mine.common.feign.entity.SysUserBaseVO;
 import com.mine.common.feign.entity.upmsx.SysUserBase;
 import com.mine.common.security.util.PasswordEncoderUtil;
 import com.mine.common.security.util.SecurityUtils;
 import com.mine.upmsx.dto.SysUserBaseDTO;
-import com.mine.upmsx.entity.SysRole;
-import com.mine.upmsx.entity.SysUserRole;
 import com.mine.upmsx.mapper.SysUserBaseMapper;
 import com.mine.upmsx.service.*;
 import com.mine.upmsx.vo.SysRoleVO;
 import com.mine.upmsx.vo.SysUserInfoVO;
 import com.mine.upmsx.vo.UserVO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @description: 【登录信息表】实现层
@@ -63,7 +66,21 @@ public class SysUserBaseServiceImpl extends ServiceImpl<SysUserBaseMapper, SysUs
 
     @Override
     public SysUserBase getLoginInfo(String clientId, String userName) {
-        return baseMapper.getLoginInfo(clientId, userName);
+        SysUserBase userBase = baseMapper.getLoginInfo(clientId, userName);
+        if (userBase == null) {
+            return null;
+        }
+        Set<String> authSet = new HashSet<>();
+        // 角色集合
+        final Set<String> roles = sysUserRoleService.getUserRoles(userBase.getId());
+        // 权限
+        final Set<String> permissions = new HashSet<>();
+        authSet.addAll(roles);
+        authSet.addAll(permissions);
+        Collection<? extends GrantedAuthority> authorities =
+                AuthorityUtils.createAuthorityList(authSet.toArray(new String[0]));
+        userBase.setAuthorities(authorities);
+        return userBase;
     }
 
     @Override
@@ -76,11 +93,11 @@ public class SysUserBaseServiceImpl extends ServiceImpl<SysUserBaseMapper, SysUs
         Long userId = SecurityUtils.getUserId();
         SysUserBaseVO base = BeanUtil.toBean(this.getById(userId), SysUserBaseVO.class);
         SysUserInfoVO info = sysUserInfoService.getByUserId(userId);
-        SysRoleVO role = sysRoleService.getByUserId(userId);
+        List<SysRoleVO> roles = sysRoleService.getByUserId(userId);
         return UserVO.builder()
                 .base(base)
                 .info(info)
-                .role(role)
+                .roles(roles)
                 .build();
     }
 }

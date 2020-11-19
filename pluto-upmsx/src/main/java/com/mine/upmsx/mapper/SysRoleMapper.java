@@ -1,10 +1,12 @@
 package com.mine.upmsx.mapper;
 
-import com.mine.upmsx.entity.SysRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mine.upmsx.entity.SysRole;
 import com.mine.upmsx.vo.SysRoleVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 【角色表】映射器
@@ -15,5 +17,5 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface SysRoleMapper extends BaseMapper<SysRole> {
 
-    SysRoleVO selectRoleByUserId(@Param("userId") Long userId);
+    List<SysRoleVO> selectRoleByUserId(@Param("userId") Long userId);
 }

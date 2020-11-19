@@ -29,6 +29,7 @@ import java.util.Date;
 @TableName("sys_auth_client")
 public class SysAuthClient extends Model<SysAuthClient> {
 
+    @TableId
     @ApiModelProperty(value = "客户端ID")
     private String clientId;
 

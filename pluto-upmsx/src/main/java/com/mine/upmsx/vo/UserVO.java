@@ -4,6 +4,8 @@ import com.mine.common.feign.entity.SysUserBaseVO;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Builder
 public class UserVO {
@@ -12,6 +14,6 @@ public class UserVO {
 
     private SysUserInfoVO info;
 
-    private SysRoleVO role;
+    private List<SysRoleVO> roles;
 
 }

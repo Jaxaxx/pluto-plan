@@ -7,7 +7,10 @@ import com.mine.upmsx.mapper.SysUserRoleMapper;
 import com.mine.upmsx.service.ISysUserRoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 /**
  * 【用户权限关联表】实现层
@@ -27,5 +30,10 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
         entity.setUserId(userId);
         entity.setRoleId(RoleConstants.ROLE_ADMIN.getId());
         baseMapper.insert(entity);
+    }
+
+    @Override
+    public Set<String> getUserRoles(Long userId) {
+        return baseMapper.getUserRoles(userId);
     }
 }

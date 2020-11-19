@@ -29,8 +29,6 @@
         select role.name,
                role.code,
                role.type,
-               role.level,
-               role.parent_id,
                role.note
             from sys_role role
             left join sys_user_role u_role on u_role.role_id = role.id
