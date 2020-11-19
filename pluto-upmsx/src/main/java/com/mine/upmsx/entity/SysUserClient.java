@@ -23,9 +23,8 @@ import java.time.LocalDateTime;
 @TableName("sys_user_client")
 public class SysUserClient extends Model<SysUserClient> {
 
-
     @ApiModelProperty(value = "主键")
-    @TableId
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     @ApiModelProperty(value = "客户端appid")

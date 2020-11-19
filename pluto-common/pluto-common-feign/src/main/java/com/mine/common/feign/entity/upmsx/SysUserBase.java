@@ -12,6 +12,8 @@ import org.springframework.security.core.GrantedAuthority;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 【登录信息表】实体类
@@ -91,9 +93,8 @@ public class SysUserBase extends Model<SysUserBase> {
     @TableField(value = "update_time", fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;
 
-    @Transient
     @TableField(exist = false)
-    private Collection<? extends GrantedAuthority> authorities;
+    private Set<String> roles;
 
     @Override
     protected Serializable pkVal() {

@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = {"【日志表】模块API"})
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/sys/log/")
+@RequestMapping("/sys/log")
 public class SysLogController {
 
     private final ISysLogService iSysLogService;

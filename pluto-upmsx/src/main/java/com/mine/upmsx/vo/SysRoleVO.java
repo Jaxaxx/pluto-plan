@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
  * @author jax-li
  * @date 2020-11-18
  */
+@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ApiModel(value = "【角色表】返回层")
 public class SysRoleVO {
@@ -53,40 +54,5 @@ public class SysRoleVO {
      * 备注
      */
     private String note;
-
-    /**
-     * 是否删除：0-否，1-是
-     */
-    private Boolean isDeleted;
-
-    /**
-     * 创建用户id
-     */
-    private Long createUserId;
-
-    /**
-     * 创建用户名称
-     */
-    private String createUserName;
-
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
-
-    /**
-     * 修改用户id
-     */
-    private Long updateUserId;
-
-    /**
-     * 更新用户名称
-     */
-    private String updateUserName;
-
-    /**
-     * 更新时间
-     */
-    private LocalDateTime updateTime;
 
 }

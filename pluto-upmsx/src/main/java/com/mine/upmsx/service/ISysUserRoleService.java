@@ -2,9 +2,6 @@ package com.mine.upmsx.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mine.upmsx.entity.SysUserRole;
-import org.springframework.security.core.GrantedAuthority;
-
-import java.util.Set;
 
 /**
  * 【用户权限关联表】代理层
@@ -15,6 +12,4 @@ import java.util.Set;
 public interface ISysUserRoleService extends IService<SysUserRole> {
 
     void add(Long userId);
-
-    Set<String> getUserRoles(Long userId);
 }

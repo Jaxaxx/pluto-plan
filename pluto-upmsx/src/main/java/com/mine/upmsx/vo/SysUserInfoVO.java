@@ -94,9 +94,4 @@ public class SysUserInfoVO {
      */
     private String note;
 
-    /**
-     * 是否删除
-     */
-    private Boolean isDeleted;
-
 }

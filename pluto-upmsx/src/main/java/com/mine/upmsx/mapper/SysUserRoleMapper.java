@@ -1,6 +1,7 @@
 package com.mine.upmsx.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mine.upmsx.entity.SysRole;
 import com.mine.upmsx.entity.SysUserRole;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -16,5 +17,4 @@ import java.util.Set;
 @Mapper
 public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
 
-    Set<String> getUserRoles(@Param("userId") Long userId);
 }
