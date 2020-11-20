@@ -43,12 +43,13 @@ import static org.springframework.security.web.authentication.www.BasicAuthentic
 
 /**
  * 自定义注册basic认证
+ * @author LiMing
  */
 @Slf4j
 @Aspect
 @Component
 @RequiredArgsConstructor
-public class UserSignAspect {
+public class SysSignAspect {
 
     private final ISysAuthClientService sysAuthClientService;
     private final PasswordEncoder passwordEncoder;

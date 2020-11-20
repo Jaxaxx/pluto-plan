@@ -21,9 +21,10 @@ public class ${entity}DTO {
 
     #foreach($field in ${table.fields})
     #if("$!field.comment" != "")
-        /**
-         *   ${field.comment}
-         */
+##    /**
+##     *   ${field.comment}
+##     */
+    @ApiModelProperty(value = "${field.comment}")
     #end
     private ${field.propertyType} ${field.propertyName};
 
