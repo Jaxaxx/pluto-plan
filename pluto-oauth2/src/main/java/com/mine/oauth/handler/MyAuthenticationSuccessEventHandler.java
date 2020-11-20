@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 /**
  * @author jax-li
@@ -29,6 +30,7 @@ public class MyAuthenticationSuccessEventHandler extends AbstractAuthenticationS
     private final RedisTemplate redisTemplate;
     private final RemoteSysUserBaseService remoteSysUserBaseService;
     private final RemoteSysLogService remoteSysLogService;
+    private String grantType = "";
 
     /**
      * 处理登录成功方法
@@ -40,23 +42,21 @@ public class MyAuthenticationSuccessEventHandler extends AbstractAuthenticationS
         MyUser user = (MyUser) authentication.getPrincipal();
         log.info("认证成功，: {}", user.getUsername());
         // sms模式delete验证码
-        String grantType = WebUtils.getRequest().getParameter("grant_type");
-        if (grantType.equals(GrantTypeConstant.SMS)) {
-            redisTemplate.delete(RedisPrefixConstants.VERIFY_CODE + (user.getPhone()));
+        if (authentication.getDetails() instanceof Map) {
+            Map<String, String> details = (Map) authentication.getDetails();
+            this.grantType = details.get("grant_type");
+            if (grantType.equals(GrantTypeConstant.SMS)) {
+                redisTemplate.delete(RedisPrefixConstants.VERIFY_CODE + (user.getPhone()));
+            }
         }
-        /**
-         * 1.登录成功修改最后登录时间
-         */
+        // 1.登录成功修改最后登录时间
         remoteSysUserBaseService.updateLastLoginTime(user.getId(), LocalDateTime.now());
-        /**
-         * 2.记录登录日志
-         */
+        // 2.记录登录日志
         SysLog sysLog = SysLogUtil.getSysLog(null);
         sysLog.setTitle("登录");
         sysLog.setNote(grantType);
         sysLog.setCreateUserId(user.getId());
         sysLog.setCreateUserName(user.getUsername());
         remoteSysLogService.saveLog(sysLog);
-
     }
 }
