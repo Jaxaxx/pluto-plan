@@ -21,10 +21,10 @@ import org.springframework.stereotype.Service;
 public class SysUserClientServiceImpl extends ServiceImpl<SysUserClientMapper, SysUserClient> implements ISysUserClientService {
 
     @Override
-    public void add(Long userId) {
+    public void add(Long userId,String clientId) {
         SysUserClient entity = new SysUserClient();
         entity.setUserId(userId);
-        entity.setClientId(SecurityUtils.getClientId());
+        entity.setClientId(clientId);
         baseMapper.insert(entity);
     }
 }
