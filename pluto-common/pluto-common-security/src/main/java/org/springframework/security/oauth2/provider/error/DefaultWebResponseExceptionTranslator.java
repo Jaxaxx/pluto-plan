@@ -90,17 +90,18 @@ public class DefaultWebResponseExceptionTranslator implements WebResponseExcepti
 		}
 
 		// 客户端异常直接返回，否则无法校验
-		if (e instanceof ClientAuthenticationException) {
-            return new ResponseEntity<>(e, headers, HttpStatus.valueOf(status));
-        }
+//		if (e instanceof ClientAuthenticationException) {
+//            return new ResponseEntity<>(e, headers, HttpStatus.valueOf(status));
+//        }
 
 		try {
-			return new ResponseEntity<OAuth2Exception>(e, headers,
-					HttpStatus.valueOf(status));
-		} catch (Exception exception) {
-			logger.error("异常转换为MyAuth2Exception发生错误,直接返回::{},{}", e.getClass(),e.getMessage());
 			return new ResponseEntity<OAuth2Exception>(
 					new MyAuth2Exception(e.getMessage()), headers, HttpStatus.valueOf(status));
+
+		} catch (Exception exception) {
+			logger.error("异常转换为MyAuth2Exception发生错误,直接返回::{},{}", e.getClass(),e.getMessage());
+			return new ResponseEntity<OAuth2Exception>(e, headers,
+					HttpStatus.valueOf(status));
 		}
 	}
 
