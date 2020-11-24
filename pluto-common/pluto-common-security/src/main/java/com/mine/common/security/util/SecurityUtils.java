@@ -63,8 +63,6 @@ public class SecurityUtils {
      *
      * @return MyUser
      * <p>
-     * 获取当前用户的全部信息 EnableWxesResourceServer true
-     * 获取当前用户的用户名 EnableWxesResourceServer false
      */
     public MyUser getUser() {
         Authentication authentication = getAuthentication();

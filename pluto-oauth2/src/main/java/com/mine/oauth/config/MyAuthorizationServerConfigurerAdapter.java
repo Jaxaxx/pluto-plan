@@ -1,12 +1,11 @@
 package com.mine.oauth.config;
 
 import com.mine.common.core.constant.SecurityConstants;
+import com.mine.common.security.converter.MyUserConverter;
 import com.mine.common.security.model.MyUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,15 +16,12 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
-import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenEnhancer;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import org.springframework.security.oauth2.provider.token.*;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
-import javax.sql.DataSource;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,12 +31,12 @@ import java.util.Map;
 @Configuration
 @RequiredArgsConstructor
 @EnableAuthorizationServer
-@SuppressWarnings({"rawtypes","unchecked"})
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerConfigurerAdapter {
 
     // Factory Bean
     // ======================================================
-    private final RedisConnectionFactory redisConnectionFactory;
+
     private final UserDetailsService myUserDetailsService;
     private final AuthenticationManager authenticationManager;
     private final WebResponseExceptionTranslator myWebResponseExceptionTranslator;
@@ -48,35 +44,6 @@ public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerC
 
     // expand Bean
     // ======================================================
-
-    @Primary
-    @Bean
-    public DefaultTokenServices tokenServices() {
-        DefaultTokenServices tokenServices = new DefaultTokenServices();
-        tokenServices.setTokenStore(redisTokenStore());
-        tokenServices.setSupportRefreshToken(true);
-        tokenServices.setTokenEnhancer(tokenEnhancer());
-        tokenServices.setClientDetailsService(jdbcClientDetailsService);
-        return tokenServices;
-    }
-
-    /**
-     * redis token 规则
-     * @return
-     */
-    @Bean
-    public TokenStore redisTokenStore() {
-        RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
-        redisTokenStore.setPrefix(SecurityConstants.OAUTH_PREFIX);
-        redisTokenStore.setAuthenticationKeyGenerator(new DefaultAuthenticationKeyGenerator() {
-            @Override
-            public String extractKey(OAuth2Authentication authentication) {
-                // 可自定修改token 生成规则
-                return super.extractKey(authentication);
-            }
-        });
-        return redisTokenStore;
-    }
 
     @Bean
     public TokenEnhancer tokenEnhancer() {
@@ -96,22 +63,38 @@ public class MyAuthorizationServerConfigurerAdapter extends AuthorizationServerC
         };
     }
 
+    /**
+     * redis token 规则
+     *
+     * @return
+     */
+    @Bean
+    public TokenStore jwtTokenStore() {
+        return new JwtTokenStore(jwtAccessTokenConverter());
+    }
 
+    @Bean
+    public JwtAccessTokenConverter jwtAccessTokenConverter() {
+        final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        converter.setSigningKey("pluto-plan");
+        return converter;
+    }
 
     // function
     // ======================================================
+
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        /**
-         * redis token 方式
-         * authenticationManage() 调用此方法才能支持 password 模式。
-         * userDetailsService() 设置用户验证服务。
-         * tokenStore() 指定 token 的存储方式。
-         */
+
+        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), jwtAccessTokenConverter()));
+
         endpoints.allowedTokenEndpointRequestMethods(HttpMethod.POST, HttpMethod.GET)
                 .authenticationManager(authenticationManager)
                 .userDetailsService(myUserDetailsService)
-                .tokenServices(tokenServices())
+                .tokenStore(jwtTokenStore())
+                .accessTokenConverter(jwtAccessTokenConverter())
+                .tokenEnhancer(tokenEnhancerChain)
                 .exceptionTranslator(myWebResponseExceptionTranslator)
         ;
     }

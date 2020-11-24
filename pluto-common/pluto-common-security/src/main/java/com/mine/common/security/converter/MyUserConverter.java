@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
 import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
 import org.springframework.util.StringUtils;
 
@@ -20,7 +21,7 @@ import java.util.Map;
  * @author Y
  * @date 2020-07-02 10:24
  */
-public class MyUserConverter implements UserAuthenticationConverter {
+public class MyUserConverter extends DefaultUserAuthenticationConverter {
 
     private static final String N_A = "N/A";
 
