@@ -3,6 +3,9 @@ package com.mine.common.security.config;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.core.SpringSecurityMessageSource;
 
+/**
+ * @author LiMing
+ */
 public class MySecurityMessageSource extends SpringSecurityMessageSource {
 
     // ~ Constructors

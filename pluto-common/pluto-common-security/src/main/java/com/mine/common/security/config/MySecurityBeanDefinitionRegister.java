@@ -8,6 +8,7 @@ import org.springframework.core.type.AnnotationMetadata;
 /**
  * @author Jax-li
  */
+@SuppressWarnings("all")
 public class MySecurityBeanDefinitionRegister implements ImportBeanDefinitionRegistrar {
 
     /**

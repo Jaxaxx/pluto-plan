@@ -1,7 +1,6 @@
 package com.mine.oauth.config;
 
 import com.mine.common.core.constant.SecurityConstants;
-import com.mine.common.security.converter.MyUserConverter;
 import com.mine.common.security.model.MyUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

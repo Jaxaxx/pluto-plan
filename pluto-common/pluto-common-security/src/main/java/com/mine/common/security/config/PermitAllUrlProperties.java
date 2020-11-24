@@ -1,6 +1,7 @@
 package com.mine.common.security.config;
 
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -10,11 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Description 资源服务器对外直接暴露URL
- * @Author
- * @Date
+ * 资源服务器对外直接暴露URL
+ * @author Jax-li
  */
-@Data
+@Getter
 @RefreshScope
 @Configuration
 @ConditionalOnExpression("!'${security.oauth2.client.ignore-urls}'.isEmpty()")
