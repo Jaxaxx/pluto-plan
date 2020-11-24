@@ -43,7 +43,4 @@ public class SysUserBaseVO {
     @ApiModelProperty(value = "最后登录时间")
     private LocalDateTime lastLoginTime;
 
-    @ApiModelProperty(value = "是否删除 1 是 0 否 ")
-    private Boolean isDeleted;
-
 }

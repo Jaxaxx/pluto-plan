@@ -13,16 +13,18 @@ import lombok.Data;
  * @author ${author}
  * @date ${date}
  */
+@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @ApiModel(value = "【$!{table.comment}】返回层")
 public class ${entity}VO {
 
     #foreach($field in ${table.fields})
-        #if("$!field.comment" != "")
-        /**
-        *   ${field.comment}
-        */
-        #end
+    #if("$!field.comment" != "")
+##    /**
+##    *   ${field.comment}
+##    */
+    @ApiModelProperty(value = "${field.comment}")
+    #end
     private ${field.propertyType} ${field.propertyName};
 
     #end

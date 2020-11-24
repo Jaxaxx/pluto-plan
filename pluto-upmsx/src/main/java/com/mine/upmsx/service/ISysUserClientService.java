@@ -11,5 +11,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ISysUserClientService extends IService<SysUserClient> {
 
-    void add(Long userId);
+    void add(Long userId,String clientId);
 }

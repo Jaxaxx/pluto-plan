@@ -1,8 +1,10 @@
 package com.mine.upmsx.dto;
 
+import com.mine.common.core.valid.UpdateGroup;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -90,6 +92,7 @@ public class SysUserInfoDTO {
     /**
      * 备注
      */
+    @NotBlank(message = "备注字段不能为空", groups = {UpdateGroup.class})
     private String note;
 
     /**

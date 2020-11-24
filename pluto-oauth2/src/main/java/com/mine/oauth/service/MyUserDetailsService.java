@@ -19,10 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author jax-li
@@ -61,21 +58,18 @@ public class MyUserDetailsService implements UserDetailsService {
         // TODO 其他校验逻辑
     }
 
-    private UserDetails conversion(SysUserBase vo) {
-
-        Set<String> authSet = new HashSet<>();
-        authSet.add("ROLE_ADMIN");
-
-        Collection<? extends GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(authSet.toArray(new String[0]));
-        return new MyUser(vo.getId(),
-                vo.getMobile(),
-                vo.getUserName(),
-                vo.getPassword(),
-                vo.getUserName(),
-                vo.getIsEnabled(),
+    private UserDetails conversion(SysUserBase user) {
+        Set<String> roles = user.getRoles();
+        List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(roles.toArray(new String[0]));
+        return new MyUser(user.getId(),
+                user.getMobile(),
+                user.getUserName(),
+                user.getPassword(),
+                user.getUserName(),
+                user.getIsEnabled(),
                 true,
                 true,
-                !vo.getIsLocked(),
+                !user.getIsLocked(),
                 authorities);
     }
 

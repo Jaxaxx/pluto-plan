@@ -8,6 +8,7 @@ import com.mine.upmsx.service.ISysLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -20,11 +21,12 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = {"【日志表】模块API"})
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/sysLog")
+@RequestMapping("/sys/log")
 public class SysLogController {
 
     private final ISysLogService iSysLogService;
 
+    @PreAuthorize("@ss.hasRole('ROLE_ADMIN_READ')")
     @ApiOperation(value = "日志表列表查询")
     @GetMapping
     public Result<?> list(SysLog entity) {

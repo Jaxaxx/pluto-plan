@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -25,7 +26,7 @@ public class GlobalExceptionHandlerResolver {
     /**
      * 全局异常.
      *
-     * @param e the e
+     * @param ex the e
      * @return R
      */
     @ExceptionHandler(Exception.class)
@@ -41,6 +42,9 @@ public class GlobalExceptionHandlerResolver {
             result.setMessage("Request parameters are not supported");
         } else if (ex instanceof DataAccessException) {
             result.setMessage(ex.getCause().getMessage());
+        } else if (ex instanceof MethodArgumentNotValidException) {
+            result.setMessage(Objects.requireNonNull(
+                    ((MethodArgumentNotValidException) ex).getBindingResult().getFieldError()).getDefaultMessage());
         }
         return result;
     }

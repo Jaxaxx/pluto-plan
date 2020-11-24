@@ -25,6 +25,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.common.DefaultThrowableAnalyzer;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.exceptions.ClientAuthenticationException;
 import org.springframework.security.oauth2.common.exceptions.InsufficientScopeException;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.web.util.ThrowableAnalyzer;
@@ -88,17 +89,19 @@ public class DefaultWebResponseExceptionTranslator implements WebResponseExcepti
 			headers.set("WWW-Authenticate", String.format("%s %s", OAuth2AccessToken.BEARER_TYPE, e.getSummary()));
 		}
 
-		ResponseEntity<OAuth2Exception> response = new ResponseEntity<OAuth2Exception>(e, headers,
-				HttpStatus.valueOf(status));
+		// 客户端异常直接返回，否则无法校验
+		if (e instanceof ClientAuthenticationException) {
+            return new ResponseEntity<>(e, headers, HttpStatus.valueOf(status));
+        }
+
 		try {
-			response = new ResponseEntity<OAuth2Exception>(new MyAuth2Exception(e.getMessage()), headers,
+			return new ResponseEntity<OAuth2Exception>(e, headers,
 					HttpStatus.valueOf(status));
-			logger.debug("异常转换为MyAuth2Exception::{}", e.getClass());
-		} catch (Exception ex) {
+		} catch (Exception exception) {
+			logger.error("异常转换为MyAuth2Exception发生错误,直接返回::{},{}", e.getClass(),e.getMessage());
+			return new ResponseEntity<OAuth2Exception>(
+					new MyAuth2Exception(e.getMessage()), headers, HttpStatus.valueOf(status));
 		}
-
-		return response;
-
 	}
 
 	public void setThrowableAnalyzer(ThrowableAnalyzer throwableAnalyzer) {

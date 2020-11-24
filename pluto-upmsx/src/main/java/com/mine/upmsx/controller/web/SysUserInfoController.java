@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mine.common.core.result.Result;
 
+import com.mine.common.core.valid.UpdateGroup;
 import com.mine.upmsx.dto.SysUserInfoDTO;
 import com.mine.upmsx.entity.SysUserInfo;
 import com.mine.upmsx.service.ISysUserInfoService;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -40,7 +42,7 @@ public class SysUserInfoController {
         return Result.ok(sysUserInfoService.list());
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_READ') OR hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "用户信息表详细查询")
     @GetMapping("/{id}")
     public Result<?> detail(@PathVariable("id") Long id ){
@@ -57,7 +59,7 @@ public class SysUserInfoController {
 
     @ApiOperation(value = "用户信息表更新")
     @PutMapping
-    public Result<?> update(@RequestBody SysUserInfoDTO dto){
+    public Result<?> update(@Validated(UpdateGroup.class) @RequestBody SysUserInfoDTO dto){
         SysUserInfo entity = BeanUtil.copyProperties(dto, SysUserInfo.class);
         sysUserInfoService.updateById(entity);
         return Result.ok();

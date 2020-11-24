@@ -1,6 +1,7 @@
 package com.mine.upmsx.controller.web;
 
 import com.mine.common.core.result.Result;
+import com.mine.common.core.valid.AddGroup;
 import com.mine.common.log.annotation.SysLog;
 import com.mine.upmsx.annotation.SysSign;
 import com.mine.upmsx.dto.SysUserBaseDTO;
@@ -8,9 +9,10 @@ import com.mine.upmsx.service.ISysUserBaseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Security;
+import javax.validation.Valid;
 
 /**
  * 【登录信息表】控制层
@@ -30,7 +32,7 @@ public class SysUserBaseController {
     @SysSign
     @ApiOperation(value = "用户注册", notes = "登录信息表API")
     @PostMapping("/sign")
-    public Result<?> sign(@RequestBody SysUserBaseDTO dto) {
+    public Result<?> sign(@Valid @Validated({AddGroup.class}) @RequestBody SysUserBaseDTO dto) {
         iSysUserBaseService.sign(dto);
         return Result.ok();
     }
