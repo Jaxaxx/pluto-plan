@@ -54,6 +54,7 @@ import static org.springframework.security.web.authentication.www.BasicAuthentic
 @Aspect
 @Component
 @RequiredArgsConstructor
+@SuppressWarnings("all")
 public class SysSignAspect {
 
     private final ISysAuthClientService sysAuthClientService;
@@ -65,7 +66,6 @@ public class SysSignAspect {
 
     @SneakyThrows
     @Around("@annotation(sysSign)")
-    @SuppressWarnings("unchecked")
     public Object signAround(ProceedingJoinPoint pjp, SysSign sysSign) {
         HttpServletRequest request = WebUtils.getRequest();
         String bodyString = new BodyReaderHttpServletRequestWrapper(request).getBodyString(request);
@@ -85,6 +85,12 @@ public class SysSignAspect {
         return result;
     }
 
+    /**
+     * 校验用户名
+     *
+     * @param requestParamMap requestParamMap
+     */
+    @SneakyThrows
     private void checkUserName(Map<String, String> requestParamMap) {
 
         final String userName = requestParamMap.get("userName");
@@ -109,6 +115,12 @@ public class SysSignAspect {
         }
     }
 
+    /**
+     * 注册前bisic 验证
+     *
+     * @param request request
+     */
+    @SneakyThrows
     public void doBefore(HttpServletRequest request) {
         String header = request.getHeader(AUTHORIZATION);
 
@@ -156,18 +168,24 @@ public class SysSignAspect {
                 clientSecret, SecurityConstants.NOOP + authClient.getClientSecret())) {
             throw new BadCredentialsException("Bad credentials");
         }
-
+        // 校验完成将客户端信息存入当前 context域
         Authentication authentication = new PreAuthenticatedAuthenticationToken(clientId, clientSecret);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
+    /**
+     * 注册完成以后获取token （实现自动登录功能）
+     *
+     * @param request         request
+     * @param requestParamMap requestParamMap
+     */
     @SneakyThrows
     private Object doAfter(HttpServletRequest request, Map<String, String> requestParamMap) {
 
         final String userName = requestParamMap.get("userName");
         final String password = requestParamMap.get("password");
         final String Authorization = request.getHeader(AUTHORIZATION);
-        Map<String, String> parameters = new HashMap<>();
+        Map<String, String> parameters = new HashMap<>(16);
         parameters.put("grant_type", "password");
         parameters.put("username", userName);
         parameters.put("password", password);
