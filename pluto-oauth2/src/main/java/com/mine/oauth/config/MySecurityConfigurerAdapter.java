@@ -1,13 +1,11 @@
 package com.mine.oauth.config;
 
+import com.mine.common.security.config.PermitAllUrlProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -24,6 +22,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public class MySecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService myUserDetailsService;
+    private final PermitAllUrlProperties permitAllUrlProperties;
 
     @Bean
     @Override
@@ -39,7 +38,7 @@ public class MySecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 允许匿名访问所有接口 主要是 oauth 接口
+     * 允许匿名访问所有接口 主要是 oauth/swagger/actuator
      *
      * @param http
      */
@@ -47,8 +46,10 @@ public class MySecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
     @SneakyThrows
     protected void configure(HttpSecurity http) {
         http.authorizeRequests()
-                .antMatchers("/**")
+                .antMatchers(permitAllUrlProperties.getIgnoreUrls().toArray(new String[0]))
                 .permitAll()
+                .anyRequest()
+                .authenticated()
         ;
     }
 
