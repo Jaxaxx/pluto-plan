@@ -77,9 +77,9 @@ public final class MyWebResponseExceptionTranslator implements WebResponseExcept
         }
 
         // 客户端异常直接返回客户端,不然无法解析
-        if (e instanceof ClientAuthenticationException) {
-            return new ResponseEntity<>(e, headers, HttpStatus.valueOf(status));
-        }
+//        if (e instanceof ClientAuthenticationException) {
+//            return new ResponseEntity<>(e, headers, HttpStatus.valueOf(status));
+//        }
         return new ResponseEntity<>(new MyAuth2Exception(e.getMessage(), e), headers, HttpStatus.valueOf(status));
 
     }
