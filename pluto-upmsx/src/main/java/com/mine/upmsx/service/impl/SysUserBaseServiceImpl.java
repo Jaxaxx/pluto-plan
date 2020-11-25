@@ -33,8 +33,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SysUserBaseServiceImpl extends ServiceImpl<SysUserBaseMapper, SysUserBase> implements ISysUserBaseService {
 
-    private static final String defaultRolePrefix = "ROLE_";
-
     private final ISysUserClientService sysUserClientService;
     private final ISysUserInfoService sysUserInfoService;
     private final ISysUserRoleService sysUserRoleService;
@@ -55,36 +53,19 @@ public class SysUserBaseServiceImpl extends ServiceImpl<SysUserBaseMapper, SysUs
     }
 
     public Long insert(SysUserBaseDTO dto) {
-        checkUserBase();
-        dto.setPassword(PasswordEncoderUtil.encode(dto.getPassword()));
         SysUserBase sysUserBase = BeanUtil.copyProperties(dto, SysUserBase.class);
+        sysUserBase.setPassword(PasswordEncoderUtil.encode(sysUserBase.getPassword()));
         baseMapper.insert(sysUserBase);
         return sysUserBase.getId();
-    }
-
-    private void checkUserBase() {
-        // TODO ...
     }
 
     @Override
     public SysUserBase getLoginInfo(String clientId, String userName) {
         SysUserBase userBase = baseMapper.getLoginInfo(clientId, userName);
         if (userBase != null) {
-            userBase.setRoles(getRoleCodes(userBase.getId()));
+            userBase.setRoles(sysRoleService.getRoleCodesByUserId(userBase.getId()));
         }
         return userBase;
-    }
-
-    private Set<String> getRoleCodes(Long userId) {
-        Set<String> roles = new HashSet<>();
-        List<SysRoleVO> roleVOS = sysRoleService.getByUserId(userId);
-        if (CollectionUtil.isNotEmpty(roleVOS)) {
-            roles = roleVOS.stream()
-                    .map(SysRoleVO::getCode)
-                    .map(code -> defaultRolePrefix + code)
-                    .collect(Collectors.toSet());
-        }
-        return roles;
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.mine.oauth.service;
 import com.mine.common.core.constant.SecurityConstants;
 import com.mine.common.core.util.WebUtils;
 import com.mine.common.feign.api.upmsx.RemoteSysUserBaseService;
-import com.mine.common.feign.entity.SysUserBaseVO;
 import com.mine.common.feign.entity.upmsx.SysUserBase;
 import com.mine.common.security.config.MySecurityMessageSource;
 import com.mine.common.security.constant.GrantTypeConstant;
@@ -11,6 +10,7 @@ import com.mine.common.security.model.MyUser;
 import com.mine.common.security.util.SecurityUtils;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -19,24 +19,34 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author jax-li
  */
 @Service(value = SecurityConstants.USER_DETAIL_SERVICE_NAME)
 @RequiredArgsConstructor
-public class MyUserDetailsService implements UserDetailsService {
+public class MyUserDetailsServiceImpl implements UserDetailsService {
 
+    private static final String defaultRolePrefix = "ROLE_";
     protected MessageSourceAccessor messages = MySecurityMessageSource.getAccessor();
+
     private final RemoteSysUserBaseService remoteSysUserBaseService;
 
-    private UserDetails getLoginInfo(@NonNull String grantType, String username) {
-        // 用户信息校验之前，SecurityContextHolder.getContext().getAuthentication() 存放的是clientid
+    @Override
+    public UserDetails loadUserByUsername(String username) {
+        return getLoginInfo(username);
+    }
+
+    private UserDetails getLoginInfo(@NonNull String username) {
+        // 用户信息校验之前，SecurityContextHolder.getContext().getAuthentication() 存放的是clientId
         final String clientId = SecurityUtils.getUsername();
         SysUserBase user = remoteSysUserBaseService.getUserByUserName(clientId, username);
         // check userinfo
         check(user);
+        final String grantType = WebUtils.getRequest().getParameter("grant_type");
         // 密码使用bcrypt对比
         if (grantType.equals(GrantTypeConstant.PASSWORD)) {
             user.setPassword(SecurityConstants.BCRYPT + (user.getPassword()));
@@ -59,8 +69,15 @@ public class MyUserDetailsService implements UserDetailsService {
     }
 
     private UserDetails conversion(SysUserBase user) {
-        Set<String> roles = user.getRoles();
-        List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(roles.toArray(new String[0]));
+        Set<String> roleSet = user.getRoles();
+        String[] roles = roleSet.stream().map(role -> {
+            if (!StringUtils.startsWithIgnoreCase(role, defaultRolePrefix)) {
+                role = defaultRolePrefix + role;
+            }
+            return role;
+        }).toArray(String[]::new);
+
+        List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(roles);
         return new MyUser(user.getId(),
                 user.getMobile(),
                 user.getUserName(),
@@ -71,12 +88,6 @@ public class MyUserDetailsService implements UserDetailsService {
                 true,
                 !user.getIsLocked(),
                 authorities);
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) {
-        String grantType = WebUtils.getRequest().getParameter("grant_type");
-        return getLoginInfo(grantType, username);
     }
 
 }
